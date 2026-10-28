@@ -21,6 +21,7 @@ const items = await Promise.all(
     ),
   })),
 );
+const total = String(items.length).padStart(2, '0');
 const sizes = '(max-width: 1080px) 100vw, 1016px';
 ---
 
@@ -31,105 +32,141 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
       <p class="muted intro">{t.intro}</p>
     </div>
 
-    <div class="list">
-      {
-        items.map((p, i) => (
-          <article class="project" id={p.slug}>
-            <div class:list={['media', p.video?.portrait && 'media-split']}>
-              {p.video && !p.video.portrait ? (
-                <div class="video-wrap">
-                  <video
-                    class="video"
-                    src={p.video.src}
-                    poster={p.posterUrl}
-                    width="1280"
-                    height="720"
-                    muted
-                    loop
-                    playsinline
-                    preload="none"
-                    data-autoplay
-                    aria-label={p.alt[lang]}
-                  />
-                  <button class="sound" type="button" data-sound>
-                    <Icon name="sound" size={14} />
-                    {t.sound}
-                  </button>
-                </div>
-              ) : (
-                <button class="frame" type="button" data-full={p.full[0]} data-alt={p.alt[lang]} aria-label={`${t.open}: ${p.alt[lang]}`}>
-                  <Image src={p.cover} alt={p.alt[lang]} widths={[640, 1016, 1600]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
-                </button>
-              )}
-              {p.video?.portrait && (
-                <div class="video-wrap phone">
-                  <video
-                    class="video"
-                    src={p.video.src}
-                    poster={p.posterUrl}
-                    width="540"
-                    height="960"
-                    muted
-                    loop
-                    playsinline
-                    preload="none"
-                    data-autoplay
-                    aria-label={p.alt[lang]}
-                  />
-                  <button class="sound" type="button" data-sound>
-                    <Icon name="sound" size={14} />
-                    {t.sound}
-                  </button>
-                </div>
-              )}
-            </div>
+    <div class="carousel" data-carousel>
+      <div class="bar">
+        <div class="tabs" role="tablist" aria-label={t.title}>
+          {
+            items.map((p, i) => (
+              <button type="button" role="tab" id={`tab-${p.slug}`} aria-controls={p.slug} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+                {p.name}
+              </button>
+            ))
+          }
+        </div>
+        <div class="nav">
+          <span class="count" aria-live="polite"><b>01</b> / {total}</span>
+          <button type="button" class="arrow" data-step="-1" aria-label={t.prev}><Icon name="prev" size={18} /></button>
+          <button type="button" class="arrow" data-step="1" aria-label={t.next}><Icon name="next" size={18} /></button>
+        </div>
+      </div>
 
-            {p.gallery.length > 0 && (
-              <ul class="gallery" style={`--cols: ${p.gallery.length}`}>
-                {p.gallery.map((img, j) => {
-                  const idx = p.video && !p.video.portrait ? j : j + 1;
-                  return (
-                    <li>
-                      <button class="frame thumb" type="button" data-full={p.full[idx]} data-alt={p.alt[lang]} aria-label={`${t.open}: ${p.alt[lang]}`}>
-                        <Image src={img} alt="" widths={[320, 480]} sizes="(max-width: 720px) 33vw, 320px" loading="lazy" />
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-
-            <div class="body">
-              <div>
-                <p class="label">
-                  {p.kind[lang]} · {p.year}
-                </p>
-                <h3>{p.name}</h3>
-                <p class="summary">{p.summary[lang]}</p>
-                <dl class="meta">
-                  <div>
-                    <dt class="label">{t.role}</dt>
-                    <dd>{p.role[lang]}</dd>
+      <div class="track">
+        {
+          items.map((p, i) => (
+            <article class="project slide" id={p.slug} role="tabpanel" aria-labelledby={`tab-${p.slug}`}>
+              <div class:list={['media', p.video?.portrait && 'media-split']}>
+                {p.video && !p.video.portrait ? (
+                  <div class="video-wrap">
+                    <video
+                      class="video"
+                      src={p.video.src}
+                      poster={p.posterUrl}
+                      width="1280"
+                      height="720"
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                      data-autoplay
+                      aria-label={p.alt[lang]}
+                    />
+                    <button class="sound" type="button" data-sound>
+                      <Icon name="sound" size={14} />
+                      {t.sound}
+                    </button>
                   </div>
-                  <div>
-                    <dt class="label">{t.stack}</dt>
-                    <dd class="tags">
-                      {p.stack.map((s) => (
-                        <span class="tag">{s}</span>
-                      ))}
-                    </dd>
+                ) : (
+                  <button class="frame" type="button" data-full={p.full[0]} data-alt={p.alt[lang]} aria-label={`${t.open}: ${p.alt[lang]}`}>
+                    <Image src={p.cover} alt={p.alt[lang]} widths={[640, 1016, 1600]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
+                  </button>
+                )}
+                {p.video?.portrait && (
+                  <div class="video-wrap phone">
+                    <video
+                      class="video"
+                      src={p.video.src}
+                      poster={p.posterUrl}
+                      width="540"
+                      height="960"
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                      data-autoplay
+                      aria-label={p.alt[lang]}
+                    />
+                    <button class="sound" type="button" data-sound>
+                      <Icon name="sound" size={14} />
+                      {t.sound}
+                    </button>
                   </div>
-                </dl>
+                )}
               </div>
-              <ul class="highlights">
-                {p.highlights[lang].map((h) => (
-                  <li>{h}</li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        ))
-      }
+
+              {p.gallery.length > 0 && (
+                <ul class="gallery" style={`--cols: ${p.gallery.length}`}>
+                  {p.gallery.map((img, j) => {
+                    const idx = p.video && !p.video.portrait ? j : j + 1;
+                    return (
+                      <li>
+                        <button class="frame thumb" type="button" data-full={p.full[idx]} data-alt={p.alt[lang]} aria-label={`${t.open}: ${p.alt[lang]}`}>
+                          <Image src={img} alt="" widths={[320, 480]} sizes="(max-width: 720px) 33vw, 320px" loading="lazy" />
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+
+              <div class="body">
+                <div>
+                  <p class="label">
+                    {p.kind[lang]} · {p.year}
+                  </p>
+                  <h3>{p.name}</h3>
+                  <p class="summary">{p.summary[lang]}</p>
+                  <dl class="meta">
+                    <div>
+                      <dt class="label">{t.role}</dt>
+                      <dd>{p.role[lang]}</dd>
+                    </div>
+                    <div>
+                      <dt class="label">{t.stack}</dt>
+                      <dd class="tags">
+                        {p.stack.map((s) => (
+                          <span class="tag">{s}</span>
+                        ))}
+                      </dd>
+                    </div>
+                  </dl>
+                  {p.links && (
+                    <p class="links">
+                      {p.links.map((l) => (
+                        <a class="btn" href={l.href} target="_blank" rel="noopener">
+                          {l.label[lang]}
+                          <Icon name="arrow" size={14} />
+                        </a>
+                      ))}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <ul class="highlights">
+                    {p.highlights[lang].map((h) => (
+                      <li>{h}</li>
+                    ))}
+                  </ul>
+                  {p.also && (
+                    <p class="also">
+                      <span class="label">{t.also}</span> {p.also[lang]}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </div>
 
@@ -140,6 +177,62 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
 </section>
 
 <script>
+  // Carrusel: un proyecto por vista con scroll-snap (se puede deslizar en el celular),
+  // pestañas, flechas y contador. La altura sigue al proyecto visible.
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((car) => {
+    const track = car.querySelector<HTMLElement>('.track')!;
+    const slides = [...track.querySelectorAll<HTMLElement>('.slide')];
+    const tabs = [...car.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const count = car.querySelector('.count b')!;
+    let current = 0;
+
+    const fit = () => (track.style.height = `${slides[current].offsetHeight}px`);
+    const mark = (i: number) => {
+      current = i;
+      count.textContent = String(i + 1).padStart(2, '0');
+      tabs.forEach((tab, j) => {
+        tab.setAttribute('aria-selected', String(j === i));
+        tab.tabIndex = j === i ? 0 : -1;
+      });
+      slides.forEach((s, j) => s.toggleAttribute('inert', j !== i));
+      // Solo desplaza la fila de pestañas (scrollIntoView movería también la página).
+      const bar = tabs[i].parentElement!;
+      const tab = tabs[i];
+      if (tab.offsetLeft < bar.scrollLeft || tab.offsetLeft + tab.offsetWidth > bar.scrollLeft + bar.clientWidth)
+        bar.scrollTo({ left: tab.offsetLeft - 8, behavior: 'smooth' });
+      fit();
+    };
+    const go = (i: number) => {
+      const next = (i + slides.length) % slides.length;
+      track.scrollTo({ left: next * track.clientWidth });
+      mark(next);
+    };
+
+    let raf = 0;
+    track.addEventListener('scroll', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const i = Math.round(track.scrollLeft / track.clientWidth);
+        if (i !== current) mark(i);
+      });
+    });
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => go(i));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(current + (e.key === 'ArrowRight' ? 1 : -1));
+        tabs[current].focus();
+      });
+    });
+    car.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((btn) =>
+      btn.addEventListener('click', () => go(current + Number(btn.dataset.step))),
+    );
+    new ResizeObserver(fit).observe(track);
+    slides.forEach((s) => new ResizeObserver(() => s === slides[current] && fit()).observe(s));
+    mark(0);
+  });
+
   // Videos: se reproducen sin sonido solo cuando están en pantalla.
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
@@ -190,14 +283,107 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
 
 <style>
   .intro {
-    max-width: 40ch;
+    max-width: 44ch;
     text-align: right;
     font-size: 0.9375rem;
   }
-  .list {
-    display: grid;
-    gap: clamp(72px, 10vw, 120px);
+
+  /* Carrusel */
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
   }
+  .tabs {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tabs button {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: none;
+    font: 500 0.9375rem var(--font);
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+  }
+  .tabs button:hover {
+    color: var(--text);
+  }
+  .tabs button[aria-selected='true'] {
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--border);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .count {
+    font: 0.875rem var(--mono);
+    color: var(--faint);
+    margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .count b {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .arrow {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .arrow:hover {
+    border-color: var(--muted);
+  }
+  .track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    gap: 40px;
+    align-items: start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    transition: height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+  .slide {
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Proyecto */
   .media {
     border-radius: var(--radius);
     overflow: hidden;
@@ -308,10 +494,15 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
     margin: 4px 0 0;
     font-size: 0.9375rem;
   }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
   .highlights {
     display: grid;
     gap: 12px;
-    align-content: start;
     padding-top: 4px;
   }
   .highlights li {
@@ -329,6 +520,18 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
     height: 1px;
     background: var(--faint);
   }
+  .also {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+  .also .label {
+    margin-right: 6px;
+  }
+
+  /* Visor */
   .viewer {
     width: min(96vw, 1600px);
     max-height: 94vh;
@@ -352,6 +555,7 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
     top: -52px;
     right: 0;
   }
+
   @media (max-width: 760px) {
     .section-head {
       flex-direction: column;
@@ -359,6 +563,16 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
     }
     .intro {
       text-align: left;
+    }
+    .tabs {
+      width: 100%;
+    }
+    .nav {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .count {
+      margin-right: auto;
     }
     .body {
       grid-template-columns: 1fr;
@@ -382,6 +596,12 @@ const sizes = '(max-width: 1080px) 100vw, 1016px';
     }
     .gallery {
       gap: 8px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      scroll-behavior: auto;
+      transition: none;
     }
   }
 </style>

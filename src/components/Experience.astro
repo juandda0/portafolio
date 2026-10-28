@@ -33,9 +33,16 @@ const groups: { title: string; items: Job[] }[] = [
                   </h4>
                   <p class="place">{job.place}</p>
                   <ul class="points">
-                    {job.points.map((p) => (
-                      <li>{p}</li>
-                    ))}
+                    {job.points.map((p) =>
+                      typeof p === 'string' ? (
+                        <li>{p}</li>
+                      ) : (
+                        <li class="area">
+                          <strong>{p.lead}</strong>
+                          {p.text}
+                        </li>
+                      ),
+                    )}
                   </ul>
                   <div class="tags">
                     {job.stack.map((s) => (
@@ -115,6 +122,14 @@ const groups: { title: string; items: Job[] }[] = [
     width: 6px;
     height: 1px;
     background: var(--faint);
+  }
+  .points .area :global(strong) {
+    display: block;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .points:has(.area) {
+    gap: 14px;
   }
   @media (max-width: 720px) {
     .job {

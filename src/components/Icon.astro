@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'mail' | 'linkedin' | 'github' | 'download' | 'arrow' | 'copy' | 'close' | 'sound';
+  name: 'mail' | 'linkedin' | 'github' | 'download' | 'arrow' | 'copy' | 'close' | 'sound' | 'prev' | 'next';
   size?: number;
 }
 const { name, size = 16 } = Astro.props;
@@ -35,5 +35,7 @@ const { name, size = 16 } = Astro.props;
   {name === 'arrow' && <path d="M7 17 17 7M8 7h9v9" />}
   {name === 'copy' && <><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h8" /></>}
   {name === 'close' && <path d="M6 6l12 12M18 6 6 18" />}
+  {name === 'prev' && <path d="m15 6-6 6 6 6" />}
+  {name === 'next' && <path d="m9 6 6 6-6 6" />}
   {name === 'sound' && <><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" /></>}
 </svg>

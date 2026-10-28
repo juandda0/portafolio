@@ -5,7 +5,8 @@ export interface Job {
   org: string;
   place: string;
   period: string;
-  points: string[];
+  /** Un punto puede llevar un título en negrita (`lead`) cuando es una responsabilidad aparte. */
+  points: (string | { lead: string; text: string })[];
   stack: string[];
 }
 
@@ -21,15 +22,28 @@ interface Content {
   meta: { title: string; description: string };
   nav: { experience: string; projects: string; awards: string; contact: string };
   hero: {
-    eyebrow: string;
-    title: string;
+    role: string;
+    stackline: string;
     pitch: string;
+    /** Resumen que se muestra a la derecha como respuesta JSON de `GET /me`. */
+    json: [string, string | boolean | string[]][];
     available: string;
     cv: string;
     stats: { value: string; label: string }[];
   };
   experience: { title: string; work: string; freelance: string; jobs: Job[]; gigs: Job[] };
-  projects: { title: string; intro: string; role: string; stack: string; open: string; close: string; sound: string };
+  projects: {
+    title: string;
+    intro: string;
+    role: string;
+    stack: string;
+    also: string;
+    open: string;
+    close: string;
+    sound: string;
+    prev: string;
+    next: string;
+  };
   awards: { title: string; prizes: string; talks: string; items: Award[]; talksItems: Award[] };
   education: { title: string; degree: string; school: string; detail: string };
   contact: { title: string; text: string; copy: string; copied: string };
@@ -43,21 +57,32 @@ const unicordobaNews =
 export const content: Record<Lang, Content> = {
   es: {
     meta: {
-      title: 'Juan Diego Díaz · Desarrollador backend y mobile',
+      title: 'Juan Diego Díaz · Desarrollador backend',
       description:
-        'Desarrollador backend (Java, Spring Boot) y mobile (React Native) en Montería, Colombia. Experiencia, proyectos en producción, premios y contacto.',
+        'Desarrollador backend con Java, Spring Boot y Node.js en Montería, Colombia. Experiencia, proyectos en producción, premios y contacto.',
     },
     nav: { experience: 'Experiencia', projects: 'Proyectos', awards: 'Logros', contact: 'Contacto' },
     hero: {
-      eyebrow: 'Desarrollador backend y mobile · Montería, Colombia',
-      title: 'Construyo backends sólidos y apps que la gente usa.',
+      role: 'Desarrollador Backend',
+      stackline: 'Java, Spring Boot, Node.js, PostgreSQL',
+      json: [
+        ['name', 'Juan Diego Díaz Avendaño'],
+        ['role', 'Desarrollador Backend'],
+        ['secondary', ['Mobile', 'Frontend']],
+        ['stack', ['Java', 'Spring Boot', 'Node.js', 'PostgreSQL', 'Docker']],
+        ['experience', '3 años'],
+        ['location', 'Montería, Colombia'],
+        ['remote', true],
+        ['available', 'inmediata'],
+        ['english', 'C1'],
+      ],
       pitch:
-        'Trabajo con Java y Spring Boot en el backend y React Native en mobile. He llevado cinco productos reales —para una universidad, una empresa de demoliciones, un consultorio odontológico y dos startups— desde los requisitos hasta el despliegue.',
+        'Diseño y construyo APIs REST y microservicios con Java y Spring Boot: seguridad, modelo de datos, pruebas y despliegue. Cuando el proyecto lo pide, también entrego el frontend o la app móvil.',
       available: 'Disponible para trabajo remoto',
       cv: 'Descargar CV',
       stats: [
         { value: '3', label: 'años de experiencia' },
-        { value: '5', label: 'productos en uso' },
+        { value: '6', label: 'proyectos publicados' },
         { value: '3', label: 'premios en 2025' },
       ],
     },
@@ -72,10 +97,18 @@ export const content: Record<Lang, Content> = {
           place: 'Montería · remoto',
           period: 'ago 2025 — jun 2026',
           points: [
-            'Construí SIGCORP de punta a punta: la plataforma de solicitudes que usan 17 funcionarios para procesar unas 40 solicitudes al día.',
-            'Diseñé la seguridad y la persistencia con Spring Security, JWT, JPA/Hibernate y Flyway, con bloqueo optimista en flujos concurrentes.',
-            'Integré pagos Wompi con confirmación por webhooks y un microservicio de notificaciones en Node.js para el e-commerce institucional.',
-            'Contenericé y desplegué con Docker y Nginx; participé en la migración de unas 200 páginas del sitio web.',
+            {
+              lead: 'SIGCORP',
+              text: 'Construí de punta a punta la plataforma de solicitudes de la Oficina de Comunicaciones: APIs REST en Spring Boot, Spring Security con JWT, JPA/Hibernate y Flyway, bloqueo optimista en flujos concurrentes y despliegue con Docker y Nginx.',
+            },
+            {
+              lead: 'E-commerce institucional',
+              text: 'Integré la pasarela de pagos Wompi con confirmación asíncrona por webhooks y un microservicio de notificaciones en Node.js.',
+            },
+            {
+              lead: 'Sitio web institucional',
+              text: 'Participé en la migración de unas 200 páginas del sitio de la universidad.',
+            },
           ],
           stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Node.js', 'Docker', 'Nginx', 'Scrum'],
         },
@@ -83,7 +116,7 @@ export const content: Record<Lang, Content> = {
       gigs: [
         {
           role: 'Backend y líder técnico',
-          org: 'Sonrisa — SaaS odontológico',
+          org: 'Sonrisa — gestión odontológica',
           place: 'Remoto',
           period: 'ago 2026 — oct 2026',
           points: [
@@ -100,38 +133,41 @@ export const content: Record<Lang, Content> = {
           points: [
             'Reemplacé un flujo de transporte en Excel por una aplicación web; migré más de 550 registros y construí dashboards con KPIs.',
           ],
-          stack: ['React', 'TypeScript', 'Firebase'],
+          stack: ['Firebase', 'Security Rules', 'React', 'TypeScript'],
         },
         {
-          role: 'Desarrollador full-stack mobile',
-          org: 'CETI — Educación financiera con IA',
+          role: 'Desarrollador full-stack',
+          org: 'CETI — educación financiera con IA',
           place: 'Remoto',
           period: 'abr 2025 — sep 2025',
           points: [
-            'App móvil y web con lecciones gamificadas y un flujo de IA que convierte texto y voz en acciones, con pruebas automatizadas de punta a punta.',
+            'Flujo de IA en Cloud Functions que convierte texto y voz en acciones, datos aislados por colegio y curso, y la app móvil y web en React Native.',
           ],
-          stack: ['React Native', 'Expo', 'Firebase', 'IA'],
+          stack: ['Firebase', 'Cloud Functions', 'IA', 'React Native'],
         },
         {
-          role: 'Desarrollador full-stack mobile',
-          org: 'Biomech — SaaS B2B de fitness',
+          role: 'Desarrollador full-stack',
+          org: 'Biomech — app para entrenadores',
           place: 'Remoto',
           period: 'may 2023 — jun 2025',
           points: [
-            'App de dos lados publicada en App Store, con más de 30 Cloud Functions, pagos con Wompi y suscripciones con RevenueCat.',
+            'Backend serverless con más de 30 Cloud Functions, pagos con Wompi y suscripciones con RevenueCat; app de dos lados publicada en App Store.',
           ],
-          stack: ['React Native', 'Expo', 'Firebase', 'RevenueCat'],
+          stack: ['Firebase', 'Cloud Functions', 'RevenueCat', 'React Native'],
         },
       ],
     },
     projects: {
       title: 'Proyectos',
-      intro: 'Productos reales en los que trabajé, con capturas y videos de cada uno.',
+      intro: 'Productos publicados. En cada uno me encargué del backend y, cuando el proyecto lo pedía, también de la app o el frontend.',
       role: 'Rol',
       stack: 'Stack',
+      also: 'También',
       open: 'Ampliar imagen',
       close: 'Cerrar',
       sound: 'Ver con sonido',
+      prev: 'Proyecto anterior',
+      next: 'Proyecto siguiente',
     },
     awards: {
       title: 'Logros',
@@ -159,7 +195,7 @@ export const content: Record<Lang, Content> = {
           year: '2025',
           title: 'Ganador · Feria de Innovación',
           org: 'Universidad de Córdoba',
-          detail: 'Unimarket, como CTO del equipo del Semillero Innovarium.',
+          detail: 'Unimarket, como CTO del equipo.',
           links: [
             { label: 'Publicación', href: 'https://www.instagram.com/unicordoba_colombia/p/DKDdG7IyBaH/' },
             { label: 'Prensa', href: 'https://www.chicanoticias.com/2025/05/24/brillan-tecnologico-estudiantes/' },
@@ -194,11 +230,11 @@ export const content: Record<Lang, Content> = {
       title: 'Educación',
       degree: 'Ingeniería de Sistemas',
       school: 'Universidad de Córdoba',
-      detail: '7.º semestre · graduación estimada 2027 · Semillero de Investigación Innovarium',
+      detail: '7.º semestre · graduación estimada 2027',
     },
     contact: {
       title: '¿Trabajamos juntos?',
-      text: 'Busco trabajo remoto como desarrollador backend, mobile o full-stack, y proyectos freelance. Escríbeme y te respondo pronto.',
+      text: 'Estoy abierto a nuevas posiciones como desarrollador. Escríbeme y te respondo pronto.',
       copy: 'Copiar correo',
       copied: 'Copiado',
     },
@@ -207,21 +243,32 @@ export const content: Record<Lang, Content> = {
   },
   en: {
     meta: {
-      title: 'Juan Diego Díaz · Backend & mobile developer',
+      title: 'Juan Diego Díaz · Backend developer',
       description:
-        'Backend (Java, Spring Boot) and mobile (React Native) developer based in Colombia. Experience, shipped products, awards and contact.',
+        'Backend developer working with Java, Spring Boot and Node.js, based in Colombia. Experience, shipped products, awards and contact.',
     },
     nav: { experience: 'Experience', projects: 'Projects', awards: 'Awards', contact: 'Contact' },
     hero: {
-      eyebrow: 'Backend & mobile developer · Montería, Colombia',
-      title: 'I build solid backends and apps people actually use.',
+      role: 'Backend Developer',
+      stackline: 'Java, Spring Boot, Node.js, PostgreSQL',
+      json: [
+        ['name', 'Juan Diego Díaz Avendaño'],
+        ['role', 'Backend Developer'],
+        ['secondary', ['Mobile', 'Frontend']],
+        ['stack', ['Java', 'Spring Boot', 'Node.js', 'PostgreSQL', 'Docker']],
+        ['experience', '3 years'],
+        ['location', 'Montería, Colombia'],
+        ['remote', true],
+        ['available', 'immediately'],
+        ['english', 'C1'],
+      ],
       pitch:
-        'I work with Java and Spring Boot on the backend and React Native on mobile. I have taken five real products —for a university, a demolition company, a dental clinic and two startups— from requirements to deployment.',
+        'I design and build REST APIs and microservices with Java and Spring Boot: security, data model, testing and deployment. When a project needs it, I also ship the frontend or the mobile app.',
       available: 'Available for remote work',
       cv: 'Download CV',
       stats: [
         { value: '3', label: 'years of experience' },
-        { value: '5', label: 'products in use' },
+        { value: '6', label: 'shipped projects' },
         { value: '3', label: 'awards in 2025' },
       ],
     },
@@ -236,10 +283,18 @@ export const content: Record<Lang, Content> = {
           place: 'Montería · remote',
           period: 'Aug 2025 — Jun 2026',
           points: [
-            'Built SIGCORP end to end: the request platform 17 staff members use to process about 40 requests a day.',
-            'Designed security and persistence with Spring Security, JWT, JPA/Hibernate and Flyway, with optimistic locking for concurrent workflows.',
-            'Integrated Wompi payments with webhook confirmation and a Node.js notification microservice for the university e-commerce.',
-            'Containerized and deployed with Docker and Nginx; helped migrate about 200 pages of the university website.',
+            {
+              lead: 'SIGCORP',
+              text: 'Built the Communications Office request platform end to end: Spring Boot REST APIs, Spring Security with JWT, JPA/Hibernate and Flyway, optimistic locking for concurrent workflows, and Docker and Nginx deployment.',
+            },
+            {
+              lead: 'University e-commerce',
+              text: 'Integrated the Wompi payment gateway with asynchronous webhook confirmation and a Node.js notification microservice.',
+            },
+            {
+              lead: 'University website',
+              text: 'Helped migrate about 200 pages of the university website.',
+            },
           ],
           stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Node.js', 'Docker', 'Nginx', 'Scrum'],
         },
@@ -247,7 +302,7 @@ export const content: Record<Lang, Content> = {
       gigs: [
         {
           role: 'Backend developer & team lead',
-          org: 'Sonrisa — Dental SaaS',
+          org: 'Sonrisa — dental practice management',
           place: 'Remote',
           period: 'Aug 2026 — Oct 2026',
           points: [
@@ -264,38 +319,41 @@ export const content: Record<Lang, Content> = {
           points: [
             'Replaced a spreadsheet-based transport workflow with a web app; migrated 550+ records and built KPI dashboards.',
           ],
-          stack: ['React', 'TypeScript', 'Firebase'],
+          stack: ['Firebase', 'Security Rules', 'React', 'TypeScript'],
         },
         {
-          role: 'Full-stack mobile developer',
+          role: 'Full-stack developer',
           org: 'CETI — AI financial education',
           place: 'Remote',
           period: 'Apr 2025 — Sep 2025',
           points: [
-            'Mobile and web app with gamified lessons and an AI workflow that turns text and voice into actions, covered by end-to-end tests.',
+            'AI workflow on Cloud Functions that turns text and voice into actions, data isolated per school and class, and the React Native mobile and web app.',
           ],
-          stack: ['React Native', 'Expo', 'Firebase', 'AI'],
+          stack: ['Firebase', 'Cloud Functions', 'AI', 'React Native'],
         },
         {
-          role: 'Full-stack mobile developer',
-          org: 'Biomech — B2B fitness SaaS',
+          role: 'Full-stack developer',
+          org: 'Biomech — app for personal trainers',
           place: 'Remote',
           period: 'May 2023 — Jun 2025',
           points: [
-            'Two-sided app live on the App Store, with 30+ Cloud Functions, Wompi payments and RevenueCat subscriptions.',
+            'Serverless backend with 30+ Cloud Functions, Wompi payments and RevenueCat subscriptions; two-sided app live on the App Store.',
           ],
-          stack: ['React Native', 'Expo', 'Firebase', 'RevenueCat'],
+          stack: ['Firebase', 'Cloud Functions', 'RevenueCat', 'React Native'],
         },
       ],
     },
     projects: {
       title: 'Projects',
-      intro: 'Real products I worked on, with screenshots and videos of each one.',
+      intro: 'Shipped products. I owned the backend of each one and, when the project needed it, the app or frontend too.',
       role: 'Role',
       stack: 'Stack',
+      also: 'Also',
       open: 'Enlarge image',
       close: 'Close',
       sound: 'Play with sound',
+      prev: 'Previous project',
+      next: 'Next project',
     },
     awards: {
       title: 'Awards',
@@ -323,7 +381,7 @@ export const content: Record<Lang, Content> = {
           year: '2025',
           title: 'Winner · Innovation Fair',
           org: 'Universidad de Córdoba',
-          detail: 'Unimarket, as CTO of the Innovarium research group team.',
+          detail: 'Unimarket, as the team’s CTO.',
           links: [
             { label: 'Post', href: 'https://www.instagram.com/unicordoba_colombia/p/DKDdG7IyBaH/' },
             { label: 'Press', href: 'https://www.chicanoticias.com/2025/05/24/brillan-tecnologico-estudiantes/' },
@@ -358,11 +416,11 @@ export const content: Record<Lang, Content> = {
       title: 'Education',
       degree: 'B.S. in Systems Engineering',
       school: 'Universidad de Córdoba',
-      detail: '7th semester · expected 2027 · Innovarium research group',
+      detail: '7th semester · expected 2027',
     },
     contact: {
       title: 'Let’s work together',
-      text: 'I’m looking for remote backend, mobile or full-stack roles and freelance projects. Drop me a line and I’ll get back to you soon.',
+      text: 'I’m open to new developer positions. Drop me a line and I’ll get back to you soon.',
       copy: 'Copy email',
       copied: 'Copied',
     },
