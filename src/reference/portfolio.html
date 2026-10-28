@@ -29,20 +29,14 @@
   --s-h1: clamp(2.4rem, 4.2vw + 1rem, 4.4rem);
   --s-h2: clamp(1.6rem, 1.6vw + 1.1rem, 2.25rem);
   --s-h3: clamp(1.35rem, 0.8vw + 1.05rem, 1.65rem);
+  --s-h4: clamp(1.15rem, 0.4vw + 1rem, 1.3rem);
   --s-body: 1rem;
   --s-small: 0.9375rem;
   --s-label: 0.75rem;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0b0b0c; --surface: #131315; --raised: #1a1a1d; --line: #232326; --line-strong: #2f2f33;
-    --fg: #ededee; --muted: #9a9aa0; --faint: #6a6a70; --accent: #6ea0ff; --ok: #4ade80;
-    --biomech: #f0464d; --sigcorp: #4db37a; --sgo: #5a86ff; --ceti: #ff8f2b; --sonrisa: #8b85ff; --dino: #a78bfa;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
+/* Oscuro por defecto; el claro solo se activa con el selector (data-theme="light"). */
+:root:not([data-theme="light"]) {
   --bg: #0b0b0c; --surface: #131315; --raised: #1a1a1d; --line: #232326; --line-strong: #2f2f33;
   --fg: #ededee; --muted: #9a9aa0; --faint: #6a6a70; --accent: #6ea0ff; --ok: #4ade80;
   --biomech: #f0464d; --sigcorp: #4db37a; --sgo: #5a86ff; --ceti: #ff8f2b; --sonrisa: #8b85ff; --dino: #a78bfa;
@@ -115,11 +109,21 @@ ul { margin: 0; padding: 0; }
   border: 0; padding: 7px 10px; border-radius: 999px; cursor: pointer;
 }
 .lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.top-tools { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.theme-btn {
+  display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line-strong); border-radius: 999px;
+  background: none; color: var(--muted); cursor: pointer; transition: color .15s, background .15s;
+}
+.theme-btn:hover { color: var(--fg); background: var(--surface); }
+.theme-btn svg { width: 16px; height: 16px; }
+.theme-btn .i-sun { display: none; }
+:root:not([data-theme="light"]) .theme-btn .i-sun { display: block; }
+:root:not([data-theme="light"]) .theme-btn .i-moon { display: none; }
 
 @media (max-width: 880px) {
   .top-row { flex-wrap: wrap; gap: 0 12px; padding-block: 8px 0; }
   .brand { order: 1; }
-  .lang { order: 2; margin-left: auto; }
+  .top-tools { order: 2; margin-left: auto; }
   .nav { order: 3; width: 100%; margin: 6px 0 0; padding-bottom: 6px; margin-inline: -10px; width: calc(100% + 20px); }
 }
 
@@ -225,8 +229,12 @@ ul { margin: 0; padding: 0; }
 .eyebrow .tag { color: var(--pc); display: inline-flex; align-items: center; gap: 8px; }
 .eyebrow .tag::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--pc); }
 .eyebrow .dim { color: var(--faint); }
-.proj h3 { font-size: var(--s-h3); font-weight: 600; line-height: 1.2; }
-.proj h3 .client { color: var(--muted); font-weight: 400; }
+.period {
+  display: inline-flex; align-items: center; padding: 3px 9px; border: 1px solid var(--line-strong); border-radius: 6px;
+  background: var(--raised); color: var(--fg); font: 500 0.8125rem/1.4 var(--f-mono); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.proj h4 { font-size: var(--s-h4); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+.proj h4 .client { color: var(--muted); font-weight: 400; }
 .proj-role { color: var(--muted); font-size: var(--s-small); }
 .proj-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 52px); align-items: start; }
 @media (max-width: 960px) { .proj-body { grid-template-columns: minmax(0, 1fr); } }
@@ -305,7 +313,7 @@ ul { margin: 0; padding: 0; }
   display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; padding: 24px;
   border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface);
 }
-.award .when { display: flex; justify-content: space-between; gap: 12px; font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--faint); }
+.award .when { display: flex; justify-content: space-between; align-items: center; gap: 12px; font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--faint); }
 .award .place { font: 500 clamp(1.8rem, 1.4vw + 1.2rem, 2.2rem)/1 var(--f-display); letter-spacing: -0.04em; }
 .award h3 { font-size: 1.15rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; margin-top: 4px; }
 .award h3 small { display: block; font: 400 0.875rem/1.4 var(--f-body); color: var(--muted); letter-spacing: 0; margin-top: 4px; }
@@ -321,7 +329,7 @@ ul { margin: 0; padding: 0; }
 /* Ponencias */
 .talks { list-style: none; border-top: 1px solid var(--line); }
 .talk { display: grid; grid-template-columns: 7.5em minmax(0, 1fr) auto; gap: 8px 28px; padding: 26px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
-.talk .date { font: 500 0.8125rem/1.5 var(--f-mono); color: var(--faint); font-variant-numeric: tabular-nums; }
+.talk .date { justify-self: start; text-transform: uppercase; }
 .talk h3 { font-size: 1.2rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; }
 .talk p { margin-top: 6px; color: var(--muted); font-size: var(--s-small); }
 .talk .role {
@@ -372,9 +380,15 @@ ul { margin: 0; padding: 0; }
 
 /* Experiencia: la universidad primero, tres responsabilidades con el mismo peso */
 .job { display: grid; gap: 32px; }
+.sec-head:has(+ .sub) { margin-bottom: 32px; }
+.sub + .sub { margin-top: clamp(72px, 8vw, 104px); }
+.sub { scroll-margin-top: 24px; }
+.sub-head { display: grid; gap: 10px; max-width: 760px; margin-bottom: 24px; }
+.sub-head h3 { font-size: var(--s-h3); font-weight: 600; line-height: 1.2; }
+.sub-head p { color: var(--muted); max-width: 62ch; }
 .job-head { display: grid; gap: 10px; max-width: 760px; }
-.job-head h3 { font-size: clamp(1.7rem, 1.6vw + 1.2rem, 2.3rem); font-weight: 500; line-height: 1.1; letter-spacing: -0.035em; }
-.job-role { font-size: 1.0625rem; }
+.job-head h4 { font-size: var(--s-h4); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+.job-role { color: var(--muted); font-size: var(--s-small); }
 .job-lede { color: var(--muted); }
 .resp-label {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
@@ -407,7 +421,7 @@ ul { margin: 0; padding: 0; }
 
 /* Carrusel de proyectos */
 .carousel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
-.car-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.car-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
 .car-tabs { display: flex; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .car-tabs::-webkit-scrollbar { display: none; }
 .car-tabs button {
@@ -415,10 +429,8 @@ ul { margin: 0; padding: 0; }
   font: 500 0.95rem/1 var(--f-display); color: var(--muted); background: none; border: 1px solid transparent;
   padding: 10px 14px; border-radius: 999px; transition: color .15s, background .15s, border-color .15s;
 }
-.car-tabs button::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--pc); opacity: .45; }
 .car-tabs button:hover { color: var(--fg); }
 .car-tabs button[aria-selected="true"] { color: var(--fg); background: var(--surface); border-color: var(--line-strong); }
-.car-tabs button[aria-selected="true"]::before { opacity: 1; }
 .car-nav { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .car-count { font-size: 0.875rem; color: var(--faint); margin-right: 6px; font-variant-numeric: tabular-nums; }
 .car-count b { color: var(--fg); font-weight: 500; }
@@ -428,6 +440,26 @@ ul { margin: 0; padding: 0; }
   scrollbar-width: none; transition: height .35s cubic-bezier(.2, .7, .2, 1);
 }
 .car-track::-webkit-scrollbar { display: none; }
+/* Todos los proyectos miden lo mismo y la sección cabe en la pantalla: el JS fija la altura,
+   achica la galería si hace falta y recorta el texto que sobra detrás de "Leer más". */
+.carousel .gallery { width: 100%; max-width: var(--g-max, none); }
+@media (min-width: 961px) {
+  .carousel .proj-body { grid-template-columns: minmax(0, min(var(--g-max, 100%), calc((100% - clamp(28px, 4vw, 52px)) * 1.25 / 2.25))) minmax(0, 1fr); }
+}
+.proj-more { display: grid; gap: 22px; min-width: 0; }
+.proj-more.clamped {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 72px), transparent); mask-image: linear-gradient(#000 calc(100% - 72px), transparent);
+}
+.more-btn {
+  justify-self: start; display: inline-flex; align-items: center; gap: 8px; margin-top: -10px; padding: 4px 0; background: none; border: 0;
+  cursor: pointer; color: var(--fg); font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: .04em; text-transform: uppercase;
+}
+.more-btn:hover { color: var(--accent); }
+.more-btn[hidden] { display: none; }
+.more-btn svg { width: 14px; height: 14px; transition: transform .2s; }
+.more-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.more-btn[aria-expanded="true"] .m-closed, .more-btn[aria-expanded="false"] .m-open { display: none; }
 .slide { scroll-snap-align: start; scroll-snap-stop: always; min-width: 0; }
 @media (max-width: 560px) {
   .car-tabs { width: 100%; }
@@ -502,6 +534,8 @@ ul { margin: 0; padding: 0; }
   <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-sound" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></g></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></g></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></symbol>
   <symbol id="i-in" viewBox="0 0 24 24"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></symbol>
@@ -513,15 +547,20 @@ ul { margin: 0; padding: 0; }
     <nav class="nav" aria-label="Secciones">
       <a href="#sobre-mi"><span lang="es">Sobre mí</span><span lang="en">About</span></a>
       <a href="#experiencia"><span lang="es">Experiencia</span><span lang="en">Experience</span></a>
-      <a href="#proyectos"><span lang="es">Proyectos</span><span lang="en">Projects</span></a>
       <a href="#premios"><span lang="es">Premios</span><span lang="en">Awards</span></a>
       <a href="#ponencias"><span lang="es">Ponencias</span><span lang="en">Talks</span></a>
       <a href="#habilidades"><span lang="es">Habilidades</span><span lang="en">Skills</span></a>
       <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
     </nav>
-    <div class="lang" role="group" aria-label="Idioma / Language">
-      <button type="button" id="lang-es" data-set-lang="es" aria-pressed="true">ES</button>
-      <button type="button" id="lang-en" data-set-lang="en" aria-pressed="false">EN</button>
+    <div class="top-tools">
+      <button type="button" class="theme-btn" id="theme-btn" aria-label="Cambiar a modo claro">
+        <svg class="i-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="i-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" id="lang-es" data-set-lang="es" aria-pressed="true">ES</button>
+        <button type="button" id="lang-en" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
     </div>
   </div>
 </header>
@@ -541,7 +580,7 @@ ul { margin: 0; padding: 0; }
         <p class="hero-lede rise d2" lang="es">Diseño y construyo APIs REST y microservicios con Java y Spring Boot: seguridad, modelo de datos, pruebas y despliegue. Cuando el proyecto lo pide, también entrego el frontend o la app móvil.</p>
         <p class="hero-lede rise d2" lang="en">I design and build REST APIs and microservices with Java and Spring Boot: security, data model, testing and deployment. When a project needs it, I also ship the frontend or the mobile app.</p>
         <div class="cta rise d3">
-          <a class="btn primary" href="#proyectos"><span lang="es">Ver proyectos</span><span lang="en">See projects</span><svg aria-hidden="true"><use href="#i-down"/></svg></a>
+          <a class="btn primary" href="#experiencia"><span lang="es">Ver mi trabajo</span><span lang="en">See my work</span><svg aria-hidden="true"><use href="#i-down"/></svg></a>
           <a class="btn" href="https://github.com/juandda0" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-gh"/></svg>GitHub</a>
           <a class="btn" href="https://www.linkedin.com/in/juandiegodiaz-dev" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-in"/></svg>LinkedIn</a>
           <a class="btn" lang="es" href="https://juandiegodiaz-dev.web.app/cv/Juan-Diaz-CV-ES.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-dl"/></svg>Descargar CV</a>
@@ -622,13 +661,18 @@ ul { margin: 0; padding: 0; }
         <h2><span lang="es">Experiencia laboral</span><span lang="en">Work experience</span></h2>
       </div>
 
+      <div class="sub" id="empresas">
+        <div class="sub-head">
+          <h3><span lang="es">En empresas</span><span lang="en">Companies</span></h3>
+        </div>
+
       <article class="job">
         <header class="job-head">
           <div class="eyebrow">
-            <span><span lang="es">ago 2025 – jun 2026</span><span lang="en">Aug 2025 – Jun 2026</span></span>
+            <span class="period"><span lang="es">ago 2025 – jun 2026</span><span lang="en">Aug 2025 – Jun 2026</span></span>
             <span class="dim"><span lang="es">Montería, Colombia · remoto</span><span lang="en">Montería, Colombia · remote</span></span>
           </div>
-          <h3>Universidad de Córdoba</h3>
+          <h4>Universidad de Córdoba</h4>
           <p class="job-role"><span lang="es">Desarrollador Full-Stack (enfoque Backend)</span><span lang="en">Full-Stack Developer (Backend focus)</span></p>
           <p class="job-lede" lang="es">Trabajé en el equipo de desarrollo de la universidad a cargo de tres frentes, desde los requisitos hasta el despliegue.</p>
           <p class="job-lede" lang="en">I worked on the university's development team across three areas, from requirements to deployment.</p>
@@ -670,45 +714,27 @@ ul { margin: 0; padding: 0; }
           <button type="button" data-src="img/sigcorp-5-detalle.webp" data-es="SIGCORP: detalle de una solicitud" data-en="SIGCORP: request detail"></button>
         </template>
       </article>
-    </div>
-  </section>
-
-  <!-- ======================= PROYECTOS FREELANCE ======================= -->
-  <section class="section" id="proyectos">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="path"><span lang="es">/proyectos</span><span lang="en">/projects</span></span>
-        <h2><span lang="es">Proyectos</span><span lang="en">Projects</span></h2>
-        <p lang="es">Productos en producción, para clientes y propios. En cada uno me encargué del backend y, cuando el proyecto lo pedía, también de la app o el frontend.</p>
-        <p lang="en">Production products, for clients and my own. I owned the backend of each one and, when the project needed it, the app or frontend too.</p>
       </div>
 
-      <div class="carousel" data-carousel>
-        <div class="car-bar">
-          <div class="car-tabs" role="tablist" aria-label="Proyectos">
-            <button type="button" role="tab" id="tab-sonrisa" style="--pc: var(--sonrisa)">Sonrisa</button>
-            <button type="button" role="tab" id="tab-sgo" style="--pc: var(--sgo)">SGO</button>
-            <button type="button" role="tab" id="tab-ceti" style="--pc: var(--ceti)">CETI</button>
-            <button type="button" role="tab" id="tab-biomech" style="--pc: var(--biomech)">Biomech</button>
-            <button type="button" role="tab" id="tab-dino" style="--pc: var(--dino)">Purple Dino</button>
-          </div>
-          <div class="car-nav">
-            <span class="car-count mono" aria-live="polite"><b>01</b> / 05</span>
-            <button type="button" class="icon-btn" data-car="-1" aria-label="Proyecto anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
-            <button type="button" class="icon-btn" data-car="1" aria-label="Proyecto siguiente"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
-          </div>
+      <!-- Freelance -->
+      <div class="sub" id="proyectos">
+        <div class="sub-head">
+          <h3>Freelance</h3>
+          <p lang="es">Productos en producción para clientes. En cada uno me encargué del backend y, cuando el proyecto lo pedía, también de la app o el frontend.</p>
+          <p lang="en">Production products for clients. I owned the backend of each one and, when the project needed it, the app or frontend too.</p>
         </div>
 
+      <div class="carousel" data-carousel>
         <div class="car-track">
           <!-- Sonrisa -->
           <article class="proj slide" role="tabpanel" aria-labelledby="tab-sonrisa" style="--pc: var(--sonrisa)">
             <header class="proj-head">
               <div class="eyebrow">
                 <span class="tag"><span lang="es">Gestión odontológica</span><span lang="en">Dental practice management</span></span>
-                <span><span lang="es">ago 2026 – oct 2026</span><span lang="en">Aug 2026 – Oct 2026</span></span>
+                <span class="period"><span lang="es">ago 2026 – oct 2026</span><span lang="en">Aug 2026 – Oct 2026</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
-              <h3>Sonrisa</h3>
+              <h4>Sonrisa</h4>
               <p class="proj-role"><span lang="es">Desarrollador Backend y Líder Técnico · equipo de 3</span><span lang="en">Backend Developer &amp; Team Lead · team of 3</span></p>
             </header>
             <div class="proj-body">
@@ -728,6 +754,7 @@ ul { margin: 0; padding: 0; }
                 </div>
               </div>
               <div class="proj-text">
+                <div class="proj-more">
                 <p class="lede" lang="es">Diseñé y construí el backend en Java 21 y Spring Boot de un sistema de gestión para consultorios odontológicos: pacientes, citas, historia clínica de 19 pasos con firma electrónica, odontograma, planes de tratamiento, pagos y finanzas.</p>
                 <p class="lede" lang="en">I designed and built the Java 21 / Spring Boot backend of a management system for dental practices: patients, appointments, 19-step clinical records with electronic signature, odontogram, treatment plans, payments and finance.</p>
                 <ul class="bullets" lang="es">
@@ -745,6 +772,8 @@ ul { margin: 0; padding: 0; }
                 <ul class="chips" aria-label="Stack">
                   <li>Java 21</li><li>Spring Boot</li><li>Spring Security</li><li>PostgreSQL</li><li>Flyway</li><li>Docker</li><li>Railway</li>
                 </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
               </div>
             </div>
           </article>
@@ -754,10 +783,10 @@ ul { margin: 0; padding: 0; }
             <header class="proj-head">
               <div class="eyebrow">
                 <span class="tag"><span lang="es">Gestión operativa</span><span lang="en">Operations management</span></span>
-                <span><span lang="es">may 2026 – jun 2026</span><span lang="en">May 2026 – Jun 2026</span></span>
+                <span class="period"><span lang="es">may 2026 – jun 2026</span><span lang="en">May 2026 – Jun 2026</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
-              <h3>SGO <span class="client">· ESCAMVIOS S.A.S.</span></h3>
+              <h4>SGO <span class="client">· ESCAMVIOS S.A.S.</span></h4>
               <p class="proj-role"><span lang="es">Desarrollador Full-Stack</span><span lang="en">Full-Stack Developer</span></p>
             </header>
             <div class="proj-body">
@@ -777,6 +806,7 @@ ul { margin: 0; padding: 0; }
                 </div>
               </div>
               <div class="proj-text">
+                <div class="proj-more">
                 <p class="lede" lang="es">Reemplacé el flujo de transporte en Excel de una empresa de demoliciones por un sistema para viajes, proyectos, empleados, asistencia y acceso de clientes.</p>
                 <p class="lede" lang="en">I replaced a demolition company's Excel-based transportation workflow with a system for trips, projects, employees, attendance and client access.</p>
                 <dl class="figures">
@@ -796,6 +826,8 @@ ul { margin: 0; padding: 0; }
                 <ul class="chips" aria-label="Stack">
                   <li>Firebase</li><li>Firestore</li><li>Security Rules</li><li>Spring Boot</li><li>PostgreSQL</li><li>React</li><li>TypeScript</li>
                 </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
               </div>
             </div>
           </article>
@@ -805,10 +837,10 @@ ul { margin: 0; padding: 0; }
             <header class="proj-head">
               <div class="eyebrow">
                 <span class="tag"><span lang="es">Educación financiera con IA</span><span lang="en">AI financial education</span></span>
-                <span><span lang="es">abr 2025 – sep 2025</span><span lang="en">Apr 2025 – Sep 2025</span></span>
+                <span class="period"><span lang="es">abr 2025 – sep 2025</span><span lang="en">Apr 2025 – Sep 2025</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
-              <h3>CETI</h3>
+              <h4>CETI</h4>
               <p class="proj-role"><span lang="es">Desarrollador Full-Stack Mobile</span><span lang="en">Full-Stack Mobile Developer</span></p>
             </header>
             <div class="proj-body">
@@ -826,6 +858,7 @@ ul { margin: 0; padding: 0; }
                 </div>
               </div>
               <div class="proj-text">
+                <div class="proj-more">
                 <p class="lede" lang="es">Plataforma de educación financiera para jóvenes y colegios: lecciones gamificadas, rachas, metas de ahorro, gastos, presupuestos y gráficas.</p>
                 <p class="lede" lang="en">Financial education platform for young people and schools: gamified lessons, streaks, savings goals, expenses, budgets and charts.</p>
                 <ul class="bullets" lang="es">
@@ -842,6 +875,8 @@ ul { margin: 0; padding: 0; }
                 <ul class="chips" aria-label="Stack">
                   <li>Cloud Functions</li><li>Firestore</li><li>Firebase Auth</li><li>LLM APIs</li><li>Jest</li><li>React Native</li><li>Expo</li>
                 </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
                 <div class="proj-links">
                   <a class="btn" href="https://ceti-d3769.web.app" target="_blank" rel="noopener"><span lang="es">Abrir CETI</span><span lang="en">Open CETI</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
                   <a class="btn ghost" href="https://unicordoba.edu.co/blog/estudiantes-de-unicordoba-crean-plataforma-para-ensenar-educacion-financiera-a-los-jovenes/" target="_blank" rel="noopener"><span lang="es">Nota de Unicórdoba</span><span lang="en">Unicórdoba article</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -855,10 +890,10 @@ ul { margin: 0; padding: 0; }
             <header class="proj-head">
               <div class="eyebrow">
                 <span class="tag"><span lang="es">Fitness B2B</span><span lang="en">B2B fitness</span></span>
-                <span><span lang="es">may 2023 – jun 2025</span><span lang="en">May 2023 – Jun 2025</span></span>
+                <span class="period"><span lang="es">may 2023 – jun 2025</span><span lang="en">May 2023 – Jun 2025</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
-              <h3>Biomech</h3>
+              <h4>Biomech</h4>
               <p class="proj-role"><span lang="es">Desarrollador Full-Stack Mobile</span><span lang="en">Full-Stack Mobile Developer</span></p>
             </header>
             <div class="proj-body">
@@ -876,6 +911,7 @@ ul { margin: 0; padding: 0; }
                 </div>
               </div>
               <div class="proj-text">
+                <div class="proj-more">
                 <p class="lede" lang="es">App de dos lados para entrenadores y atletas: clientes, rutinas, progreso, agenda, reservas y pagos. Publicado en App Store; en Android se distribuye como APK.</p>
                 <p class="lede" lang="en">Two-sided app for trainers and athletes: clients, routines, progress, scheduling, bookings and payments. Published on the App Store; distributed as an APK on Android.</p>
                 <dl class="figures">
@@ -895,6 +931,8 @@ ul { margin: 0; padding: 0; }
                 <ul class="chips" aria-label="Stack">
                   <li>Cloud Functions</li><li>Firestore</li><li>Zod</li><li>App Check</li><li>Wompi</li><li>RevenueCat</li><li>React Native</li>
                 </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
                 <div class="proj-links">
                   <a class="btn" href="https://apps.apple.com/co/app/biomech/id6801688898" target="_blank" rel="noopener">App Store<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
                   <a class="btn ghost" href="https://biomech-studios-download.web.app/" target="_blank" rel="noopener"><span lang="es">Descargar APK (Android)</span><span lang="en">Download APK (Android)</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -907,11 +945,10 @@ ul { margin: 0; padding: 0; }
             <header class="proj-head">
               <div class="eyebrow">
                 <span class="tag"><span lang="es">Juego multijugador en tiempo real</span><span lang="en">Real-time multiplayer game</span></span>
-                <span>2026</span>
-                <span class="dim"><span lang="es">Proyecto propio</span><span lang="en">Personal project</span></span>
+                <span class="period">2026</span>
               </div>
-              <h3>Purple Dino</h3>
-              <p class="proj-role"><span lang="es">Proyecto propio · de punta a punta</span><span lang="en">Personal project · end to end</span></p>
+              <h4>Purple Dino</h4>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack · de punta a punta</span><span lang="en">Full-Stack Developer · end to end</span></p>
             </header>
             <div class="proj-body">
               <div class="gallery" data-gallery>
@@ -928,6 +965,7 @@ ul { margin: 0; padding: 0; }
                 </div>
               </div>
               <div class="proj-text">
+                <div class="proj-more">
                 <p class="lede" lang="es">Batalla cooperativa de inglés para el aula: el profesor proyecta el juego, los estudiantes responden desde el celular y, si la mayoría acierta, el dinosaurio ataca.</p>
                 <p class="lede" lang="en">Co-op English quiz battle for the classroom: the teacher projects the game, students answer on their phones and, if most of the class gets it right, the dino strikes.</p>
                 <ul class="bullets" lang="es">
@@ -944,6 +982,8 @@ ul { margin: 0; padding: 0; }
                 <ul class="chips" aria-label="Stack">
                   <li>Realtime Database</li><li>Firebase Auth</li><li>TypeScript</li><li>Vitest</li><li>React</li>
                 </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
                 <div class="proj-links">
                   <a class="btn" href="https://purple-dino-juandda0.web.app" target="_blank" rel="noopener"><span lang="es">Jugar</span><span lang="en">Play</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
                 </div>
@@ -951,6 +991,22 @@ ul { margin: 0; padding: 0; }
             </div>
           </article>
         </div>
+
+        <div class="car-bar">
+          <div class="car-tabs" role="tablist" aria-label="Proyectos freelance">
+            <button type="button" role="tab" id="tab-sonrisa" style="--pc: var(--sonrisa)">Sonrisa</button>
+            <button type="button" role="tab" id="tab-sgo" style="--pc: var(--sgo)">SGO</button>
+            <button type="button" role="tab" id="tab-ceti" style="--pc: var(--ceti)">CETI</button>
+            <button type="button" role="tab" id="tab-biomech" style="--pc: var(--biomech)">Biomech</button>
+            <button type="button" role="tab" id="tab-dino" style="--pc: var(--dino)">Purple Dino</button>
+          </div>
+          <div class="car-nav">
+            <span class="car-count mono" aria-live="polite"><b>01</b> / 05</span>
+            <button type="button" class="icon-btn" data-car="-1" aria-label="Proyecto anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+            <button type="button" class="icon-btn" data-car="1" aria-label="Proyecto siguiente"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </section>
@@ -966,7 +1022,7 @@ ul { margin: 0; padding: 0; }
       </div>
       <div class="awards">
         <article class="award">
-          <div class="when"><span>TechU Montería</span><span><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
+          <div class="when"><span>TechU Montería</span><span class="period"><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
           <div class="place"><span lang="es">Ganador</span><span lang="en">Winner</span></div>
           <div>
             <h3>TechU Montería 2025 <small><span lang="es">Alcaldía de Montería · Unimarket, como CTO</span><span lang="en">Montería City Hall · Unimarket, as CTO</span></small></h3>
@@ -979,7 +1035,7 @@ ul { margin: 0; padding: 0; }
           </div>
         </article>
         <article class="award">
-          <div class="when"><span>Hackathon</span><span><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
+          <div class="when"><span>Hackathon</span><span class="period"><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
           <div class="place"><span lang="es">1.er lugar</span><span lang="en">1st place</span></div>
           <div>
             <h3><span lang="es">Hackathon de Ingeniería de Sistemas</span><span lang="en">Systems Engineering Hackathon</span> <small><span lang="es">Universidad de Córdoba · AulaLink</span><span lang="en">Universidad de Córdoba · AulaLink</span></small></h3>
@@ -992,7 +1048,7 @@ ul { margin: 0; padding: 0; }
           </div>
         </article>
         <article class="award">
-          <div class="when"><span lang="es">Feria de Innovación</span><span lang="en">Innovation Fair</span><span><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
+          <div class="when"><span lang="es">Feria de Innovación</span><span lang="en">Innovation Fair</span><span class="period"><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
           <div class="place"><span lang="es">Ganador</span><span lang="en">Winner</span></div>
           <div>
             <h3><span lang="es">Feria de Innovación de Unicórdoba</span><span lang="en">Unicórdoba Innovation Fair</span> <small><span lang="es">Universidad de Córdoba · Unimarket, como CTO</span><span lang="en">Universidad de Córdoba · Unimarket, as CTO</span></small></h3>
@@ -1016,31 +1072,32 @@ ul { margin: 0; padding: 0; }
       </div>
       <ol class="talks">
         <li class="talk">
-          <span class="date"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
+          <span class="date period"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
           <div>
             <h3><span lang="es">“LUMIO: Gestión y educación financiera automatizada”</span><span lang="en">“LUMIO: Automated Financial Management and Education”</span></h3>
             <p lang="es">8.º Congreso Internacional CIIDIES–COPEIN–RIISS y 10.º Congreso Emprende Innova UG · Celaya, México (virtual)</p>
             <p lang="en">8th CIIDIES–COPEIN–RIISS International Congress and 10th Emprende Innova UG Congress · Celaya, Mexico (virtual)</p>
-            <div class="src"><a href="https://www.riiss-global.org/congreso-mexico-2026/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Sitio del congreso</span><span lang="en">Congress website</span></a></div>
+            <div class="src"><a href="https://www.riiss-global.org/congreso-mexico-2026/#:~:text=LUMIO" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Lista oficial de ponencias aceptadas</span><span lang="en">Official list of accepted papers</span></a></div>
           </div>
           <span class="role lead"><span lang="es">Autor principal</span><span lang="en">Lead author</span></span>
         </li>
         <li class="talk">
-          <span class="date"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
+          <span class="date period"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
           <div>
             <h3><span lang="es">“CETI: Plataforma de educación financiera”</span><span lang="en">“CETI: Financial Education Platform”</span></h3>
             <p lang="es">8.º Congreso Internacional CIIDIES–COPEIN–RIISS y 10.º Congreso Emprende Innova UG · Celaya, México (presencial)</p>
             <p lang="en">8th CIIDIES–COPEIN–RIISS International Congress and 10th Emprende Innova UG Congress · Celaya, Mexico (in person)</p>
-            <div class="src"><a href="https://www.riiss-global.org/congreso-mexico-2026/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Sitio del congreso</span><span lang="en">Congress website</span></a></div>
+            <div class="src"><a href="https://www.riiss-global.org/congreso-mexico-2026/#:~:text=CETI%3A%20Plataforma%20de%20educaci%C3%B3n%20financiera" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Lista oficial de ponencias aceptadas</span><span lang="en">Official list of accepted papers</span></a></div>
           </div>
           <span class="role"><span lang="es">Coautor</span><span lang="en">Co-author</span></span>
         </li>
         <li class="talk">
-          <span class="date"><span lang="es">jul 2025</span><span lang="en">Jul 2025</span></span>
+          <span class="date period"><span lang="es">jul 2025</span><span lang="en">Jul 2025</span></span>
           <div>
             <h3>“UNIMARKET”</h3>
             <p lang="es">V Congreso Internacional de Tecnología, Aprendizaje y Educación (CITAE 2025), REDIIE · Santiago de Chile (híbrido)</p>
             <p lang="en">5th International Congress on Technology, Learning and Education (CITAE 2025), REDIIE · Santiago, Chile (hybrid)</p>
+            <div class="src"><a href="https://rediie.cl/citae-2025/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Sitio del congreso</span><span lang="en">Congress website</span></a></div>
           </div>
           <span class="role"><span lang="es">Coautor</span><span lang="en">Co-author</span></span>
         </li>
@@ -1139,7 +1196,26 @@ ul { margin: 0; padding: 0; }
   if (saved === 'es' || saved === 'en') lang = saved;
   else if (!/^es\b/i.test(navigator.language || 'es')) lang = 'en';
 
+  /* Tema: oscuro por defecto */
+  var theme = store('jd-theme') === 'light' ? 'light' : 'dark';
+  var themeBtn = document.getElementById('theme-btn');
+  function setTheme(next) {
+    theme = next;
+    root.setAttribute('data-theme', theme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#fafaf9' : '#0b0b0c');
+    themeLabel();
+  }
+  function themeLabel() {
+    var toLight = theme === 'dark';
+    themeBtn.setAttribute('aria-label', lang === 'es' ? (toLight ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro') : (toLight ? 'Switch to light mode' : 'Switch to dark mode'));
+    themeBtn.title = themeBtn.getAttribute('aria-label');
+  }
+  setTheme(theme);
+  themeBtn.addEventListener('click', function () { setTheme(theme === 'dark' ? 'light' : 'dark'); store('jd-theme', theme); });
+
   var galleries = [];
+  var relayout = [];
 
   function setLang(next) {
     lang = next;
@@ -1149,6 +1225,8 @@ ul { margin: 0; padding: 0; }
       b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
     });
     galleries.forEach(function (g) { g.render(); });
+    relayout.forEach(function (f) { f(); });
+    themeLabel();
     document.querySelectorAll('[data-car]').forEach(function (b) {
       var next = b.getAttribute('data-car') === '1';
       b.setAttribute('aria-label', lang === 'es' ? (next ? 'Proyecto siguiente' : 'Proyecto anterior') : (next ? 'Next project' : 'Previous project'));
@@ -1287,8 +1365,79 @@ ul { margin: 0; padding: 0; }
     var tabs = Array.prototype.slice.call(car.querySelectorAll('[role="tab"]'));
     var count = car.querySelector('.car-count b');
     var idx = 0, ticking = false;
-    function fit() { track.style.height = slides[idx].offsetHeight + 'px'; }
+    var section = car.closest('.sub'), head = section.querySelector('.sub-head'), bar = car.querySelector('.car-bar');
+    var mores = slides.map(function (sl) { return { box: sl.querySelector('.proj-more'), btn: sl.querySelector('.more-btn') }; });
+    var fixed = 0, open = -1, MIN_TEXT = 140;
+    function num(el, prop) { return parseFloat(getComputedStyle(el)[prop]) || 0; }
+    function fit() {
+      var h = slides[idx].offsetHeight;
+      track.style.height = (open === idx ? h : Math.max(fixed, h)) + 'px';
+    }
+    function expand(k, on) {
+      var m = mores[k];
+      m.box.style.maxHeight = '';
+      m.box.classList.remove('clamped');
+      m.btn.setAttribute('aria-expanded', String(on));
+      if (!on) m.btn.hidden = true;
+    }
+    function clamp(k) {
+      var m = mores[k];
+      expand(k, false);
+      if (slides[k].offsetHeight <= fixed + 1) return;
+      m.btn.hidden = false;
+      m.box.style.maxHeight = Math.max(MIN_TEXT, m.box.offsetHeight - (slides[k].offsetHeight - fixed)) + 'px';
+      m.box.classList.add('clamped');
+    }
+    function layout() {
+      open = -1;
+      car.style.removeProperty('--g-max');
+      slides.forEach(function (sl, k) { expand(k, false); });
+      // Espacio visible para un proyecto: la pantalla menos el menú fijo, el título de la sección y la barra
+      var top = Math.max(num(root, 'scrollPaddingTop'), document.querySelector('.top').offsetHeight) + 24;
+      var avail = window.innerHeight - top - head.offsetHeight - num(head, 'marginBottom') - num(car, 'rowGap') - bar.offsetHeight - 24;
+      var body = slides[0].querySelector('.proj-body');
+      var stacked = getComputedStyle(body).gridTemplateColumns.split(' ').length < 2;
+      var headH = 0, galH = 0, scal = 0, galW = 0;
+      slides.forEach(function (sl) {
+        var g = sl.querySelector('.gallery');
+        headH = Math.max(headH, sl.querySelector('.proj-head').offsetHeight);
+        if (g.offsetHeight > galH) {
+          galH = g.offsetHeight; galW = g.offsetWidth;
+          scal = g.firstElementChild.offsetHeight + (g.querySelector('.g-thumbs') || { offsetHeight: 0 }).offsetHeight;
+        }
+      });
+      // En escritorio, si la galería no cabe junto a la cabecera, se achica en proporción (sin bajar del 55 %).
+      // En móvil no cabe todo en una pantalla: la galería conserva su tamaño.
+      var room = avail - headH - num(slides[0], 'rowGap');
+      if (!stacked && galH > room && scal > 0) {
+        var f = Math.max(0.55, (room - (galH - scal)) / scal);
+        car.style.setProperty('--g-max', Math.floor(galW * f) + 'px');
+      }
+      var tallest = Math.max.apply(null, slides.map(function (sl) { return sl.offsetHeight; }));
+      // Altura mínima para que todos midan lo mismo dejando al menos unas líneas de texto
+      var least = Math.max.apply(null, slides.map(function (sl, k) {
+        var m = mores[k], h;
+        m.btn.hidden = false; m.box.style.maxHeight = MIN_TEXT + 'px';
+        h = sl.offsetHeight;
+        m.btn.hidden = true; m.box.style.maxHeight = '';
+        return h;
+      }));
+      fixed = Math.min(tallest, Math.max(avail, least));
+      slides.forEach(function (sl, k) { clamp(k); });
+      fit();
+    }
+    mores.forEach(function (m, k) {
+      m.btn.addEventListener('click', function () {
+        if (open === k) {
+          open = -1; clamp(k); fit();
+          if (car.getBoundingClientRect().top < 0) section.scrollIntoView({ block: 'start' });
+        } else {
+          open = k; expand(k, true); m.btn.hidden = false; fit();
+        }
+      });
+    });
     function mark(i) {
+      if (open !== -1 && open !== i) { var was = open; open = -1; clamp(was); }
       idx = i;
       count.textContent = String(i + 1).padStart(2, '0');
       tabs.forEach(function (t, k) {
@@ -1340,7 +1489,20 @@ ul { margin: 0; padding: 0; }
       var ro = new ResizeObserver(fit);
       slides.forEach(function (sl) { ro.observe(sl); });
     }
-    window.addEventListener('resize', fit);
+    // En móvil la barra del navegador cambia la altura al hacer scroll: solo se vuelve a medir si cambia el ancho o mucho el alto
+    var lastW = window.innerWidth, lastH = window.innerHeight, rz = 0;
+    window.addEventListener('resize', function () {
+      cancelAnimationFrame(rz);
+      rz = requestAnimationFrame(function () {
+        if (window.innerWidth === lastW && Math.abs(window.innerHeight - lastH) < 120) { fit(); return; }
+        lastW = window.innerWidth; lastH = window.innerHeight;
+        layout();
+      });
+    });
+    relayout.push(layout);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+    window.addEventListener('load', layout);
+    layout();
     mark(0);
   });
 

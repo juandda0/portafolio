@@ -48,8 +48,16 @@ const jsonLd = {
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
     <meta name="author" content={profile.name} />
-    <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <!-- Oscuro por defecto; si el visitante eligió el claro, se aplica antes de pintar para evitar el destello. -->
+    <script is:inline>
+      try {
+        if (localStorage.getItem('jd-theme') === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafaf9');
+        }
+      } catch (e) {}
+    </script>
     <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {canonical && <link rel="canonical" href={canonical} />}
