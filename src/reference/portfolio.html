@@ -1,0 +1,1367 @@
+<title>Juan Diego Díaz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&display=swap">
+<style>
+/* Layout: una columna de lectura (máx. 1120px) con secciones encabezadas por su ruta en mono;
+   el sitio es neutro (Geist, pesos medios) y cada proyecto aporta su propio color de marca. */
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --raised: #f3f3f2;
+  --line: #e6e6e4;
+  --line-strong: #d6d6d3;
+  --fg: #0c0c0d;
+  --muted: #6b6b70;
+  --faint: #8e8e94;
+  --accent: #2563eb;
+  --ok: #16a34a;
+  --biomech: #dc2626;
+  --sigcorp: #15803d;
+  --sgo: #2563eb;
+  --ceti: #ea580c;
+  --sonrisa: #4338ca;
+  --dino: #7c3aed;
+  --f-display: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --s-h1: clamp(2.4rem, 4.2vw + 1rem, 4.4rem);
+  --s-h2: clamp(1.6rem, 1.6vw + 1.1rem, 2.25rem);
+  --s-h3: clamp(1.35rem, 0.8vw + 1.05rem, 1.65rem);
+  --s-body: 1rem;
+  --s-small: 0.9375rem;
+  --s-label: 0.75rem;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0b0c; --surface: #131315; --raised: #1a1a1d; --line: #232326; --line-strong: #2f2f33;
+    --fg: #ededee; --muted: #9a9aa0; --faint: #6a6a70; --accent: #6ea0ff; --ok: #4ade80;
+    --biomech: #f0464d; --sigcorp: #4db37a; --sgo: #5a86ff; --ceti: #ff8f2b; --sonrisa: #8b85ff; --dino: #a78bfa;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0b0c; --surface: #131315; --raised: #1a1a1d; --line: #232326; --line-strong: #2f2f33;
+  --fg: #ededee; --muted: #9a9aa0; --faint: #6a6a70; --accent: #6ea0ff; --ok: #4ade80;
+  --biomech: #f0464d; --sigcorp: #4db37a; --sgo: #5a86ff; --ceti: #ff8f2b; --sonrisa: #8b85ff; --dino: #a78bfa;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 var(--s-body)/1.6 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 30; background: var(--bg);
+}
+img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
+a { color: inherit; }
+h1, h2, h3, h4 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.03em; font-weight: 600; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+::selection { background: var(--accent); color: var(--bg); }
+
+/* Idioma: sin atributo se muestra español */
+:root:not([data-lang="en"]) [lang="en"] { display: none !important; }
+:root[data-lang="en"] [lang="es"] { display: none !important; }
+
+.mono { font-family: var(--f-mono); }
+.wrap {
+  max-width: 1120px; margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Cabecera ---------- */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.top-row { display: flex; align-items: center; gap: 24px; min-height: 60px; }
+.brand {
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+  font: 500 0.95rem/1 var(--f-display); letter-spacing: -0.01em; white-space: nowrap;
+}
+.brand-mark {
+  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px;
+  background: var(--fg); color: var(--bg); font: 600 0.78rem/1 var(--f-display); letter-spacing: -0.02em;
+}
+.nav { display: flex; gap: 2px; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  text-decoration: none; color: var(--muted); font-size: 0.875rem; padding: 6px 10px; border-radius: 6px;
+  white-space: nowrap; transition: color .15s, background .15s;
+}
+.nav a:hover { color: var(--fg); background: var(--surface); }
+.lang {
+  display: inline-flex; border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px; flex-shrink: 0;
+}
+.lang button {
+  font: 500 0.75rem/1 var(--f-mono); letter-spacing: 0.04em; color: var(--muted); background: none;
+  border: 0; padding: 7px 10px; border-radius: 999px; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+
+@media (max-width: 880px) {
+  .top-row { flex-wrap: wrap; gap: 0 12px; padding-block: 8px 0; }
+  .brand { order: 1; }
+  .lang { order: 2; margin-left: auto; }
+  .nav { order: 3; width: 100%; margin: 6px 0 0; padding-bottom: 6px; margin-inline: -10px; width: calc(100% + 20px); }
+}
+
+/* ---------- Hero ---------- */
+.hero { position: relative; padding-block: clamp(48px, 8vw, 104px) clamp(56px, 7vw, 96px); overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(color-mix(in srgb, var(--fg) 13%, transparent) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 78% 30%, #000 10%, transparent 72%);
+  mask-image: radial-gradient(ellipse 70% 80% at 78% 30%, #000 10%, transparent 72%);
+}
+.hero-grid {
+  position: relative; display: grid; gap: clamp(36px, 5vw, 64px);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center;
+}
+@media (max-width: 960px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
+.status {
+  display: inline-flex; align-items: center; gap: 10px; font: 500 var(--s-label)/1.4 var(--f-mono);
+  letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--line-strong); border-radius: 999px; padding: 7px 14px 7px 12px; background: var(--surface);
+}
+@media (max-width: 420px) { .status { font-size: 0.6875rem; letter-spacing: 0.02em; padding-inline: 10px 12px; } }
+.nowrap { white-space: nowrap; }
+.pulse { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); flex-shrink: 0; }
+.pulse::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid var(--ok);
+  animation: ping 2.4s ease-out infinite; opacity: 0;
+}
+@keyframes ping { 0% { transform: scale(.5); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
+.hero h1 {
+  font-size: var(--s-h1); font-weight: 500; line-height: 1.02; letter-spacing: -0.04em;
+  margin-top: 26px;
+}
+.hero h1 .last { color: var(--muted); font-weight: 500; }
+.hero-role {
+  margin-top: 22px; font: 500 clamp(1.1rem, 0.5vw + 1rem, 1.3rem)/1.4 var(--f-display); letter-spacing: -0.015em;
+}
+.hero-role .sep { color: var(--faint); font-weight: 400; margin-inline: 4px; }
+.hero-lede { margin-top: 14px; max-width: 54ch; color: var(--muted); }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer;
+  font: 500 0.9rem/1 var(--f-body); height: 40px; padding: 0 16px; border-radius: 999px;
+  border: 1px solid var(--line-strong); color: var(--fg); background: var(--surface);
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.btn:hover { border-color: var(--faint); background: var(--raised); }
+.btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.btn.primary:hover { opacity: .88; background: var(--fg); }
+.btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+.term {
+  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); min-width: 0;
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .45);
+}
+.term-bar {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line);
+  font: 500 0.8125rem/1 var(--f-mono);
+}
+.term-bar .verb { color: var(--accent); }
+.term-bar .code {
+  margin-left: auto; color: var(--ok); font-size: 0.75rem; border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent);
+  padding: 4px 8px; border-radius: 5px;
+}
+.term pre {
+  margin: 0; padding: 18px 20px 22px; overflow-x: auto;
+  font: 400 0.8125rem/1.75 var(--f-mono); color: var(--fg); tab-size: 2;
+}
+.term .k { color: var(--accent); }
+.term .s { color: var(--fg); }
+.term .b { color: var(--ok); }
+.term .p { color: var(--faint); }
+
+/* ---------- Secciones ---------- */
+.section { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid var(--line); }
+.sec-head { display: grid; gap: 14px; margin-bottom: clamp(36px, 4.5vw, 56px); max-width: 760px; }
+.path { font: 500 var(--s-label)/1 var(--f-mono); letter-spacing: 0.06em; color: var(--accent); }
+.sec-head h2 { font-size: var(--s-h2); font-weight: 600; line-height: 1.15; }
+.sec-head p { color: var(--muted); max-width: 62ch; }
+
+/* Sobre mí */
+.about { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); }
+@media (max-width: 880px) { .about { grid-template-columns: minmax(0, 1fr); } }
+.about-text { display: grid; gap: 18px; align-content: start; max-width: 64ch; font-size: 1.0625rem; }
+.about-text p:first-child { color: var(--fg); }
+.about-text p + p { color: var(--muted); }
+.facts { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--line); }
+.facts div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.facts dt { font: 500 var(--s-label)/1.6 var(--f-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--faint); padding-top: 2px; }
+.facts dd { margin: 0; font-size: var(--s-small); }
+.facts dd small { display: block; color: var(--muted); font-size: 0.875rem; }
+@media (max-width: 420px) { .facts div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+
+/* Proyectos y experiencia */
+.stack { display: grid; gap: clamp(72px, 9vw, 120px); }
+.proj { --pc: var(--accent); display: grid; gap: 28px; }
+.proj-head { display: grid; gap: 10px; }
+.eyebrow {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
+  font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted);
+}
+.eyebrow .tag { color: var(--pc); display: inline-flex; align-items: center; gap: 8px; }
+.eyebrow .tag::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--pc); }
+.eyebrow .dim { color: var(--faint); }
+.proj h3 { font-size: var(--s-h3); font-weight: 600; line-height: 1.2; }
+.proj h3 .client { color: var(--muted); font-weight: 400; }
+.proj-role { color: var(--muted); font-size: var(--s-small); }
+.proj-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 52px); align-items: start; }
+@media (max-width: 960px) { .proj-body { grid-template-columns: minmax(0, 1fr); } }
+.proj-text { display: grid; gap: 22px; min-width: 0; }
+.lede { font-size: 1.0625rem; line-height: 1.6; }
+.bullets { list-style: none; display: grid; gap: 12px; }
+.bullets li { position: relative; padding-left: 20px; color: var(--muted); font-size: var(--s-small); }
+.bullets li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 9px; height: 1px; background: var(--pc); }
+.bullets strong { color: var(--fg); font-weight: 500; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 0; }
+.figures div { background: var(--bg); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.figures dt { order: 2; font-size: 0.8125rem; color: var(--muted); line-height: 1.35; }
+.figures dd { order: 1; margin: 0; font: 600 1.6rem/1.1 var(--f-display); color: var(--pc); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li {
+  font: 400 0.75rem/1 var(--f-mono); color: var(--muted); padding: 5px 10px;
+  border: 1px solid var(--line-strong); border-radius: 999px;
+}
+.more { font-size: var(--s-small); }
+.more a { color: var(--fg); text-decoration-color: var(--pc); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.more a:hover { color: var(--pc); }
+
+/* Galería */
+.gallery { display: grid; gap: 10px; min-width: 0; }
+.g-main {
+  position: relative; display: block; width: 100%; padding: 0; border: 1px solid var(--line-strong); border-radius: 12px;
+  overflow: hidden; background: var(--surface); cursor: zoom-in; aspect-ratio: 16 / 9; max-width: 100%;
+}
+.g-main img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+.g-main:hover img { transform: scale(1.015); }
+.g-zoom {
+  position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 34px; height: 34px;
+  border-radius: 8px; background: color-mix(in srgb, var(--bg) 78%, transparent); color: var(--fg);
+  border: 1px solid var(--line-strong);
+}
+.g-zoom svg { width: 16px; height: 16px; }
+.g-cap { display: flex; justify-content: space-between; gap: 12px; font: 400 0.75rem/1.4 var(--f-mono); color: var(--faint); }
+.g-cap .n { font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.g-thumbs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.g-thumbs button {
+  padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; cursor: pointer;
+  background: var(--surface); aspect-ratio: 16 / 9; opacity: .55; transition: opacity .15s, border-color .15s;
+}
+.g-thumbs button:hover { opacity: .9; }
+.g-thumbs button[aria-current="true"] { opacity: 1; border-color: var(--pc); box-shadow: 0 0 0 1px var(--pc); }
+.g-thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Sonrisa: tarjeta de módulos en lugar de capturas */
+.modules {
+  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); overflow: hidden;
+}
+.modules-bar {
+  display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line);
+  font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted);
+}
+.modules-bar .tag { color: var(--pc); }
+.modules ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.modules li { padding: 18px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.modules li:nth-child(odd) { border-right: 1px solid var(--line); }
+.modules li:nth-last-child(-n+2) { border-bottom: 0; }
+.modules b { font: 600 1rem/1.3 var(--f-display); letter-spacing: -0.01em; }
+.modules span { font-size: 0.8125rem; color: var(--muted); line-height: 1.45; }
+.modules-foot { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 18px; border-top: 1px solid var(--line); background: var(--bg); }
+.modules-foot .lbl { font: 500 var(--s-label)/1.9 var(--f-mono); color: var(--faint); margin-right: 6px; text-transform: uppercase; letter-spacing: .05em; }
+.modules-foot code { font: 400 0.75rem/1 var(--f-mono); color: var(--pc); padding: 6px 8px; border: 1px solid color-mix(in srgb, var(--pc) 35%, transparent); border-radius: 4px; }
+@media (max-width: 520px) {
+  .modules ol { grid-template-columns: minmax(0, 1fr); }
+  .modules li:nth-child(odd) { border-right: 0; }
+  .modules li:nth-last-child(2) { border-bottom: 1px solid var(--line); }
+}
+
+/* Premios */
+.awards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 960px) { .awards { grid-template-columns: minmax(0, 1fr); } }
+.award {
+  display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; padding: 24px;
+  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface);
+}
+.award .when { display: flex; justify-content: space-between; gap: 12px; font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--faint); }
+.award .place { font: 500 clamp(1.8rem, 1.4vw + 1.2rem, 2.2rem)/1 var(--f-display); letter-spacing: -0.04em; }
+.award h3 { font-size: 1.15rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; margin-top: 4px; }
+.award h3 small { display: block; font: 400 0.875rem/1.4 var(--f-body); color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+.award p { color: var(--muted); font-size: var(--s-small); }
+.award .src { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--line); }
+.src a {
+  display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--fg); text-decoration: none;
+}
+.src a:hover { color: var(--accent); }
+.src a svg { width: 14px; height: 14px; color: var(--faint); flex-shrink: 0; }
+.src a span { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
+
+/* Ponencias */
+.talks { list-style: none; border-top: 1px solid var(--line); }
+.talk { display: grid; grid-template-columns: 7.5em minmax(0, 1fr) auto; gap: 8px 28px; padding: 26px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.talk .date { font: 500 0.8125rem/1.5 var(--f-mono); color: var(--faint); font-variant-numeric: tabular-nums; }
+.talk h3 { font-size: 1.2rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; }
+.talk p { margin-top: 6px; color: var(--muted); font-size: var(--s-small); }
+.talk .role {
+  justify-self: end; font: 500 var(--s-label)/1 var(--f-mono); letter-spacing: .03em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); white-space: nowrap;
+}
+.talk .role.lead { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+.talk .src { margin-top: 10px; }
+@media (max-width: 720px) {
+  .talk { grid-template-columns: minmax(0, 1fr) auto; }
+  .talk .date { grid-column: 1; }
+  .talk .role { grid-column: 2; grid-row: 1; }
+  .talk > div { grid-column: 1 / -1; }
+}
+
+/* Habilidades */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.skill { background: var(--bg); padding: 22px 24px; display: grid; gap: 14px; align-content: start; }
+.skill h3 { font: 500 var(--s-label)/1.4 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--accent); }
+.skill .chips li { color: var(--fg); }
+
+/* Contacto */
+.contact { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: end; }
+@media (max-width: 880px) { .contact { grid-template-columns: minmax(0, 1fr); } }
+.contact h2 { font-size: clamp(2.1rem, 3.2vw + 1rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.04em; }
+.contact .sub { margin-top: 18px; color: var(--muted); max-width: 48ch; }
+.links { display: grid; border-top: 1px solid var(--line); }
+.link-row { display: grid; grid-template-columns: 7.5em minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.link-row .k { font: 500 var(--s-label)/1 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--faint); }
+.link-row .v { font-size: 1.0625rem; overflow-wrap: anywhere; }
+.link-row a.v { text-decoration: none; }
+.link-row a.v:hover { color: var(--accent); }
+.link-row .act {
+  font: 500 0.75rem/1 var(--f-mono); color: var(--muted); background: none; border: 1px solid var(--line-strong);
+  border-radius: 999px; padding: 8px 12px; cursor: pointer; text-decoration: none; white-space: nowrap;
+}
+.link-row .act:hover { color: var(--fg); border-color: var(--faint); }
+@media (max-width: 480px) {
+  .link-row { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+  .link-row .k { grid-column: 1 / -1; }
+}
+
+.foot { border-top: 1px solid var(--line); padding-block: 28px 40px; }
+.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font: 400 0.8125rem/1.5 var(--f-mono); color: var(--faint); }
+
+/* Rol del hero */
+.hero-role .stackline { color: var(--muted); font-weight: 500; }
+
+/* Experiencia: un cargo, tres responsabilidades */
+.job { display: grid; gap: 36px; }
+.resp-label {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  font: 500 1.2rem/1.3 var(--f-display); letter-spacing: -0.02em;
+}
+.resp-label .dim { color: var(--muted); font-weight: 500; }
+.resp-label .n {
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0;
+  font: 500 0.75rem/1 var(--f-mono); color: var(--bg); background: var(--pc);
+}
+.resp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .resp-grid { grid-template-columns: minmax(0, 1fr); } }
+.resp { display: grid; gap: 14px; align-content: start; padding: 24px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); }
+.resp p { color: var(--muted); font-size: var(--s-small); }
+.resp p strong { color: var(--fg); font-weight: 500; }
+.also { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-size: var(--s-small); color: var(--muted); }
+.also .lbl { font: 500 var(--s-label)/1.6 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--faint); }
+.proj-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.proj-links .btn { padding: 11px 15px; font-size: 0.875rem; }
+.proj-links .btn:first-child { border-color: color-mix(in srgb, var(--pc) 55%, transparent); }
+.proj-links .btn svg { width: 14px; height: 14px; }
+.skill.secondary h3 { color: var(--faint); }
+.skill.secondary .chips li { color: var(--muted); }
+
+/* Carrusel de proyectos */
+.carousel { display: grid; gap: 28px; }
+.car-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.car-tabs { display: flex; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.car-tabs::-webkit-scrollbar { display: none; }
+.car-tabs button {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; cursor: pointer;
+  font: 500 0.95rem/1 var(--f-display); color: var(--muted); background: none; border: 1px solid transparent;
+  padding: 10px 14px; border-radius: 999px; transition: color .15s, background .15s, border-color .15s;
+}
+.car-tabs button::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--pc); opacity: .45; }
+.car-tabs button:hover { color: var(--fg); }
+.car-tabs button[aria-selected="true"] { color: var(--fg); background: var(--surface); border-color: var(--line-strong); }
+.car-tabs button[aria-selected="true"]::before { opacity: 1; }
+.car-nav { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.car-count { font-size: 0.875rem; color: var(--faint); margin-right: 6px; font-variant-numeric: tabular-nums; }
+.car-count b { color: var(--fg); font-weight: 500; }
+.car-track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 40px; align-items: start;
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  scrollbar-width: none; transition: height .35s cubic-bezier(.2, .7, .2, 1);
+}
+.car-track::-webkit-scrollbar { display: none; }
+.slide { scroll-snap-align: start; scroll-snap-stop: always; min-width: 0; }
+@media (max-width: 560px) {
+  .car-tabs { width: 100%; }
+  .car-nav { width: 100%; justify-content: space-between; }
+  .car-count { margin-right: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .car-track { transition: none; scroll-behavior: auto; } }
+
+/* Cifras del hero */
+.stats { display: flex; flex-wrap: wrap; gap: 14px 36px; margin: 34px 0 0; }
+.stats div { display: grid; gap: 2px; }
+.stats dt { order: 2; font-size: 0.8125rem; color: var(--muted); }
+.stats dd { order: 1; margin: 0; font: 500 1.75rem/1.1 var(--f-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.foot a { text-decoration: none; }
+.foot a:hover { color: var(--fg); }
+
+/* Video dentro de la galería */
+.g-video { position: relative; aspect-ratio: 16 / 9; max-width: 100%; border: 1px solid var(--line-strong); border-radius: 12px; overflow: hidden; background: #000; }
+.g-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.g-video.portrait video { object-fit: contain; }
+.g-sound {
+  position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
+  border-radius: 999px; border: 1px solid rgba(255, 255, 255, .2); background: rgba(10, 10, 12, .72); color: #ededee;
+  font: 500 0.8125rem/1 var(--f-body); cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.g-sound svg { width: 14px; height: 14px; }
+.g-thumbs button { position: relative; }
+.g-thumbs button[data-video]::after {
+  content: ""; position: absolute; inset: 0; margin: auto; width: 0; height: 0;
+  border-left: 11px solid #fff; border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .7)); transform: translateX(2px);
+}
+
+/* Visor de imágenes */
+.lb { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; margin: 0; color: #ededee; }
+.lb .icon-btn { background: #131315; color: #ededee; border-color: #2f2f33; }
+.lb .icon-btn:hover { background: #1a1a1d; }
+.lb::backdrop { background: rgba(5, 7, 10, .9); backdrop-filter: blur(6px); }
+.lb-inner {
+  height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 14px;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.lb-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font: 400 0.8125rem/1.4 var(--f-mono); color: #9a9aa0; }
+.lb-stage { display: grid; place-items: center; min-height: 0; }
+.lb-stage img { max-height: 100%; max-width: min(100%, 1600px); object-fit: contain; border-radius: 10px; border: 1px solid #2f2f33; }
+.lb-nav { display: flex; justify-content: center; gap: 10px; }
+.icon-btn {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 9px; cursor: pointer;
+  background: var(--surface); color: var(--fg); border: 1px solid var(--line-strong);
+}
+.icon-btn:hover { background: var(--raised); }
+.icon-btn svg { width: 18px; height: 18px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
+  .rise.d1 { animation-delay: .06s; } .rise.d2 { animation-delay: .12s; } .rise.d3 { animation-delay: .18s; } .rise.d4 { animation-delay: .26s; }
+  @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pulse::after { animation: none; }
+  .g-main img { transition: none; }
+}
+</style>
+<!-- end:head -->
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-zoom" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></g></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+  <symbol id="i-in" viewBox="0 0 24 24"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap top-row">
+    <a class="brand" href="#inicio"><span class="brand-mark">JD</span>Juan Diego Díaz</a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#sobre-mi"><span lang="es">Sobre mí</span><span lang="en">About</span></a>
+      <a href="#experiencia"><span lang="es">Experiencia</span><span lang="en">Experience</span></a>
+      <a href="#proyectos"><span lang="es">Proyectos</span><span lang="en">Projects</span></a>
+      <a href="#premios"><span lang="es">Premios</span><span lang="en">Awards</span></a>
+      <a href="#ponencias"><span lang="es">Ponencias</span><span lang="en">Talks</span></a>
+      <a href="#habilidades"><span lang="es">Habilidades</span><span lang="en">Skills</span></a>
+      <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" id="lang-es" data-set-lang="es" aria-pressed="true">ES</button>
+      <button type="button" id="lang-en" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="status rise"><span class="pulse" aria-hidden="true"></span>
+          <span lang="es">Disponible · remoto · tiempo completo</span><span lang="en">Available · remote · full-time</span>
+        </span>
+        <h1 class="rise d1">Juan Diego <br><span class="last">Díaz Avendaño</span></h1>
+        <p class="hero-role rise d2">
+          <span lang="es">Desarrollador Backend</span><span lang="en">Backend Developer</span><span class="sep">·</span><span class="stackline">Java, Spring Boot, Node.js, PostgreSQL</span>
+        </p>
+        <p class="hero-lede rise d2" lang="es">Diseño y construyo APIs REST y microservicios con Java y Spring Boot: seguridad, modelo de datos, pruebas y despliegue. Cuando el proyecto lo pide, también entrego el frontend o la app móvil.</p>
+        <p class="hero-lede rise d2" lang="en">I design and build REST APIs and microservices with Java and Spring Boot: security, data model, testing and deployment. When a project needs it, I also ship the frontend or the mobile app.</p>
+        <div class="cta rise d3">
+          <a class="btn primary" href="#proyectos"><span lang="es">Ver proyectos</span><span lang="en">See projects</span><svg aria-hidden="true"><use href="#i-down"/></svg></a>
+          <a class="btn" href="https://github.com/juandda0" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-gh"/></svg>GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/juandiegodiaz-dev" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-in"/></svg>LinkedIn</a>
+          <a class="btn" lang="es" href="https://juandiegodiaz-dev.web.app/cv/Juan-Diaz-CV-ES.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-dl"/></svg>Descargar CV</a>
+          <a class="btn" lang="en" href="https://juandiegodiaz-dev.web.app/cv/Juan-Diaz-CV-EN.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-dl"/></svg>Download CV</a>
+        </div>
+        <dl class="stats rise d4">
+          <div><dt><span lang="es">años de experiencia</span><span lang="en">years of experience</span></dt><dd>3</dd></div>
+          <div><dt><span lang="es">proyectos publicados</span><span lang="en">shipped projects</span></dt><dd>6</dd></div>
+          <div><dt><span lang="es">premios en 2025</span><span lang="en">awards in 2025</span></dt><dd>3</dd></div>
+        </dl>
+      </div>
+
+      <div class="term rise d4" aria-label="Resumen en formato JSON">
+        <div class="term-bar"><span class="verb">GET</span><span>/me</span><span class="code">200 OK</span></div>
+<pre lang="es"><code><span class="p">{</span>
+  <span class="k">"name"</span><span class="p">:</span> <span class="s">"Juan Diego Díaz Avendaño"</span><span class="p">,</span>
+  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Desarrollador Backend"</span><span class="p">,</span>
+  <span class="k">"secondary"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Frontend"</span><span class="p">,</span> <span class="s">"Mobile"</span><span class="p">],</span>
+  <span class="k">"stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Java"</span><span class="p">,</span> <span class="s">"Spring Boot"</span><span class="p">,</span> <span class="s">"Node.js"</span><span class="p">,</span>
+            <span class="s">"PostgreSQL"</span><span class="p">,</span> <span class="s">"Docker"</span><span class="p">],</span>
+  <span class="k">"experience"</span><span class="p">:</span> <span class="s">"3 años"</span><span class="p">,</span>
+  <span class="k">"location"</span><span class="p">:</span> <span class="s">"Montería, Colombia"</span><span class="p">,</span>
+  <span class="k">"remote"</span><span class="p">:</span> <span class="b">true</span><span class="p">,</span>
+  <span class="k">"available"</span><span class="p">:</span> <span class="s">"inmediata"</span><span class="p">,</span>
+  <span class="k">"english"</span><span class="p">:</span> <span class="s">"C1"</span>
+<span class="p">}</span></code></pre>
+<pre lang="en"><code><span class="p">{</span>
+  <span class="k">"name"</span><span class="p">:</span> <span class="s">"Juan Diego Díaz Avendaño"</span><span class="p">,</span>
+  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Backend Developer"</span><span class="p">,</span>
+  <span class="k">"secondary"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Frontend"</span><span class="p">,</span> <span class="s">"Mobile"</span><span class="p">],</span>
+  <span class="k">"stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Java"</span><span class="p">,</span> <span class="s">"Spring Boot"</span><span class="p">,</span> <span class="s">"Node.js"</span><span class="p">,</span>
+            <span class="s">"PostgreSQL"</span><span class="p">,</span> <span class="s">"Docker"</span><span class="p">],</span>
+  <span class="k">"experience"</span><span class="p">:</span> <span class="s">"3 years"</span><span class="p">,</span>
+  <span class="k">"location"</span><span class="p">:</span> <span class="s">"Montería, Colombia"</span><span class="p">,</span>
+  <span class="k">"remote"</span><span class="p">:</span> <span class="b">true</span><span class="p">,</span>
+  <span class="k">"available"</span><span class="p">:</span> <span class="s">"immediately"</span><span class="p">,</span>
+  <span class="k">"english"</span><span class="p">:</span> <span class="s">"C1"</span>
+<span class="p">}</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SOBRE MÍ ======================= -->
+  <section class="section" id="sobre-mi">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/sobre-mi</span><span lang="en">/about</span></span>
+        <h2><span lang="es">Sobre mí</span><span lang="en">About me</span></h2>
+      </div>
+      <div class="about">
+        <div class="about-text">
+          <p lang="es">Soy desarrollador backend con 3 años de experiencia. He entregado backends en producción para una universidad, una empresa de demoliciones y un consultorio odontológico con Java, Spring Boot, PostgreSQL, Docker y Node.js, además de backends serverless en Firebase Cloud Functions. Me hago cargo de una funcionalidad desde los requisitos hasta el despliegue.</p>
+          <p lang="en">I'm a backend developer with 3 years of experience. I've delivered production backends for a university, a demolition company and a dental practice with Java, Spring Boot, PostgreSQL, Docker and Node.js, plus serverless backends on Firebase Cloud Functions. I own a feature from requirements to deployment.</p>
+          <p lang="es">En proyectos pequeños también he construido el frontend en React o la app en React Native, como la app de fitness Biomech, publicada en App Store. Eso me ayuda a diseñar APIs pensando en quien las consume. Estudio Ingeniería de Sistemas en la Universidad de Córdoba.</p>
+          <p lang="en">On smaller projects I've also built the React frontend or the React Native app, like the Biomech fitness app, published on the App Store. That helps me design APIs with their consumers in mind. I study Systems Engineering at Universidad de Córdoba.</p>
+        </div>
+        <dl class="facts">
+          <div><dt><span lang="es">Educación</span><span lang="en">Education</span></dt>
+            <dd><span lang="es">Ingeniería de Sistemas, Universidad de Córdoba</span><span lang="en">B.S. in Systems Engineering, Universidad de Córdoba</span>
+              <small lang="es">En curso (7.º semestre) · graduación estimada 2027</small><small lang="en">In progress (7th semester) · expected 2027</small></dd></div>
+          <div><dt><span lang="es">Idiomas</span><span lang="en">Languages</span></dt>
+            <dd><span lang="es">Español nativo · Inglés C1</span><span lang="en">Spanish (native) · English C1</span></dd></div>
+          <div><dt><span lang="es">Ubicación</span><span lang="en">Location</span></dt>
+            <dd>Montería, Córdoba, Colombia <small>UTC−5</small></dd></div>
+          <div><dt><span lang="es">Modalidad</span><span lang="en">Work mode</span></dt>
+            <dd><span lang="es">100 % remoto · tiempo completo</span><span lang="en">100% remote · full-time</span>
+              <small lang="es">Disponibilidad inmediata</small><small lang="en">Available immediately</small></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= EXPERIENCIA ======================= -->
+  <section class="section" id="experiencia">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/experiencia</span><span lang="en">/experience</span></span>
+        <h2><span lang="es">Experiencia laboral</span><span lang="en">Work experience</span></h2>
+      </div>
+
+      <div class="job">
+        <header class="proj-head">
+          <div class="eyebrow">
+            <span class="tag" style="--pc: var(--sigcorp)">Universidad de Córdoba</span>
+            <span><span lang="es">ago 2025 – jun 2026</span><span lang="en">Aug 2025 – Jun 2026</span></span>
+            <span class="dim"><span lang="es">Montería · remoto</span><span lang="en">Montería · remote</span></span>
+          </div>
+          <h3><span lang="es">Desarrollador Full-Stack</span><span lang="en">Full-Stack Developer</span> <span class="client"><span lang="es">(enfoque Backend)</span><span lang="en">(Backend focus)</span></span></h3>
+          <p class="proj-role"><span lang="es">Tres responsabilidades distintas dentro del mismo cargo.</span><span lang="en">Three separate responsibilities in the same role.</span></p>
+        </header>
+
+        <article class="proj resp-main" style="--pc: var(--sigcorp)">
+          <div class="resp-label"><span class="n">1</span>SIGCORP <span class="dim"><span lang="es">· plataforma de gestión de solicitudes</span><span lang="en">· request-management platform</span></span></div>
+          <div class="proj-body">
+            <div class="gallery" data-gallery>
+              <button type="button" class="g-main" aria-label="Ampliar imagen">
+                <img src="img/sigcorp-1-portada.webp" alt="SIGCORP: tablero de solicitudes" width="1600" height="900">
+                <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+              </button>
+              <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+              <div class="g-thumbs">
+                <button type="button" data-src="img/sigcorp-1-portada.webp" data-es="SIGCORP: tablero de solicitudes" data-en="SIGCORP: request board"><img src="img/sigcorp-1-portada.webp" alt="" loading="lazy"></button>
+                <button type="button" data-src="img/sigcorp-2-calendario.webp" data-es="Calendario de solicitudes" data-en="Request calendar"><img src="img/sigcorp-2-calendario.webp" alt="" loading="lazy"></button>
+                <button type="button" data-src="img/sigcorp-3-estadisticas.webp" data-es="Estadísticas" data-en="Statistics"><img src="img/sigcorp-3-estadisticas.webp" alt="" loading="lazy"></button>
+                <button type="button" data-src="img/sigcorp-4-dependencias.webp" data-es="Solicitudes por dependencia" data-en="Requests by department"><img src="img/sigcorp-4-dependencias.webp" alt="" loading="lazy"></button>
+                <button type="button" data-src="img/sigcorp-5-detalle.webp" data-es="Detalle de una solicitud" data-en="Request detail"><img src="img/sigcorp-5-detalle.webp" alt="" loading="lazy"></button>
+              </div>
+            </div>
+            <div class="proj-text">
+              <p class="lede" lang="es">Diseñé y construí de punta a punta el backend de <strong>SIGCORP</strong>, la plataforma interna de gestión de solicitudes de la Oficina de Comunicaciones.</p>
+              <p class="lede" lang="en">I designed and built the backend of <strong>SIGCORP</strong> end to end, the internal request-management platform of the university's Communications Office.</p>
+              <ul class="bullets" lang="es">
+                <li>APIs REST para asignación, seguimiento de estados, acceso por roles y métricas de los dashboards.</li>
+                <li>Seguridad y persistencia con Spring Security, JWT, Spring Data JPA, Hibernate, Flyway y PostgreSQL; <strong>bloqueo optimista</strong> para mantener la consistencia cuando varias personas editan la misma solicitud.</li>
+                <li>Contenericé y desplegué con Docker, Docker Compose y Nginx en la infraestructura de la universidad, desde los requisitos hasta el mantenimiento.</li>
+              </ul>
+              <ul class="bullets" lang="en">
+                <li>REST APIs for assignment, status tracking, role-based access and dashboard metrics.</li>
+                <li>Security and persistence with Spring Security, JWT, Spring Data JPA, Hibernate, Flyway and PostgreSQL; <strong>optimistic locking</strong> keeps data consistent when several people edit the same request.</li>
+                <li>Containerized and deployed with Docker, Docker Compose and Nginx on university infrastructure, from requirements to maintenance.</li>
+              </ul>
+              <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la interfaz web en React y TypeScript.</span><span lang="en">built the web interface in React and TypeScript.</span></p>
+              <ul class="chips" aria-label="Stack">
+                <li>Java</li><li>Spring Boot</li><li>Spring Security</li><li>JWT</li><li>JPA / Hibernate</li><li>PostgreSQL</li><li>Flyway</li><li>Docker</li><li>Nginx</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <div class="resp-grid">
+          <article class="resp" style="--pc: var(--sigcorp)">
+            <div class="resp-label"><span class="n">2</span><span lang="es">E-commerce institucional</span><span lang="en">Institutional e-commerce</span></div>
+            <p lang="es">Desarrollé módulos backend para la tienda en línea de la universidad: pasarela de pagos <strong>Wompi</strong> con confirmación asíncrona por webhooks y un <strong>microservicio de notificaciones en Node.js</strong> con comunicación REST entre servicios.</p>
+            <p lang="en">I built backend modules for the university's online store: <strong>Wompi</strong> payment gateway with asynchronous webhook confirmation and a <strong>Node.js notification microservice</strong> using REST service-to-service communication.</p>
+            <ul class="chips" aria-label="Stack"><li>Wompi</li><li>Webhooks</li><li>Node.js</li><li><span lang="es">Microservicios</span><span lang="en">Microservices</span></li><li>REST</li></ul>
+          </article>
+          <article class="resp" style="--pc: var(--sigcorp)">
+            <div class="resp-label"><span class="n">3</span><span lang="es">Migración del sitio web</span><span lang="en">Website migration</span></div>
+            <p lang="es">Participé en la migración de unas <strong>200 páginas</strong> del sitio web institucional de la universidad, trabajando con Git, GitHub, pull requests, revisión de código y Scrum.</p>
+            <p lang="en">I contributed to migrating about <strong>200 pages</strong> of the university's institutional website, working with Git, GitHub, pull requests, code review and Scrum.</p>
+            <ul class="chips" aria-label="Stack"><li>Git</li><li>GitHub</li><li>Pull requests</li><li>Scrum</li></ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PROYECTOS FREELANCE ======================= -->
+  <section class="section" id="proyectos">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/proyectos</span><span lang="en">/projects</span></span>
+        <h2><span lang="es">Proyectos</span><span lang="en">Projects</span></h2>
+        <p lang="es">Productos en producción, para clientes y propios. En cada uno me encargué del backend y, cuando el proyecto lo pedía, también de la app o el frontend.</p>
+        <p lang="en">Production products, for clients and my own. I owned the backend of each one and, when the project needed it, the app or frontend too.</p>
+      </div>
+
+      <div class="carousel" data-carousel>
+        <div class="car-bar">
+          <div class="car-tabs" role="tablist" aria-label="Proyectos">
+            <button type="button" role="tab" id="tab-sonrisa" style="--pc: var(--sonrisa)">Sonrisa</button>
+            <button type="button" role="tab" id="tab-sgo" style="--pc: var(--sgo)">SGO</button>
+            <button type="button" role="tab" id="tab-ceti" style="--pc: var(--ceti)">CETI</button>
+            <button type="button" role="tab" id="tab-biomech" style="--pc: var(--biomech)">Biomech</button>
+            <button type="button" role="tab" id="tab-dino" style="--pc: var(--dino)">Purple Dino</button>
+          </div>
+          <div class="car-nav">
+            <span class="car-count mono" aria-live="polite"><b>01</b> / 05</span>
+            <button type="button" class="icon-btn" data-car="-1" aria-label="Proyecto anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+            <button type="button" class="icon-btn" data-car="1" aria-label="Proyecto siguiente"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+
+        <div class="car-track">
+          <!-- Sonrisa -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-sonrisa" style="--pc: var(--sonrisa)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="tag"><span lang="es">Gestión odontológica</span><span lang="en">Dental practice management</span></span>
+                <span><span lang="es">ago 2026 – oct 2026</span><span lang="en">Aug 2026 – Oct 2026</span></span>
+                <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
+              </div>
+              <h3>Sonrisa</h3>
+              <p class="proj-role"><span lang="es">Desarrollador Backend y Líder Técnico · equipo de 3</span><span lang="en">Backend Developer &amp; Team Lead · team of 3</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/sonrisa-video-poster.webp" alt="Un día en Sonrisa (video)" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-video="media/sonrisa.mp4" data-src="img/sonrisa-video-poster.webp" data-es="Un día en Sonrisa (video)" data-en="A day in Sonrisa (video)"><img src="img/sonrisa-video-poster.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sonrisa-1-portada.webp" data-es="Sonrisa: gestión de consultorios odontológicos" data-en="Sonrisa: dental practice management"><img src="img/sonrisa-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sonrisa-2-inicio.webp" data-es="Inicio del consultorio" data-en="Practice home"><img src="img/sonrisa-2-inicio.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sonrisa-3-agenda.webp" data-es="Agenda semanal" data-en="Weekly schedule"><img src="img/sonrisa-3-agenda.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sonrisa-4-historia.webp" data-es="Historia clínica del paciente" data-en="Patient clinical record"><img src="img/sonrisa-4-historia.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sonrisa-6-finanzas.webp" data-es="Finanzas del consultorio" data-en="Practice finances"><img src="img/sonrisa-6-finanzas.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <p class="lede" lang="es">Diseñé y construí el backend en Java 21 y Spring Boot de un sistema de gestión para consultorios odontológicos: pacientes, citas, historia clínica de 19 pasos con firma electrónica, odontograma, planes de tratamiento, pagos y finanzas.</p>
+                <p class="lede" lang="en">I designed and built the Java 21 / Spring Boot backend of a management system for dental practices: patients, appointments, 19-step clinical records with electronic signature, odontogram, treatment plans, payments and finance.</p>
+                <ul class="bullets" lang="es">
+                  <li>Spring Security con <strong>JWT y refresh tokens</strong>, JPA/Hibernate y migraciones con Flyway sobre PostgreSQL.</li>
+                  <li>Historias firmadas <strong>inmutables</strong> y bitácora de accesos para cumplir la normativa colombiana de datos clínicos.</li>
+                  <li>Lideré un equipo de tres: levanté requisitos con la clienta, definí la arquitectura, revisé pull requests y desplegué con Docker en Railway y Vercel.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li>Spring Security with <strong>JWT and refresh tokens</strong>, JPA/Hibernate and Flyway migrations on PostgreSQL.</li>
+                  <li><strong>Immutable</strong> signed records and an access audit log to comply with Colombian health-data regulations.</li>
+                  <li>Led a team of three: gathered requirements with the client, defined the architecture, reviewed pull requests and deployed with Docker on Railway and Vercel.</li>
+                </ul>
+                <p class="also"><span class="lbl"><span lang="es">Normativa</span><span lang="en">Compliance</span></span>Ley 1581 · RIPS · CIE-10 · CUPS</p>
+                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">integré el frontend en React + TypeScript.</span><span lang="en">integrated the React + TypeScript frontend.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Java 21</li><li>Spring Boot</li><li>Spring Security</li><li>PostgreSQL</li><li>Flyway</li><li>Docker</li><li>Railway</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- SGO -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-sgo" style="--pc: var(--sgo)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="tag"><span lang="es">Gestión operativa</span><span lang="en">Operations management</span></span>
+                <span><span lang="es">may 2026 – jun 2026</span><span lang="en">May 2026 – Jun 2026</span></span>
+                <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
+              </div>
+              <h3>SGO <span class="client">· ESCAMVIOS S.A.S.</span></h3>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack</span><span lang="en">Full-Stack Developer</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/sgo-1-portada.webp" alt="SGO: dashboard con KPIs" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/sgo-1-portada.webp" data-es="SGO: dashboard con KPIs" data-en="SGO: KPI dashboard"><img src="img/sgo-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sgo-2-proyectos.webp" data-es="Proyectos" data-en="Projects"><img src="img/sgo-2-proyectos.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sgo-3-proyecto-detalle.webp" data-es="Detalle de un proyecto" data-en="Project detail"><img src="img/sgo-3-proyecto-detalle.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sgo-4-nuevo-viaje.webp" data-es="Registro de un viaje" data-en="New trip form"><img src="img/sgo-4-nuevo-viaje.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sgo-5-asistencia.webp" data-es="Asistencia de empleados" data-en="Employee attendance"><img src="img/sgo-5-asistencia.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/sgo-6-portal-cliente.webp" data-es="Portal del cliente" data-en="Client portal"><img src="img/sgo-6-portal-cliente.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <p class="lede" lang="es">Reemplacé el flujo de transporte en Excel de una empresa de demoliciones por un sistema para viajes, proyectos, empleados, asistencia y acceso de clientes.</p>
+                <p class="lede" lang="en">I replaced a demolition company's Excel-based transportation workflow with a system for trips, projects, employees, attendance and client access.</p>
+                <dl class="figures">
+                  <div><dt lang="es">registros históricos migrados</dt><dt lang="en">historical records migrated</dt><dd>550+</dd></div>
+                </dl>
+                <ul class="bullets" lang="es">
+                  <li>Diseñé primero el backend en Spring Boot y PostgreSQL y luego lo migré a Firebase para ajustarlo a la escala y el presupuesto del cliente.</li>
+                  <li>Migré y estructuré más de 550 registros históricos de viajes desde Excel.</li>
+                  <li><strong>Firestore Security Rules</strong> con aislamiento por rol y por proyecto, validación de escrituras y pruebas de seguridad con emuladores.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li>First designed the backend in Spring Boot and PostgreSQL, then migrated it to Firebase to fit the client's scale and budget.</li>
+                  <li>Migrated and structured 550+ historical trip records from Excel.</li>
+                  <li><strong>Firestore Security Rules</strong> with role- and project-level isolation, write validation and emulator-based security tests.</li>
+                </ul>
+                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app web en React y TypeScript, con dashboards de KPIs, filtros y búsqueda.</span><span lang="en">built the React and TypeScript web app, with KPI dashboards, filters and search.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Firebase</li><li>Firestore</li><li>Security Rules</li><li>Spring Boot</li><li>PostgreSQL</li><li>React</li><li>TypeScript</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- CETI -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-ceti" style="--pc: var(--ceti)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="tag"><span lang="es">Educación financiera con IA</span><span lang="en">AI financial education</span></span>
+                <span><span lang="es">abr 2025 – sep 2025</span><span lang="en">Apr 2025 – Sep 2025</span></span>
+                <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
+              </div>
+              <h3>CETI</h3>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack Mobile</span><span lang="en">Full-Stack Mobile Developer</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/ceti-1-portada.webp" alt="CETI: aprende finanzas como un juego" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/ceti-1-portada.webp" data-es="CETI: aprende finanzas como un juego" data-en="CETI: learn finance like a game"><img src="img/ceti-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/ceti-2-aprender.webp" data-es="Galaxia, mapa y lección" data-en="Galaxy, map and lesson"><img src="img/ceti-2-aprender.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/ceti-3-finanzas.webp" data-es="Bóveda, metas y gráficas" data-en="Vault, goals and charts"><img src="img/ceti-3-finanzas.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/ceti-4-actividad.webp" data-es="Actividad, perfil y vista del profesor" data-en="Activity, profile and teacher view"><img src="img/ceti-4-actividad.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <p class="lede" lang="es">Plataforma de educación financiera para jóvenes y colegios: lecciones gamificadas, rachas, metas de ahorro, gastos, presupuestos y gráficas.</p>
+                <p class="lede" lang="en">Financial education platform for young people and schools: gamified lessons, streaks, savings goals, expenses, budgets and charts.</p>
+                <ul class="bullets" lang="es">
+                  <li>Flujo de <strong>IA del lado del servidor</strong> en Cloud Functions que convierte texto y voz en acciones estructuradas, con validación, confirmación del usuario, cuotas de uso y respaldo local.</li>
+                  <li>Firebase Auth, Custom Claims y Security Rules que aíslan los datos por colegio, curso y usuario.</li>
+                  <li>Pruebas con Jest, el emulador de Firestore y flujos E2E con Maestro.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li><strong>Server-side AI workflow</strong> on Cloud Functions that turns text and voice requests into structured actions, with validation, user confirmation, usage quotas and local fallbacks.</li>
+                  <li>Firebase Auth, Custom Claims and Security Rules isolating data by school, course and user.</li>
+                  <li>Tests with Jest, the Firestore emulator and Maestro E2E flows.</li>
+                </ul>
+                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app móvil y web en React Native y Expo.</span><span lang="en">built the mobile and web app with React Native and Expo.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Cloud Functions</li><li>Firestore</li><li>Firebase Auth</li><li>LLM APIs</li><li>Jest</li><li>React Native</li><li>Expo</li>
+                </ul>
+                <div class="proj-links">
+                  <a class="btn" href="https://ceti-d3769.web.app" target="_blank" rel="noopener"><span lang="es">Abrir CETI</span><span lang="en">Open CETI</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="btn ghost" href="https://unicordoba.edu.co/blog/estudiantes-de-unicordoba-crean-plataforma-para-ensenar-educacion-financiera-a-los-jovenes/" target="_blank" rel="noopener"><span lang="es">Nota de Unicórdoba</span><span lang="en">Unicórdoba article</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Biomech -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-biomech" style="--pc: var(--biomech)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="tag"><span lang="es">Fitness B2B</span><span lang="en">B2B fitness</span></span>
+                <span><span lang="es">may 2023 – jun 2025</span><span lang="en">May 2023 – Jun 2025</span></span>
+                <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
+              </div>
+              <h3>Biomech</h3>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack Mobile</span><span lang="en">Full-Stack Mobile Developer</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/biomech-1-portada.webp" alt="Biomech: apps de atletas y entrenadores" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/biomech-1-portada.webp" data-es="Biomech: apps de atletas y entrenadores" data-en="Biomech: athlete and trainer apps"><img src="img/biomech-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-video="media/biomech.mp4" data-portrait data-src="img/biomech-video-poster.webp" data-es="Tutorial del atleta (video)" data-en="Athlete walkthrough (video)"><img src="img/biomech-video-poster.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/biomech-2-atleta.webp" data-es="Vista del atleta" data-en="Athlete view"><img src="img/biomech-2-atleta.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/biomech-3-entrenador.webp" data-es="Vista del entrenador" data-en="Trainer view"><img src="img/biomech-3-entrenador.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <p class="lede" lang="es">App de dos lados para entrenadores y atletas: clientes, rutinas, progreso, agenda, reservas y pagos. Publicado en App Store; en Android se distribuye como APK.</p>
+                <p class="lede" lang="en">Two-sided app for trainers and athletes: clients, routines, progress, scheduling, bookings and payments. Published on the App Store; distributed as an APK on Android.</p>
+                <dl class="figures">
+                  <div><dt lang="es">Cloud Functions protegidas</dt><dt lang="en">protected Cloud Functions</dt><dd>30+</dd></div>
+                </dl>
+                <ul class="bullets" lang="es">
+                  <li>Backend serverless en Firebase con validación con <strong>Zod</strong>, App Check y Security Rules de Firestore y Storage.</li>
+                  <li>Modelo <strong>multi-organización</strong> para sedes, entrenadores y clientes.</li>
+                  <li>Pagos con <strong>Wompi</strong> y suscripciones con <strong>RevenueCat</strong> para la facturación en App Store y Android.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li>Serverless Firebase backend with <strong>Zod</strong> validation, App Check and Firestore/Storage Security Rules.</li>
+                  <li><strong>Multi-organization</strong> model for locations, trainers and clients.</li>
+                  <li><strong>Wompi</strong> payments and <strong>RevenueCat</strong> subscriptions for App Store and Android billing.</li>
+                </ul>
+                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app móvil en React Native, Expo y TypeScript.</span><span lang="en">built the mobile app with React Native, Expo and TypeScript.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Cloud Functions</li><li>Firestore</li><li>Zod</li><li>App Check</li><li>Wompi</li><li>RevenueCat</li><li>React Native</li>
+                </ul>
+                <div class="proj-links">
+                  <a class="btn" href="https://apps.apple.com/co/app/biomech/id6801688898" target="_blank" rel="noopener">App Store<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="btn ghost" href="https://biomech-studios-download.web.app/" target="_blank" rel="noopener"><span lang="es">Descargar APK (Android)</span><span lang="en">Download APK (Android)</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                </div>
+              </div>
+            </div>
+          </article>
+          <!-- Purple Dino -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-dino" style="--pc: var(--dino)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="tag"><span lang="es">Juego multijugador en tiempo real</span><span lang="en">Real-time multiplayer game</span></span>
+                <span>2026</span>
+                <span class="dim"><span lang="es">Proyecto propio</span><span lang="en">Personal project</span></span>
+              </div>
+              <h3>Purple Dino</h3>
+              <p class="proj-role"><span lang="es">Proyecto propio · de punta a punta</span><span lang="en">Personal project · end to end</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/purple-dino-poster.webp" alt="Tráiler de Purple Dino (video)" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-video="media/purple-dino.mp4" data-src="img/purple-dino-poster.webp" data-es="Tráiler de Purple Dino (video)" data-en="Purple Dino trailer (video)"><img src="img/purple-dino-poster.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/purple-dino-1-batalla.webp" data-es="Batalla en el proyector" data-en="Battle on the projector"><img src="img/purple-dino-1-batalla.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/purple-dino-2-sala.webp" data-es="Sala con código y QR" data-en="Room with code and QR"><img src="img/purple-dino-2-sala.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/purple-dino-3-unidades.webp" data-es="Unidades de inglés" data-en="English units"><img src="img/purple-dino-3-unidades.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <p class="lede" lang="es">Batalla cooperativa de inglés para el aula: el profesor proyecta el juego, los estudiantes responden desde el celular y, si la mayoría acierta, el dinosaurio ataca.</p>
+                <p class="lede" lang="en">Co-op English quiz battle for the classroom: the teacher projects the game, students answer on their phones and, if most of the class gets it right, the dino strikes.</p>
+                <ul class="bullets" lang="es">
+                  <li>Estado de la partida sincronizado en tiempo real con <strong>Firebase Realtime Database</strong>: salas con código de 4 dígitos y QR para unirse desde el celular.</li>
+                  <li>Reglas de seguridad de la base de datos cubiertas con <strong>pruebas automatizadas</strong> contra el emulador; acceso anónimo para los estudiantes.</li>
+                  <li>Despliegue protegido: el script valida la configuración de producción y publica reglas y app juntas.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li>Game state synced in real time with <strong>Firebase Realtime Database</strong>: rooms with a 4-digit code and a QR code to join from a phone.</li>
+                  <li>Database security rules covered by <strong>automated tests</strong> against the emulator; anonymous sign-in for students.</li>
+                  <li>Guarded deploys: the script checks the production config and ships rules and app together.</li>
+                </ul>
+                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la vista del proyector y la del celular en React.</span><span lang="en">built the projector and phone views in React.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Realtime Database</li><li>Firebase Auth</li><li>TypeScript</li><li>Vitest</li><li>React</li>
+                </ul>
+                <div class="proj-links">
+                  <a class="btn" href="https://purple-dino-juandda0.web.app" target="_blank" rel="noopener"><span lang="es">Jugar</span><span lang="en">Play</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PREMIOS ======================= -->
+  <section class="section" id="premios">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/premios</span><span lang="en">/awards</span></span>
+        <h2><span lang="es">Premios</span><span lang="en">Awards</span></h2>
+        <p lang="es">Tres reconocimientos en mayo de 2025, con enlaces a las publicaciones originales.</p>
+        <p lang="en">Three awards in May 2025, with links to the original announcements.</p>
+      </div>
+      <div class="awards">
+        <article class="award">
+          <div class="when"><span>TechU Montería</span><span><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
+          <div class="place"><span lang="es">Ganador</span><span lang="en">Winner</span></div>
+          <div>
+            <h3>TechU Montería 2025 <small><span lang="es">Alcaldía de Montería · Unimarket, como CTO</span><span lang="en">Montería City Hall · Unimarket, as CTO</span></small></h3>
+            <p style="margin-top:12px" lang="es">Uno de los 5 proyectos ganadores entre 72 propuestas. Unimarket es un marketplace universitario con catálogos, subastas, rifas y moneda digital propia (UNICOIN).</p>
+            <p style="margin-top:12px" lang="en">One of 5 winning projects out of 72 proposals. Unimarket is a university marketplace with catalogs, auctions, raffles and its own digital currency (UNICOIN).</p>
+          </div>
+          <div class="src">
+            <a href="https://www.instagram.com/unicordoba_colombia/p/DKSEd_vt3i4/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Publicación de Unicórdoba (Instagram)</span><span lang="en">Unicórdoba post (Instagram)</span></a>
+            <a href="https://www.chicanoticias.com/2025/05/30/estudiantes-de-unicordoba-ganan-en-techu-2025-con-proyectos-que-impactan/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Nota en Chica Noticias</span><span lang="en">Chica Noticias article</span></a>
+          </div>
+        </article>
+        <article class="award">
+          <div class="when"><span>Hackathon</span><span><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
+          <div class="place"><span lang="es">1.er lugar</span><span lang="en">1st place</span></div>
+          <div>
+            <h3><span lang="es">Hackathon de Ingeniería de Sistemas</span><span lang="en">Systems Engineering Hackathon</span> <small><span lang="es">Universidad de Córdoba · AulaLink</span><span lang="en">Universidad de Córdoba · AulaLink</span></small></h3>
+            <p style="margin-top:12px" lang="es">Sistema de control de asistencia para instituciones educativas, con Rafael Corredor Gambín y Jesús Carrascal Hoyos: backend en Express.js y TypeScript, SPA con Tailwind CSS, app en Flutter y bases de datos SQL y NoSQL.</p>
+            <p style="margin-top:12px" lang="en">Attendance-tracking system for schools, built with Rafael Corredor Gambín and Jesús Carrascal Hoyos: Express.js and TypeScript backend, Tailwind CSS SPA, Flutter app, and SQL and NoSQL databases.</p>
+          </div>
+          <div class="src">
+            <a href="https://www.instagram.com/p/DKDFZtpS4Vh/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Publicación en Instagram</span><span lang="en">Instagram post</span></a>
+            <a href="https://www.chicanoticias.com/2025/05/24/brillan-tecnologico-estudiantes/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Nota en Chica Noticias</span><span lang="en">Chica Noticias article</span></a>
+          </div>
+        </article>
+        <article class="award">
+          <div class="when"><span lang="es">Feria de Innovación</span><span lang="en">Innovation Fair</span><span><span lang="es">may 2025</span><span lang="en">May 2025</span></span></div>
+          <div class="place"><span lang="es">Ganador</span><span lang="en">Winner</span></div>
+          <div>
+            <h3><span lang="es">Feria de Innovación de Unicórdoba</span><span lang="en">Unicórdoba Innovation Fair</span> <small><span lang="es">Universidad de Córdoba · Unimarket, como CTO</span><span lang="en">Universidad de Córdoba · Unimarket, as CTO</span></small></h3>
+            <p style="margin-top:12px" lang="es">CTO del equipo de cuatro estudiantes del Semillero Innovarium que creó Unimarket.</p>
+            <p style="margin-top:12px" lang="en">CTO of the four-student team from the Innovarium research group behind Unimarket.</p>
+          </div>
+          <div class="src">
+            <a href="https://www.instagram.com/unicordoba_colombia/p/DKDdG7IyBaH/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Publicación de Unicórdoba (Instagram)</span><span lang="en">Unicórdoba post (Instagram)</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PONENCIAS ======================= -->
+  <section class="section" id="ponencias">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/ponencias</span><span lang="en">/talks</span></span>
+        <h2><span lang="es">Ponencias internacionales</span><span lang="en">International talks</span></h2>
+      </div>
+      <ol class="talks">
+        <li class="talk">
+          <span class="date"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
+          <div>
+            <h3><span lang="es">“LUMIO: Gestión y educación financiera automatizada”</span><span lang="en">“LUMIO: Automated Financial Management and Education”</span></h3>
+            <p lang="es">8.º Congreso Internacional CIIDIES–COPEIN–RIISS y 10.º Congreso Emprende Innova UG · Celaya, México (virtual)</p>
+            <p lang="en">8th CIIDIES–COPEIN–RIISS International Congress and 10th Emprende Innova UG Congress · Celaya, Mexico (virtual)</p>
+            <div class="src"><a href="https://www.riiss-global.org/congreso-mexico-2026/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Sitio del congreso</span><span lang="en">Congress website</span></a></div>
+          </div>
+          <span class="role lead"><span lang="es">Autor principal</span><span lang="en">Lead author</span></span>
+        </li>
+        <li class="talk">
+          <span class="date"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
+          <div>
+            <h3><span lang="es">“CETI: Plataforma de educación financiera”</span><span lang="en">“CETI: Financial Education Platform”</span></h3>
+            <p lang="es">8.º Congreso Internacional CIIDIES–COPEIN–RIISS y 10.º Congreso Emprende Innova UG · Celaya, México (presencial)</p>
+            <p lang="en">8th CIIDIES–COPEIN–RIISS International Congress and 10th Emprende Innova UG Congress · Celaya, Mexico (in person)</p>
+            <div class="src"><a href="https://www.riiss-global.org/congreso-mexico-2026/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Sitio del congreso</span><span lang="en">Congress website</span></a></div>
+          </div>
+          <span class="role"><span lang="es">Coautor</span><span lang="en">Co-author</span></span>
+        </li>
+        <li class="talk">
+          <span class="date"><span lang="es">jul 2025</span><span lang="en">Jul 2025</span></span>
+          <div>
+            <h3>“UNIMARKET”</h3>
+            <p lang="es">V Congreso Internacional de Tecnología, Aprendizaje y Educación (CITAE 2025), REDIIE · Santiago de Chile (híbrido)</p>
+            <p lang="en">5th International Congress on Technology, Learning and Education (CITAE 2025), REDIIE · Santiago, Chile (hybrid)</p>
+          </div>
+          <span class="role"><span lang="es">Coautor</span><span lang="en">Co-author</span></span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======================= HABILIDADES ======================= -->
+  <section class="section" id="habilidades">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/habilidades</span><span lang="en">/skills</span></span>
+        <h2><span lang="es">Habilidades</span><span lang="en">Skills</span></h2>
+      </div>
+      <div class="skills">
+        <div class="skill"><h3>Backend</h3><ul class="chips"><li>Java</li><li>Spring Boot</li><li>Spring Security</li><li>Spring Data JPA</li><li>Hibernate</li><li>Node.js</li><li><span lang="es">APIs REST</span><span lang="en">REST APIs</span></li><li><span lang="es">Microservicios</span><span lang="en">Microservices</span></li><li>JWT</li><li>Webhooks</li><li>Zod</li></ul></div>
+        <div class="skill"><h3><span lang="es">Bases de datos</span><span lang="en">Databases</span></h3><ul class="chips"><li>PostgreSQL</li><li>SQL</li><li>Firestore</li><li>Flyway</li><li><span lang="es">Modelado de datos</span><span lang="en">Data modeling</span></li><li><span lang="es">Migraciones</span><span lang="en">Migrations</span></li><li><span lang="es">Bloqueo optimista</span><span lang="en">Optimistic locking</span></li></ul></div>
+        <div class="skill"><h3>Cloud &amp; DevOps</h3><ul class="chips"><li>Docker</li><li>Docker Compose</li><li>Nginx</li><li>Firebase</li><li>Cloud Functions</li><li>App Check</li><li>Railway</li><li>Vercel</li><li>Git / GitHub</li><li>CI/CD</li></ul></div>
+        <div class="skill"><h3><span lang="es">Pruebas</span><span lang="en">Testing</span></h3><ul class="chips"><li>JUnit</li><li>Jest</li><li>Testing Library</li><li>Firebase Emulator</li><li>Maestro E2E</li></ul></div>
+        <div class="skill"><h3><span lang="es">Integraciones</span><span lang="en">Integrations</span></h3><ul class="chips"><li><span lang="es">Pagos con Wompi</span><span lang="en">Wompi payments</span></li><li>RevenueCat</li><li><span lang="es">APIs de IA / LLM</span><span lang="en">AI / LLM APIs</span></li><li><span lang="es">Almacenamiento S3</span><span lang="en">S3-compatible storage</span></li><li>Leaflet</li></ul></div>
+        <div class="skill secondary"><h3><span lang="es">Frontend y Mobile · secundario</span><span lang="en">Frontend &amp; Mobile · secondary</span></h3><ul class="chips"><li>React Native</li><li>Expo</li><li>EAS Build</li><li>React</li><li>TypeScript</li><li>JavaScript</li><li>Tailwind CSS</li><li>Vite</li><li>React Router</li><li>TanStack Query</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CONTACTO ======================= -->
+  <section class="section" id="contacto">
+    <div class="wrap contact">
+      <div>
+        <span class="path"><span lang="es">/contacto</span><span lang="en">/contact</span></span>
+        <h2 style="margin-top:14px"><span lang="es">¿Trabajamos juntos?</span><span lang="en">Let’s work together</span></h2>
+        <p class="sub" lang="es">Estoy abierto a nuevas posiciones como desarrollador. Escríbeme y te respondo pronto.</p>
+        <p class="sub" lang="en">I’m open to new developer positions. Drop me a line and I’ll get back to you soon.</p>
+      </div>
+      <div class="links">
+        <div class="link-row">
+          <span class="k"><span lang="es">Correo</span><span lang="en">Email</span></span>
+          <span class="v" id="email">juandiegodiazave@gmail.com</span>
+          <button type="button" class="act" id="copy-email"><span lang="es">Copiar</span><span lang="en">Copy</span></button>
+        </div>
+        <div class="link-row">
+          <span class="k">LinkedIn</span>
+          <a class="v" href="https://www.linkedin.com/in/juandiegodiaz-dev" target="_blank" rel="noopener">in/juandiegodiaz-dev</a>
+          <a class="act" href="https://www.linkedin.com/in/juandiegodiaz-dev" target="_blank" rel="noopener"><span lang="es">Abrir</span><span lang="en">Open</span> ↗</a>
+        </div>
+        <div class="link-row">
+          <span class="k">GitHub</span>
+          <a class="v" href="https://github.com/juandda0" target="_blank" rel="noopener">github.com/juandda0</a>
+          <a class="act" href="https://github.com/juandda0" target="_blank" rel="noopener"><span lang="es">Abrir</span><span lang="en">Open</span> ↗</a>
+        </div>
+        <div class="link-row">
+          <span class="k">Workana</span>
+          <a class="v" href="https://www.workana.com/freelancer/eb21e5606c1d407f735a237f8d78d0f2" target="_blank" rel="noopener"><span lang="es">Perfil de freelancer</span><span lang="en">Freelancer profile</span></a>
+          <a class="act" href="https://www.workana.com/freelancer/eb21e5606c1d407f735a237f8d78d0f2" target="_blank" rel="noopener"><span lang="es">Abrir</span><span lang="en">Open</span> ↗</a>
+        </div>
+        <div class="link-row">
+          <span class="k">CV</span>
+          <span class="v"><span lang="es">PDF en español</span><span lang="en">PDF in English</span></span>
+          <a class="act" lang="es" href="https://juandiegodiaz-dev.web.app/cv/Juan-Diaz-CV-ES.pdf" target="_blank" rel="noopener">CV (PDF) ↗</a>
+          <a class="act" lang="en" href="https://juandiegodiaz-dev.web.app/cv/Juan-Diaz-CV-EN.pdf" target="_blank" rel="noopener">CV (PDF) ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© 2026 Juan Diego Díaz Avendaño</span>
+    <a href="https://github.com/juandda0/portafolio" target="_blank" rel="noopener"><span lang="es">Hecho con Astro · ver el código</span><span lang="en">Built with Astro · view the source</span></a>
+  </div>
+</footer>
+
+<dialog class="lb" id="lightbox" aria-label="Visor de imágenes">
+  <div class="lb-inner">
+    <div class="lb-top">
+      <span id="lb-cap"></span>
+      <button type="button" class="icon-btn" id="lb-close" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="lb-stage"><img id="lb-img" src="" alt=""></div>
+    <div class="lb-nav">
+      <button type="button" class="icon-btn" id="lb-prev" aria-label="Anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+      <button type="button" class="icon-btn" id="lb-next" aria-label="Siguiente"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var lang = 'es';
+
+  function store(key, val) { try { if (val === undefined) return localStorage.getItem(key); localStorage.setItem(key, val); } catch (e) { return null; } }
+
+  var saved = store('jd-lang');
+  if (saved === 'es' || saved === 'en') lang = saved;
+  else if (!/^es\b/i.test(navigator.language || 'es')) lang = 'en';
+
+  var galleries = [];
+
+  function setLang(next) {
+    lang = next;
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang);
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    galleries.forEach(function (g) { g.render(); });
+    document.querySelectorAll('[data-car]').forEach(function (b) {
+      var next = b.getAttribute('data-car') === '1';
+      b.setAttribute('aria-label', lang === 'es' ? (next ? 'Proyecto siguiente' : 'Proyecto anterior') : (next ? 'Next project' : 'Previous project'));
+    });
+    if (lb.open) renderLb();
+  }
+
+  /* Galerías (imágenes y video) */
+  var videoObserver = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { en.target._g.visible = en.isIntersecting; en.target._g.sync(); });
+  }, { threshold: 0.5 }) : null;
+
+  document.querySelectorAll('[data-gallery]').forEach(function (el) {
+    var main = el.querySelector('.g-main');
+    var img = main.querySelector('img');
+    var cap = el.querySelector('.g-cap .t');
+    var num = el.querySelector('.g-cap .n');
+    var thumbs = Array.prototype.slice.call(el.querySelectorAll('.g-thumbs button'));
+    var g = { i: 0, thumbs: thumbs, visible: !videoObserver };
+    var stage = null, video = null, sound = null;
+    g.text = function (k) { return thumbs[k].getAttribute('data-' + lang); };
+    g.isVideo = function (k) { return thumbs[k].hasAttribute('data-video'); };
+
+    if (thumbs.some(function (t) { return t.hasAttribute('data-video'); })) {
+      stage = document.createElement('div');
+      stage.className = 'g-video';
+      stage.hidden = true;
+      stage.innerHTML = '<video muted playsinline loop preload="none"></video>' +
+        '<button type="button" class="g-sound"><svg aria-hidden="true"><use href="#i-sound"/></svg><span></span></button>';
+      main.parentNode.insertBefore(stage, main.nextSibling);
+      video = stage.querySelector('video');
+      sound = stage.querySelector('.g-sound');
+      sound.addEventListener('click', function () {
+        video.muted = !video.muted;
+        if (!video.muted) { var p = video.play(); if (p) p.catch(function () {}); }
+        g.labels();
+      });
+      stage._g = g;
+      if (videoObserver) videoObserver.observe(stage);
+    }
+    g.labels = function () {
+      if (!sound) return;
+      sound.querySelector('span').textContent = video.muted
+        ? (lang === 'es' ? 'Ver con sonido' : 'Play with sound')
+        : (lang === 'es' ? 'Silenciar' : 'Mute');
+    };
+    // Reproduce solo si el video está elegido, en pantalla y en el proyecto visible del carrusel
+    g.sync = function () {
+      if (!video) return;
+      if (g.isVideo(g.i) && g.visible && !el.closest('[inert]')) {
+        var p = video.play(); if (p) p.catch(function () {});
+      } else if (!video.paused) {
+        video.pause();
+      }
+    };
+    g.render = function () {
+      var t = thumbs[g.i], isVid = g.isVideo(g.i);
+      if (img.getAttribute('src') !== t.getAttribute('data-src')) img.setAttribute('src', t.getAttribute('data-src'));
+      img.alt = g.text(g.i);
+      if (stage) {
+        main.hidden = isVid;
+        stage.hidden = !isVid;
+        if (isVid && video.getAttribute('src') !== t.getAttribute('data-video')) {
+          video.muted = true;
+          video.poster = t.getAttribute('data-src');
+          video.src = t.getAttribute('data-video');
+          stage.classList.toggle('portrait', t.hasAttribute('data-portrait'));
+        }
+        if (isVid) video.setAttribute('aria-label', g.text(g.i));
+        g.labels();
+        g.sync();
+      }
+      cap.textContent = g.text(g.i);
+      num.textContent = String(g.i + 1).padStart(2, '0') + ' / ' + String(thumbs.length).padStart(2, '0');
+      thumbs.forEach(function (b, k) {
+        b.setAttribute('aria-current', String(k === g.i));
+        b.setAttribute('aria-label', g.text(k));
+      });
+      main.setAttribute('aria-label', (lang === 'es' ? 'Ampliar: ' : 'Enlarge: ') + g.text(g.i));
+    };
+    thumbs.forEach(function (b, k) { b.addEventListener('click', function () { g.i = k; g.render(); }); });
+    main.addEventListener('click', function () { openLb(g); });
+    galleries.push(g);
+  });
+
+  /* Visor */
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbCap = document.getElementById('lb-cap');
+  var current = null;
+
+  function renderLb() {
+    var g = current, t = g.thumbs[g.i];
+    lbImg.src = t.getAttribute('data-src');
+    lbImg.alt = g.text(g.i);
+    lbCap.textContent = String(g.i + 1).padStart(2, '0') + ' / ' + String(g.thumbs.length).padStart(2, '0') + ' · ' + g.text(g.i);
+    document.getElementById('lb-close').setAttribute('aria-label', lang === 'es' ? 'Cerrar' : 'Close');
+    document.getElementById('lb-prev').setAttribute('aria-label', lang === 'es' ? 'Anterior' : 'Previous');
+    document.getElementById('lb-next').setAttribute('aria-label', lang === 'es' ? 'Siguiente' : 'Next');
+  }
+  function step(d) {
+    if (!current) return;
+    var n = current.thumbs.length;
+    do { current.i = (current.i + d + n) % n; } while (current.isVideo(current.i));
+    current.render(); renderLb();
+  }
+  function openLb(g) {
+    current = g; renderLb();
+    if (typeof lb.showModal === 'function') lb.showModal(); else lb.setAttribute('open', '');
+  }
+  document.getElementById('lb-close').addEventListener('click', function () { lb.close(); });
+  document.getElementById('lb-prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('lb-next').addEventListener('click', function () { step(1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lb-stage')) lb.close(); });
+  lb.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+
+  /* Carrusel de proyectos */
+  document.querySelectorAll('[data-carousel]').forEach(function (car) {
+    var track = car.querySelector('.car-track');
+    var slides = Array.prototype.slice.call(track.querySelectorAll('.slide'));
+    var tabs = Array.prototype.slice.call(car.querySelectorAll('[role="tab"]'));
+    var count = car.querySelector('.car-count b');
+    var idx = 0, ticking = false;
+    function fit() { track.style.height = slides[idx].offsetHeight + 'px'; }
+    function mark(i) {
+      idx = i;
+      count.textContent = String(i + 1).padStart(2, '0');
+      tabs.forEach(function (t, k) {
+        t.setAttribute('aria-selected', String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+      });
+      slides.forEach(function (sl, k) { sl.setAttribute('aria-hidden', String(k !== i)); sl.inert = k !== i; });
+      galleries.forEach(function (g) { g.sync(); });
+      fit();
+    }
+    var target = null, timer = 0;
+    function leftOf(i) { return slides[i].offsetLeft - slides[0].offsetLeft; }
+    function go(i) {
+      i = (i + slides.length) % slides.length;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target = i;
+      mark(i);
+      track.scrollTo({ left: leftOf(i), behavior: reduce ? 'auto' : 'smooth' });
+      // Algunos visores no animan el desplazamiento suave: si no llegó, salta directo
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (Math.abs(track.scrollLeft - leftOf(i)) > 2) track.scrollTo({ left: leftOf(i), behavior: 'auto' });
+        target = null;
+      }, 700);
+    }
+    track.addEventListener('scroll', function () {
+      if (target !== null) {
+        if (Math.abs(track.scrollLeft - leftOf(target)) < 2) target = null;
+        return;
+      }
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var i = Math.round(track.scrollLeft / (track.clientWidth + 40));
+        if (i !== idx && i >= 0 && i < slides.length) mark(i);
+      });
+    });
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () { go(k); });
+      t.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { go(idx + 1); tabs[idx].focus(); }
+        if (e.key === 'ArrowLeft') { go(idx - 1); tabs[idx].focus(); }
+      });
+    });
+    car.querySelectorAll('[data-car]').forEach(function (b) {
+      b.addEventListener('click', function () { go(idx + Number(b.getAttribute('data-car'))); });
+    });
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      slides.forEach(function (sl) { ro.observe(sl); });
+    }
+    window.addEventListener('resize', fit);
+    mark(0);
+  });
+
+  /* Idioma */
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); store('jd-lang', lang); });
+  });
+
+  /* Copiar correo */
+  var copyBtn = document.getElementById('copy-email');
+  copyBtn.addEventListener('click', function () {
+    var text = document.getElementById('email').textContent.trim();
+    function done(ok) {
+      copyBtn.innerHTML = ok
+        ? '<span lang="es">Copiado</span><span lang="en">Copied</span>'
+        : '<span lang="es">Selecciónalo</span><span lang="en">Select it</span>';
+      setTimeout(function () { copyBtn.innerHTML = '<span lang="es">Copiar</span><span lang="en">Copy</span>'; }, 1800);
+    }
+    function selectText() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { selectText(); done(false); });
+    } catch (e) { selectText(); done(false); }
+  });
+
+  setLang(lang);
+})();
+</script>

@@ -1,6 +1,17 @@
 # Portafolio · Juan Diego Díaz
 
-Sitio personal estático hecho con [Astro](https://astro.build), en español (`/`) e inglés (`/en/`). No usa frameworks de UI; el único JavaScript es un script pequeño para los videos, el visor de imágenes y el botón de copiar correo.
+Sitio personal hecho con [Astro](https://astro.build) y publicado en Firebase Hosting: https://juandiegodiaz-dev.web.app (`/` en español, `/en/` en inglés).
+
+## Cómo está armado
+
+El diseño y el contenido viven en un solo archivo de referencia, `src/reference/portfolio.html`: es el mismo fragmento que se publica como Artifact, donde se revisa el diseño. Astro lo sirve sin cambiar el diseño y le agrega lo de producción (`src/lib/reference.ts`):
+
+- fuentes Geist y Geist Mono propias (fontsource), sin Google Fonts;
+- capturas optimizadas al compilar: 1600 px para la vista grande y 480 px para las miniaturas;
+- rutas absolutas para que `/en/` cargue los mismos archivos, e idioma inicial según la ruta;
+- metaetiquetas, canonical, hreflang, Open Graph y JSON-LD (`src/layouts/Base.astro`).
+
+Si la referencia cambia de forma que alguna de esas piezas ya no aparece, el build falla con un mensaje que dice cuál.
 
 ## Comandos
 
@@ -8,22 +19,16 @@ Requiere Node 22.23.4 o superior (ver `.nvmrc`).
 
 | Comando | Qué hace |
 | :-- | :-- |
-| `npm install` | Instala las dependencias |
+| `npm run sync` | Trae la última versión de la referencia (`~/Desktop/Me/Cvs/portafolio-web`): el HTML y sus capturas WebP |
+| `npm run media` | Vuelve a comprimir los videos de los proyectos en `public/media/` desde los archivos originales |
 | `npm run dev` | Servidor local en `localhost:4321` |
 | `npm run build` | Genera el sitio en `dist/` |
-| `npm run preview` | Sirve la build de `dist/` |
-| `node scripts/media.mjs` | Vuelve a generar videos, pósters y capturas desde las carpetas originales de cada proyecto |
+| `npm run deploy` | Compila y publica en Firebase Hosting |
 
-## Dónde se edita cada cosa
+Para publicar un cambio de diseño o contenido: `npm run sync`, revisar con `npm run dev` y luego `npm run deploy`.
 
-- `src/data/content.ts`: textos de todas las secciones, experiencia, premios y ponencias (ES y EN).
-- `src/data/projects.ts`: proyectos, sus imágenes y videos.
-- `src/data/profile.ts`: correo, LinkedIn, GitHub, Workana y CV.
-- `src/styles/global.css`: colores (modo claro y oscuro), tipografía y espaciado.
+## Otros archivos
+
 - `public/cv/`: CV en PDF que se descargan desde el sitio.
-
-Las capturas en `src/assets/projects/` se optimizan al compilar (WebP y varios tamaños). Los videos de `public/media/` ya están comprimidos (H.264, ~1,4 MB cada uno) y solo se descargan cuando entran en pantalla.
-
-## Publicar
-
-Es un sitio estático: sirve en Vercel, Netlify, Cloudflare Pages o GitHub Pages sin configuración extra (comando `npm run build`, carpeta `dist`). Cuando tengas el dominio, agrégalo como `site` en `astro.config.mjs` para generar las etiquetas canonical y hreflang.
+- `public/media/`: videos (H.264, se cargan solo cuando el proyecto está en pantalla).
+- `firebase.json`: caché larga para `/_astro/**` y cabeceras básicas.
