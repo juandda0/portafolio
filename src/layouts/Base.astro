@@ -2,8 +2,9 @@
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import type { Lang } from '../data/profile';
-import { profile } from '../data/profile';
-import { loadReference } from '../lib/reference';
+import { builtOn, pageMeta, pagePath, profile } from '../data/profile';
+import { imageUrl, loadReference } from '../lib/reference';
+import { structuredData } from '../lib/structured';
 import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 
 interface Props {
@@ -11,33 +12,21 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const meta = {
-  es: {
-    title: 'Juan Diego Díaz Avendaño · Desarrollador Full-Stack',
-    description:
-      'Juan Diego Díaz Avendaño, desarrollador full-stack (Java, Spring Boot, React, React Native). Montería, Colombia. Remoto.',
-  },
-  en: {
-    title: 'Juan Diego Díaz Avendaño · Full-Stack Developer',
-    description:
-      'Juan Diego Díaz Avendaño, full-stack developer (Java, Spring Boot, React, React Native). Montería, Colombia. Remote.',
-  },
-}[lang];
+const meta = pageMeta[lang];
+const site = Astro.site!;
+const abs = (path: string) => new URL(path, site).href;
 
-const { css, markup, script, ogImage } = await loadReference(lang);
-const site = Astro.site;
-const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
-const alternate = (l: Lang) => (site ? new URL(l === 'es' ? '/' : '/en/', site).href : undefined);
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: profile.name,
-  jobTitle: lang === 'es' ? 'Desarrollador Full-Stack' : 'Full-Stack Developer',
-  email: `mailto:${profile.email}`,
-  address: { '@type': 'PostalAddress', addressLocality: 'Montería', addressCountry: 'CO' },
-  alumniOf: 'Universidad de Córdoba',
-  sameAs: [profile.linkedin, profile.github],
-};
+const { css, markup, script } = await loadReference(lang);
+const canonical = abs(pagePath(lang));
+const ogImage = abs(`/og/og-${lang}.jpg`);
+const jsonLd = structuredData(lang, {
+  site,
+  url: canonical,
+  title: meta.title,
+  description: meta.description,
+  image: abs(await imageUrl('juan-retrato.webp', 640)),
+  dateModified: builtOn,
+});
 ---
 
 <!doctype html>
@@ -60,16 +49,28 @@ const jsonLd = {
     </script>
     <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    {canonical && <link rel="canonical" href={canonical} />}
-    {site && <link rel="alternate" hreflang="es" href={alternate('es')} />}
-    {site && <link rel="alternate" hreflang="en" href={alternate('en')} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={abs('/')} />
+    <link rel="alternate" hreflang="en" href={abs('/en/')} />
+    <link rel="alternate" hreflang="x-default" href={abs('/')} />
+    <link rel="alternate" type="text/markdown" href={abs(`${pagePath(lang)}index.md`)} />
+    <link rel="describedby" href={abs('/llms.txt')} />
+    <link rel="sitemap" href={abs('/sitemap.xml')} />
+    <link rel="me" href={profile.linkedin} />
+    <link rel="me" href={profile.github} />
     <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={profile.name} />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
-    {canonical && <meta property="og:url" content={canonical} />}
-    {site && <meta property="og:image" content={new URL(ogImage, site).href} />}
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_CO'} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={meta.ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <style is:inline set:html={css}></style>
   </head>
