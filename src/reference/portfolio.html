@@ -370,22 +370,32 @@ ul { margin: 0; padding: 0; }
 /* Rol del hero */
 .hero-role .stackline { color: var(--muted); font-weight: 500; }
 
-/* Experiencia: un cargo, tres responsabilidades */
-.job { display: grid; gap: 36px; }
+/* Experiencia: la universidad primero, tres responsabilidades con el mismo peso */
+.job { display: grid; gap: 32px; }
+.job-head { display: grid; gap: 10px; max-width: 760px; }
+.job-head h3 { font-size: clamp(1.7rem, 1.6vw + 1.2rem, 2.3rem); font-weight: 500; line-height: 1.1; letter-spacing: -0.035em; }
+.job-role { font-size: 1.0625rem; }
+.job-lede { color: var(--muted); }
 .resp-label {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-  font: 500 1.2rem/1.3 var(--f-display); letter-spacing: -0.02em;
+  font: 500 1.15rem/1.3 var(--f-display); letter-spacing: -0.02em;
 }
-.resp-label .dim { color: var(--muted); font-weight: 500; }
 .resp-label .n {
-  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0;
-  font: 500 0.75rem/1 var(--f-mono); color: var(--bg); background: var(--pc);
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 999px; flex-shrink: 0;
+  font: 500 0.75rem/1 var(--f-mono); color: var(--muted); border: 1px solid var(--line-strong);
 }
-.resp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-@media (max-width: 760px) { .resp-grid { grid-template-columns: minmax(0, 1fr); } }
-.resp { display: grid; gap: 14px; align-content: start; padding: 24px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); }
+.resp-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 960px) { .resp-grid { grid-template-columns: minmax(0, 1fr); } }
+.resp { display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--surface); min-width: 0; }
 .resp p { color: var(--muted); font-size: var(--s-small); }
 .resp p strong { color: var(--fg); font-weight: 500; }
+.resp-foot { margin-top: auto; display: grid; gap: 14px; padding-top: 4px; }
+.link-btn {
+  justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; cursor: pointer;
+  font: 500 0.875rem/1.4 var(--f-body); color: var(--fg); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px;
+}
+.link-btn:hover { text-decoration-color: currentColor; }
+.link-btn svg { width: 14px; height: 14px; color: var(--muted); }
 .also { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-size: var(--s-small); color: var(--muted); }
 .also .lbl { font: 500 var(--s-label)/1.6 var(--f-mono); letter-spacing: .03em; text-transform: uppercase; color: var(--faint); }
 .proj-links { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -612,70 +622,54 @@ ul { margin: 0; padding: 0; }
         <h2><span lang="es">Experiencia laboral</span><span lang="en">Work experience</span></h2>
       </div>
 
-      <div class="job">
-        <header class="proj-head">
+      <article class="job">
+        <header class="job-head">
           <div class="eyebrow">
-            <span class="tag" style="--pc: var(--sigcorp)">Universidad de Córdoba</span>
             <span><span lang="es">ago 2025 – jun 2026</span><span lang="en">Aug 2025 – Jun 2026</span></span>
-            <span class="dim"><span lang="es">Montería · remoto</span><span lang="en">Montería · remote</span></span>
+            <span class="dim"><span lang="es">Montería, Colombia · remoto</span><span lang="en">Montería, Colombia · remote</span></span>
           </div>
-          <h3><span lang="es">Desarrollador Full-Stack</span><span lang="en">Full-Stack Developer</span> <span class="client"><span lang="es">(enfoque Backend)</span><span lang="en">(Backend focus)</span></span></h3>
-          <p class="proj-role"><span lang="es">Tres responsabilidades distintas dentro del mismo cargo.</span><span lang="en">Three separate responsibilities in the same role.</span></p>
+          <h3>Universidad de Córdoba</h3>
+          <p class="job-role"><span lang="es">Desarrollador Full-Stack (enfoque Backend)</span><span lang="en">Full-Stack Developer (Backend focus)</span></p>
+          <p class="job-lede" lang="es">Trabajé en el equipo de desarrollo de la universidad a cargo de tres frentes, desde los requisitos hasta el despliegue.</p>
+          <p class="job-lede" lang="en">I worked on the university's development team across three areas, from requirements to deployment.</p>
         </header>
 
-        <article class="proj resp-main" style="--pc: var(--sigcorp)">
-          <div class="resp-label"><span class="n">1</span>SIGCORP <span class="dim"><span lang="es">· plataforma de gestión de solicitudes</span><span lang="en">· request-management platform</span></span></div>
-          <div class="proj-body">
-            <div class="gallery" data-gallery>
-              <button type="button" class="g-main" aria-label="Ampliar imagen">
-                <img src="img/sigcorp-1-portada.webp" alt="SIGCORP: tablero de solicitudes" width="1600" height="900">
-                <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
-              </button>
-              <div class="g-cap"><span class="t"></span><span class="n"></span></div>
-              <div class="g-thumbs">
-                <button type="button" data-src="img/sigcorp-1-portada.webp" data-es="SIGCORP: tablero de solicitudes" data-en="SIGCORP: request board"><img src="img/sigcorp-1-portada.webp" alt="" loading="lazy"></button>
-                <button type="button" data-src="img/sigcorp-2-calendario.webp" data-es="Calendario de solicitudes" data-en="Request calendar"><img src="img/sigcorp-2-calendario.webp" alt="" loading="lazy"></button>
-                <button type="button" data-src="img/sigcorp-3-estadisticas.webp" data-es="Estadísticas" data-en="Statistics"><img src="img/sigcorp-3-estadisticas.webp" alt="" loading="lazy"></button>
-                <button type="button" data-src="img/sigcorp-4-dependencias.webp" data-es="Solicitudes por dependencia" data-en="Requests by department"><img src="img/sigcorp-4-dependencias.webp" alt="" loading="lazy"></button>
-                <button type="button" data-src="img/sigcorp-5-detalle.webp" data-es="Detalle de una solicitud" data-en="Request detail"><img src="img/sigcorp-5-detalle.webp" alt="" loading="lazy"></button>
-              </div>
+        <ol class="resp-grid">
+          <li class="resp">
+            <div class="resp-label"><span class="n">1</span>SIGCORP</div>
+            <p lang="es">Construí de punta a punta el backend de la plataforma de gestión de solicitudes de la Oficina de Comunicaciones: APIs REST, asignación, seguimiento de estados, acceso por roles y métricas. Seguridad con <strong>Spring Security y JWT</strong>, persistencia con JPA, Flyway y PostgreSQL, y <strong>bloqueo optimista</strong> para ediciones concurrentes.</p>
+            <p lang="en">I built the backend of the Communications Office's request-management platform end to end: REST APIs, assignment, status tracking, role-based access and metrics. Security with <strong>Spring Security and JWT</strong>, persistence with JPA, Flyway and PostgreSQL, and <strong>optimistic locking</strong> for concurrent edits.</p>
+            <div class="resp-foot">
+              <ul class="chips" aria-label="Stack"><li>Spring Boot</li><li>JWT</li><li>PostgreSQL</li><li>Docker</li><li>Nginx</li></ul>
+              <button type="button" class="link-btn" data-shots="shots-sigcorp"><svg aria-hidden="true"><use href="#i-zoom"/></svg><span lang="es">Ver capturas (5)</span><span lang="en">View screenshots (5)</span></button>
             </div>
-            <div class="proj-text">
-              <p class="lede" lang="es">Diseñé y construí de punta a punta el backend de <strong>SIGCORP</strong>, la plataforma interna de gestión de solicitudes de la Oficina de Comunicaciones.</p>
-              <p class="lede" lang="en">I designed and built the backend of <strong>SIGCORP</strong> end to end, the internal request-management platform of the university's Communications Office.</p>
-              <ul class="bullets" lang="es">
-                <li>APIs REST para asignación, seguimiento de estados, acceso por roles y métricas de los dashboards.</li>
-                <li>Seguridad y persistencia con Spring Security, JWT, Spring Data JPA, Hibernate, Flyway y PostgreSQL; <strong>bloqueo optimista</strong> para mantener la consistencia cuando varias personas editan la misma solicitud.</li>
-                <li>Contenericé y desplegué con Docker, Docker Compose y Nginx en la infraestructura de la universidad, desde los requisitos hasta el mantenimiento.</li>
-              </ul>
-              <ul class="bullets" lang="en">
-                <li>REST APIs for assignment, status tracking, role-based access and dashboard metrics.</li>
-                <li>Security and persistence with Spring Security, JWT, Spring Data JPA, Hibernate, Flyway and PostgreSQL; <strong>optimistic locking</strong> keeps data consistent when several people edit the same request.</li>
-                <li>Containerized and deployed with Docker, Docker Compose and Nginx on university infrastructure, from requirements to maintenance.</li>
-              </ul>
-              <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la interfaz web en React y TypeScript.</span><span lang="en">built the web interface in React and TypeScript.</span></p>
-              <ul class="chips" aria-label="Stack">
-                <li>Java</li><li>Spring Boot</li><li>Spring Security</li><li>JWT</li><li>JPA / Hibernate</li><li>PostgreSQL</li><li>Flyway</li><li>Docker</li><li>Nginx</li>
-              </ul>
-            </div>
-          </div>
-        </article>
-
-        <div class="resp-grid">
-          <article class="resp" style="--pc: var(--sigcorp)">
+          </li>
+          <li class="resp">
             <div class="resp-label"><span class="n">2</span><span lang="es">E-commerce institucional</span><span lang="en">Institutional e-commerce</span></div>
             <p lang="es">Desarrollé módulos backend para la tienda en línea de la universidad: pasarela de pagos <strong>Wompi</strong> con confirmación asíncrona por webhooks y un <strong>microservicio de notificaciones en Node.js</strong> con comunicación REST entre servicios.</p>
             <p lang="en">I built backend modules for the university's online store: <strong>Wompi</strong> payment gateway with asynchronous webhook confirmation and a <strong>Node.js notification microservice</strong> using REST service-to-service communication.</p>
-            <ul class="chips" aria-label="Stack"><li>Wompi</li><li>Webhooks</li><li>Node.js</li><li><span lang="es">Microservicios</span><span lang="en">Microservices</span></li><li>REST</li></ul>
-          </article>
-          <article class="resp" style="--pc: var(--sigcorp)">
+            <div class="resp-foot">
+              <ul class="chips" aria-label="Stack"><li>Wompi</li><li>Webhooks</li><li>Node.js</li><li><span lang="es">Microservicios</span><span lang="en">Microservices</span></li></ul>
+            </div>
+          </li>
+          <li class="resp">
             <div class="resp-label"><span class="n">3</span><span lang="es">Migración del sitio web</span><span lang="en">Website migration</span></div>
             <p lang="es">Participé en la migración de unas <strong>200 páginas</strong> del sitio web institucional de la universidad, trabajando con Git, GitHub, pull requests, revisión de código y Scrum.</p>
             <p lang="en">I contributed to migrating about <strong>200 pages</strong> of the university's institutional website, working with Git, GitHub, pull requests, code review and Scrum.</p>
-            <ul class="chips" aria-label="Stack"><li>Git</li><li>GitHub</li><li>Pull requests</li><li>Scrum</li></ul>
-          </article>
-        </div>
-      </div>
+            <div class="resp-foot">
+              <ul class="chips" aria-label="Stack"><li>Git</li><li>GitHub</li><li>Pull requests</li><li>Scrum</li></ul>
+            </div>
+          </li>
+        </ol>
+
+        <template id="shots-sigcorp">
+          <button type="button" data-src="img/sigcorp-1-portada.webp" data-es="SIGCORP: tablero de solicitudes" data-en="SIGCORP: request board"></button>
+          <button type="button" data-src="img/sigcorp-2-calendario.webp" data-es="SIGCORP: calendario de solicitudes" data-en="SIGCORP: request calendar"></button>
+          <button type="button" data-src="img/sigcorp-3-estadisticas.webp" data-es="SIGCORP: estadísticas" data-en="SIGCORP: statistics"></button>
+          <button type="button" data-src="img/sigcorp-4-dependencias.webp" data-es="SIGCORP: solicitudes por dependencia" data-en="SIGCORP: requests by department"></button>
+          <button type="button" data-src="img/sigcorp-5-detalle.webp" data-es="SIGCORP: detalle de una solicitud" data-en="SIGCORP: request detail"></button>
+        </template>
+      </article>
     </div>
   </section>
 
@@ -1265,6 +1259,18 @@ ul { margin: 0; padding: 0; }
     current = g; renderLb();
     if (typeof lb.showModal === 'function') lb.showModal(); else lb.setAttribute('open', '');
   }
+  // Capturas que solo se ven en el visor (p. ej. SIGCORP)
+  document.querySelectorAll('[data-shots]').forEach(function (btn) {
+    var tpl = document.getElementById(btn.getAttribute('data-shots'));
+    var items = Array.prototype.slice.call(tpl.content.querySelectorAll('button'));
+    var g = {
+      i: 0, thumbs: items,
+      text: function (k) { return items[k].getAttribute('data-' + lang); },
+      isVideo: function () { return false; },
+      render: function () {}
+    };
+    btn.addEventListener('click', function () { g.i = 0; openLb(g); });
+  });
   document.getElementById('lb-close').addEventListener('click', function () { lb.close(); });
   document.getElementById('lb-prev').addEventListener('click', function () { step(-1); });
   document.getElementById('lb-next').addEventListener('click', function () { step(1); });
