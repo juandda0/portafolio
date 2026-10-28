@@ -1,0 +1,387 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { content } from '../data/content';
+import type { Lang } from '../data/profile';
+import { projects } from '../data/projects';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].projects;
+
+// Versiones grandes para el visor y pósters optimizados para los videos.
+const items = await Promise.all(
+  projects.map(async (p) => ({
+    ...p,
+    posterUrl: p.video ? (await getImage({ src: p.video.poster, width: p.video.portrait ? 540 : 1280, format: 'webp' })).src : undefined,
+    full: await Promise.all(
+      [p.cover, ...p.gallery].map(async (img) => (await getImage({ src: img, width: 1600, format: 'webp' })).src),
+    ),
+  })),
+);
+const sizes = '(max-width: 1080px) 100vw, 1016px';
+---
+
+<section id="proyectos" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">{t.title}</h2>
+      <p class="muted intro">{t.intro}</p>
+    </div>
+
+    <div class="list">
+      {
+        items.map((p, i) => (
+          <article class="project" id={p.slug}>
+            <div class:list={['media', p.video?.portrait && 'media-split']}>
+              {p.video && !p.video.portrait ? (
+                <div class="video-wrap">
+                  <video
+                    class="video"
+                    src={p.video.src}
+                    poster={p.posterUrl}
+                    width="1280"
+                    height="720"
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    data-autoplay
+                    aria-label={p.alt[lang]}
+                  />
+                  <button class="sound" type="button" data-sound>
+                    <Icon name="sound" size={14} />
+                    {t.sound}
+                  </button>
+                </div>
+              ) : (
+                <button class="frame" type="button" data-full={p.full[0]} data-alt={p.alt[lang]} aria-label={`${t.open}: ${p.alt[lang]}`}>
+                  <Image src={p.cover} alt={p.alt[lang]} widths={[640, 1016, 1600]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
+                </button>
+              )}
+              {p.video?.portrait && (
+                <div class="video-wrap phone">
+                  <video
+                    class="video"
+                    src={p.video.src}
+                    poster={p.posterUrl}
+                    width="540"
+                    height="960"
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    data-autoplay
+                    aria-label={p.alt[lang]}
+                  />
+                  <button class="sound" type="button" data-sound>
+                    <Icon name="sound" size={14} />
+                    {t.sound}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {p.gallery.length > 0 && (
+              <ul class="gallery" style={`--cols: ${p.gallery.length}`}>
+                {p.gallery.map((img, j) => {
+                  const idx = p.video && !p.video.portrait ? j : j + 1;
+                  return (
+                    <li>
+                      <button class="frame thumb" type="button" data-full={p.full[idx]} data-alt={p.alt[lang]} aria-label={`${t.open}: ${p.alt[lang]}`}>
+                        <Image src={img} alt="" widths={[320, 480]} sizes="(max-width: 720px) 33vw, 320px" loading="lazy" />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+
+            <div class="body">
+              <div>
+                <p class="label">
+                  {p.kind[lang]} · {p.year}
+                </p>
+                <h3>{p.name}</h3>
+                <p class="summary">{p.summary[lang]}</p>
+                <dl class="meta">
+                  <div>
+                    <dt class="label">{t.role}</dt>
+                    <dd>{p.role[lang]}</dd>
+                  </div>
+                  <div>
+                    <dt class="label">{t.stack}</dt>
+                    <dd class="tags">
+                      {p.stack.map((s) => (
+                        <span class="tag">{s}</span>
+                      ))}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <ul class="highlights">
+                {p.highlights[lang].map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <dialog class="viewer" aria-label={t.open}>
+    <button class="close btn" type="button" data-close><Icon name="close" />{t.close}</button>
+    <img alt="" />
+  </dialog>
+</section>
+
+<script>
+  // Videos: se reproducen sin sonido solo cuando están en pantalla.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+  if (reduce) {
+    videos.forEach((v) => (v.controls = true));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    videos.forEach((v) => io.observe(v));
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-sound]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const v = btn.parentElement?.querySelector('video');
+      if (!v) return;
+      v.muted = false;
+      v.controls = true;
+      v.loop = false;
+      v.currentTime = 0;
+      v.play().catch(() => {});
+      btn.hidden = true;
+    });
+  });
+
+  // Visor de imágenes con <dialog>.
+  const dialog = document.querySelector<HTMLDialogElement>('dialog.viewer');
+  const img = dialog?.querySelector('img');
+  document.querySelectorAll<HTMLButtonElement>('[data-full]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!dialog || !img) return;
+      img.src = btn.dataset.full ?? '';
+      img.alt = btn.dataset.alt ?? '';
+      dialog.showModal();
+    });
+  });
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog || (e.target as HTMLElement).closest('[data-close]')) dialog.close();
+  });
+</script>
+
+<style>
+  .intro {
+    max-width: 40ch;
+    text-align: right;
+    font-size: 0.9375rem;
+  }
+  .list {
+    display: grid;
+    gap: clamp(72px, 10vw, 120px);
+  }
+  .media {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .media-split {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1px;
+    background: var(--border);
+  }
+  .media-split > * {
+    background: var(--surface);
+  }
+  .frame {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+  .frame :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .frame:hover :global(img) {
+    transform: scale(1.015);
+  }
+  .media-split .frame {
+    height: 100%;
+  }
+  .media-split .frame :global(img) {
+    height: 100%;
+  }
+  .video-wrap {
+    position: relative;
+  }
+  .video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--border);
+  }
+  .phone {
+    width: clamp(160px, 24vw, 260px);
+  }
+  .phone .video {
+    aspect-ratio: 9 / 16;
+    height: 100%;
+  }
+  .sound {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 0;
+    font: 500 0.75rem var(--font);
+    color: #fff;
+    background: rgb(0 0 0 / 0.6);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+  .sound:hover {
+    background: rgb(0 0 0 / 0.78);
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .thumb {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 24px clamp(32px, 6vw, 72px);
+    margin-top: 28px;
+  }
+  h3 {
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    margin-top: 6px;
+  }
+  .summary {
+    color: var(--muted);
+    margin-top: 10px;
+    text-wrap: pretty;
+  }
+  .meta {
+    display: grid;
+    gap: 14px;
+    margin: 20px 0 0;
+  }
+  .meta dd {
+    margin: 4px 0 0;
+    font-size: 0.9375rem;
+  }
+  .highlights {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding-top: 4px;
+  }
+  .highlights li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+  .highlights li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.72em;
+    width: 6px;
+    height: 1px;
+    background: var(--faint);
+  }
+  .viewer {
+    width: min(96vw, 1600px);
+    max-height: 94vh;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    overflow: visible;
+  }
+  .viewer::backdrop {
+    background: rgb(0 0 0 / 0.82);
+  }
+  .viewer img {
+    width: 100%;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .close {
+    position: absolute;
+    top: -52px;
+    right: 0;
+  }
+  @media (max-width: 760px) {
+    .section-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .intro {
+      text-align: left;
+    }
+    .body {
+      grid-template-columns: 1fr;
+    }
+    .media-split {
+      grid-template-columns: 1fr;
+    }
+    .media-split .phone {
+      width: auto;
+      padding: 20px;
+    }
+    .phone .video {
+      width: min(62vw, 260px);
+      margin-inline: auto;
+      border-radius: 18px;
+    }
+    .phone .sound {
+      right: 50%;
+      bottom: 32px;
+      transform: translateX(50%);
+    }
+    .gallery {
+      gap: 8px;
+    }
+  }
+</style>

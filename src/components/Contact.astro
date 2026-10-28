@@ -1,0 +1,102 @@
+---
+import Icon from './Icon.astro';
+import { content } from '../data/content';
+import type { Lang } from '../data/profile';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang];
+const year = new Date().getFullYear();
+---
+
+<section id="contacto" class="section">
+  <div class="container">
+    <h2 class="title">{t.contact.title}</h2>
+    <p class="text muted">{t.contact.text}</p>
+    <div class="row">
+      <a class="email" href={`mailto:${profile.email}`}>{profile.email}</a>
+      <button class="btn" type="button" data-copy={profile.email} data-done={t.contact.copied}>
+        <Icon name="copy" /><span>{t.contact.copy}</span>
+      </button>
+    </div>
+    <ul class="links">
+      <li><a class="link-arrow" href={profile.linkedin} target="_blank" rel="noopener me">LinkedIn <Icon name="arrow" size={13} /></a></li>
+      <li><a class="link-arrow" href={profile.github} target="_blank" rel="noopener me">GitHub <Icon name="arrow" size={13} /></a></li>
+      <li><a class="link-arrow" href={profile.workana} target="_blank" rel="noopener">Workana <Icon name="arrow" size={13} /></a></li>
+      <li><a class="link-arrow" href={profile.cv[lang]} download>CV (PDF) <Icon name="download" size={13} /></a></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="container footer">
+  <p>© {year} {profile.name}</p>
+  <a class="link-arrow" href={profile.repo} target="_blank" rel="noopener">{t.footer} <Icon name="arrow" size={12} /></a>
+</footer>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const label = btn.querySelector('span');
+      if (!label) return;
+      const original = label.textContent;
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        label.textContent = btn.dataset.done ?? '';
+        setTimeout(() => (label.textContent = original), 1800);
+      } catch {
+        location.href = `mailto:${btn.dataset.copy}`;
+      }
+    });
+  });
+</script>
+
+<style>
+  .title {
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+  .text {
+    max-width: 56ch;
+    margin-top: 16px;
+    font-size: 1.0625rem;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .email {
+    font-size: clamp(1.125rem, 3vw, 1.625rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.15s;
+    overflow-wrap: anywhere;
+  }
+  .email:hover {
+    border-color: var(--text);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: 32px;
+  }
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding-block: 28px 40px;
+    border-top: 1px solid var(--border);
+    font-size: 0.8125rem;
+    color: var(--faint);
+  }
+</style>

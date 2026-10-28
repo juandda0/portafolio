@@ -1,0 +1,124 @@
+---
+import { content, type Job } from '../data/content';
+import type { Lang } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].experience;
+const groups: { title: string; items: Job[] }[] = [
+  { title: t.work, items: t.jobs },
+  { title: t.freelance, items: t.gigs },
+];
+---
+
+<section id="experiencia" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">{t.title}</h2>
+    </div>
+
+    {
+      groups.map((g) => (
+        <div class="group">
+          <h3 class="label group-title">{g.title}</h3>
+          <ol>
+            {g.items.map((job) => (
+              <li class="job">
+                <p class="period">{job.period}</p>
+                <div>
+                  <h4>
+                    {job.role} <span class="at">· {job.org}</span>
+                  </h4>
+                  <p class="place">{job.place}</p>
+                  <ul class="points">
+                    {job.points.map((p) => (
+                      <li>{p}</li>
+                    ))}
+                  </ul>
+                  <div class="tags">
+                    {job.stack.map((s) => (
+                      <span class="tag">{s}</span>
+                    ))}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .group + .group {
+    margin-top: clamp(40px, 6vw, 64px);
+  }
+  .group-title {
+    margin-bottom: 8px;
+  }
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .job {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 8px 32px;
+    padding-block: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .job:last-child {
+    border-bottom: 0;
+  }
+  .period {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  h4 {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  .at {
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .place {
+    font-size: 0.875rem;
+    color: var(--faint);
+  }
+  .points {
+    margin-block: 14px 16px;
+    display: grid;
+    gap: 8px;
+    max-width: 68ch;
+  }
+  .points li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+  .points li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.72em;
+    width: 6px;
+    height: 1px;
+    background: var(--faint);
+  }
+  @media (max-width: 720px) {
+    .job {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

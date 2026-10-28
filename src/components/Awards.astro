@@ -1,0 +1,124 @@
+---
+import Icon from './Icon.astro';
+import { content, type Award } from '../data/content';
+import type { Lang } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang];
+const groups: { title: string; items: Award[] }[] = [
+  { title: t.awards.prizes, items: t.awards.items },
+  { title: t.awards.talks, items: t.awards.talksItems },
+];
+---
+
+<section id="logros" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">{t.awards.title}</h2>
+    </div>
+
+    <div class="cols">
+      {
+        groups.map((g) => (
+          <div>
+            <h3 class="label">{g.title}</h3>
+            <ul>
+              {g.items.map((a) => (
+                <li class="item">
+                  <p class="year">{a.year}</p>
+                  <div>
+                    <h4>{a.title}</h4>
+                    <p class="org">{a.org}</p>
+                    <p class="detail">{a.detail}</p>
+                    <p class="links">
+                      {a.links.map((l) => (
+                        <a class="link-arrow" href={l.href} target="_blank" rel="noopener">
+                          {l.label}
+                          <Icon name="arrow" size={13} />
+                        </a>
+                      ))}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="edu">
+      <h3 class="label">{t.education.title}</h3>
+      <p class="degree">{t.education.degree} <span class="muted">· {t.education.school}</span></p>
+      <p class="muted small">{t.education.detail}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px clamp(32px, 6vw, 72px);
+  }
+  ul {
+    margin-top: 8px;
+  }
+  .item {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 16px;
+    padding-block: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .item:last-child {
+    border-bottom: 0;
+  }
+  .year {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+  h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+  .org {
+    font-size: 0.875rem;
+    color: var(--faint);
+  }
+  .detail {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .links {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .edu {
+    margin-top: clamp(48px, 7vw, 72px);
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .degree {
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .small {
+    font-size: 0.875rem;
+  }
+  @media (max-width: 760px) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
