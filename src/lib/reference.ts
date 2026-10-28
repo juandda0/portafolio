@@ -35,14 +35,10 @@ export async function loadReference(lang: Lang) {
     expect(raw, piece);
   }
 
-  const css =
-    raw
-      .slice(raw.indexOf('<style>') + '<style>'.length, raw.indexOf('</style>'))
-      .replaceAll('"Geist Mono"', '"Geist Mono Variable"')
-      .replaceAll('"Geist"', '"Geist Variable"') +
-    // Sin esto, con 5 pestañas la columna del carrusel crece al ancho de las pestañas y en el celular
-    // aparece scroll horizontal. Se puede quitar cuando la referencia incluya la misma regla.
-    '\n.carousel { grid-template-columns: minmax(0, 1fr); }\n';
+  const css = raw
+    .slice(raw.indexOf('<style>') + '<style>'.length, raw.indexOf('</style>'))
+    .replaceAll('"Geist Mono"', '"Geist Mono Variable"')
+    .replaceAll('"Geist"', '"Geist Variable"');
 
   let markup = raw.slice(raw.indexOf('<!-- end:head -->') + '<!-- end:head -->'.length, raw.lastIndexOf('<script>'));
   // Miniaturas de las galerías: versión pequeña.

@@ -396,7 +396,7 @@ ul { margin: 0; padding: 0; }
 .skill.secondary .chips li { color: var(--muted); }
 
 /* Carrusel de proyectos */
-.carousel { display: grid; gap: 28px; }
+.carousel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
 .car-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
 .car-tabs { display: flex; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .car-tabs::-webkit-scrollbar { display: none; }
