@@ -23,6 +23,9 @@
   --ceti: #ea580c;
   --sonrisa: #4338ca;
   --dino: #7c3aed;
+  --cola: #db2777;
+  --unimarket: #2563eb;
+  --tripcalc: #0891b2;
   --f-display: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-body: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -39,7 +42,7 @@
 :root:not([data-theme="light"]) {
   --bg: #0b0b0c; --surface: #131315; --raised: #1a1a1d; --line: #232326; --line-strong: #2f2f33;
   --fg: #ededee; --muted: #9a9aa0; --faint: #6a6a70; --accent: #6ea0ff; --ok: #4ade80;
-  --biomech: #f0464d; --sigcorp: #4db37a; --sgo: #5a86ff; --ceti: #ff8f2b; --sonrisa: #8b85ff; --dino: #a78bfa;
+  --biomech: #f0464d; --sigcorp: #4db37a; --sgo: #5a86ff; --ceti: #ff8f2b; --sonrisa: #8b85ff; --dino: #a78bfa; --cola: #f472b6; --unimarket: #60a5fa; --tripcalc: #22d3ee;
   color-scheme: dark;
 }
 
@@ -205,13 +208,21 @@ ul { margin: 0; padding: 0; }
 .sec-head h2 { font-size: var(--s-h2); font-weight: 600; line-height: 1.15; }
 .sec-head p { color: var(--muted); max-width: 62ch; }
 
-/* Sobre mí */
-.about { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); }
+/* Sobre mí: texto y datos a la izquierda, foto a la derecha, para que las dos columnas pesen parecido */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: clamp(32px, 6vw, 88px); align-items: stretch; }
 @media (max-width: 880px) { .about { grid-template-columns: minmax(0, 1fr); } }
+.about-main { display: grid; gap: 32px; min-width: 0; }
 .about-text { display: grid; gap: 18px; align-content: start; max-width: 64ch; font-size: 1.0625rem; }
 .about-text p:first-child { color: var(--fg); }
 .about-text p + p { color: var(--muted); }
-.facts { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--line); }
+.portrait {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: 14px; border: 1px solid var(--line-strong); background: var(--raised);
+}
+/* En escritorio la foto toma la altura del texto con los datos, así las dos columnas terminan a la par */
+@media (min-width: 881px) { .portrait { height: 100%; min-height: 360px; aspect-ratio: auto; object-position: 50% 20%; } }
+@media (max-width: 880px) { .portrait { order: -1; max-width: 200px; } }
+.facts { display: grid; gap: 0; margin: 0; max-width: 64ch; border-top: 1px solid var(--line); }
 .facts div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .facts dt { font: 500 var(--s-label)/1.6 var(--f-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--faint); padding-top: 2px; }
 .facts dd { margin: 0; font-size: var(--s-small); }
@@ -233,8 +244,8 @@ ul { margin: 0; padding: 0; }
   display: inline-flex; align-items: center; padding: 3px 9px; border: 1px solid var(--line-strong); border-radius: 6px;
   background: var(--raised); color: var(--fg); font: 500 0.8125rem/1.4 var(--f-mono); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; white-space: nowrap;
 }
-.proj h4 { font-size: var(--s-h4); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
-.proj h4 .client { color: var(--muted); font-weight: 400; }
+.proj :is(h3, h4) { font-size: var(--s-h4); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+.proj :is(h3, h4) .client { color: var(--muted); font-weight: 400; }
 .proj-role { color: var(--muted); font-size: var(--s-small); }
 .proj-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 52px); align-items: start; }
 @media (max-width: 960px) { .proj-body { grid-template-columns: minmax(0, 1fr); } }
@@ -379,16 +390,26 @@ ul { margin: 0; padding: 0; }
 .hero-role .stackline { color: var(--muted); font-weight: 500; }
 
 /* Experiencia: la universidad primero, tres responsabilidades con el mismo peso */
-.job { display: grid; gap: 32px; }
-.sec-head:has(+ .sub) { margin-bottom: 32px; }
+.job { display: grid; gap: 18px; }
+/* Recuadro que agrupa el rol en la universidad y sus tres responsabilidades */
+.job-box { display: grid; gap: 22px; padding: clamp(18px, 2.4vw, 28px); border: 1px solid var(--line); border-radius: 18px; background: color-mix(in srgb, var(--surface) 45%, transparent); }
+/* Las subsecciones de Experiencia son rótulos de categoría, no títulos: así no compiten con el h2 */
+.sec-head:has(+ .sub) { margin-bottom: 20px; }
+#proyectos-personales { scroll-margin-top: calc(24px - clamp(64px, 8vw, 112px)); }
+#proyectos-personales .sec-head { margin-bottom: 28px; }
 .sub + .sub { margin-top: clamp(72px, 8vw, 104px); }
 .sub { scroll-margin-top: 24px; }
-.sub-head { display: grid; gap: 10px; max-width: 760px; margin-bottom: 24px; }
-.sub-head h3 { font-size: var(--s-h3); font-weight: 600; line-height: 1.2; }
-.sub-head p { color: var(--muted); max-width: 62ch; }
+.sub-head { display: grid; gap: 8px; max-width: 760px; margin-bottom: 20px; }
+.sub-head h3 {
+  font: 500 0.8125rem/1.4 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--fg) 78%, var(--muted));
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px;
+  text-decoration-color: color-mix(in srgb, var(--fg) 45%, transparent);
+}
+.sub-head p { color: var(--muted); font-size: var(--s-small); max-width: 62ch; }
 .job-head { display: grid; gap: 10px; max-width: 760px; }
 .job-head h4 { font-size: var(--s-h4); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
-.job-role { color: var(--muted); font-size: var(--s-small); }
+.job-role { color: var(--fg); font-weight: 500; }
 .job-lede { color: var(--muted); }
 .resp-label {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
@@ -547,6 +568,7 @@ ul { margin: 0; padding: 0; }
     <nav class="nav" aria-label="Secciones">
       <a href="#sobre-mi"><span lang="es">Sobre mí</span><span lang="en">About</span></a>
       <a href="#experiencia"><span lang="es">Experiencia</span><span lang="en">Experience</span></a>
+      <a href="#proyectos-personales"><span lang="es">Proyectos</span><span lang="en">Projects</span></a>
       <a href="#premios"><span lang="es">Premios</span><span lang="en">Awards</span></a>
       <a href="#ponencias"><span lang="es">Ponencias</span><span lang="en">Talks</span></a>
       <a href="#habilidades"><span lang="es">Habilidades</span><span lang="en">Skills</span></a>
@@ -575,12 +597,11 @@ ul { margin: 0; padding: 0; }
         </span>
         <h1 class="rise d1">Juan Diego <br><span class="last">Díaz Avendaño</span></h1>
         <p class="hero-role rise d2">
-          <span lang="es">Desarrollador Backend</span><span lang="en">Backend Developer</span><span class="sep">·</span><span class="stackline">Java, Spring Boot, Node.js, PostgreSQL</span>
+          <span lang="es">Desarrollador Full-Stack</span><span lang="en">Full-Stack Developer</span><span class="sep">·</span><span class="stackline">Java, Spring&nbsp;Boot, React, React&nbsp;Native</span>
         </p>
-        <p class="hero-lede rise d2" lang="es">Diseño y construyo APIs REST y microservicios con Java y Spring Boot: seguridad, modelo de datos, pruebas y despliegue. Cuando el proyecto lo pide, también entrego el frontend o la app móvil.</p>
-        <p class="hero-lede rise d2" lang="en">I design and build REST APIs and microservices with Java and Spring Boot: security, data model, testing and deployment. When a project needs it, I also ship the frontend or the mobile app.</p>
+        <p class="hero-lede rise d2" lang="es">Construyo productos completos: APIs REST y microservicios con Java y Spring Boot, frontends en React y apps móviles en React Native y Expo, desde los requisitos hasta el despliegue.</p>
+        <p class="hero-lede rise d2" lang="en">I build complete products: REST APIs and microservices with Java and Spring Boot, React frontends and React Native and Expo mobile apps, from requirements to deployment.</p>
         <div class="cta rise d3">
-          <a class="btn primary" href="#experiencia"><span lang="es">Ver mi trabajo</span><span lang="en">See my work</span><svg aria-hidden="true"><use href="#i-down"/></svg></a>
           <a class="btn" href="https://github.com/juandda0" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-gh"/></svg>GitHub</a>
           <a class="btn" href="https://www.linkedin.com/in/juandiegodiaz-dev" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-in"/></svg>LinkedIn</a>
           <a class="btn" lang="es" href="https://juandiegodiaz-dev.web.app/cv/Juan-Diaz-CV-ES.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-dl"/></svg>Descargar CV</a>
@@ -589,7 +610,7 @@ ul { margin: 0; padding: 0; }
         <dl class="stats rise d4">
           <div><dt><span lang="es">años de experiencia</span><span lang="en">years of experience</span></dt><dd>3</dd></div>
           <div><dt><span lang="es">proyectos publicados</span><span lang="en">shipped projects</span></dt><dd>6</dd></div>
-          <div><dt><span lang="es">premios en 2025</span><span lang="en">awards in 2025</span></dt><dd>3</dd></div>
+          <div><dt><span lang="es">premios</span><span lang="en">awards</span></dt><dd>3</dd></div>
         </dl>
       </div>
 
@@ -597,10 +618,9 @@ ul { margin: 0; padding: 0; }
         <div class="term-bar"><span class="verb">GET</span><span>/me</span><span class="code">200 OK</span></div>
 <pre lang="es"><code><span class="p">{</span>
   <span class="k">"name"</span><span class="p">:</span> <span class="s">"Juan Diego Díaz Avendaño"</span><span class="p">,</span>
-  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Desarrollador Backend"</span><span class="p">,</span>
-  <span class="k">"secondary"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Frontend"</span><span class="p">,</span> <span class="s">"Mobile"</span><span class="p">],</span>
-  <span class="k">"stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Java"</span><span class="p">,</span> <span class="s">"Spring Boot"</span><span class="p">,</span> <span class="s">"Node.js"</span><span class="p">,</span>
-            <span class="s">"PostgreSQL"</span><span class="p">,</span> <span class="s">"Docker"</span><span class="p">],</span>
+  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Desarrollador Full-Stack"</span><span class="p">,</span>
+  <span class="k">"stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Java"</span><span class="p">,</span> <span class="s">"Spring Boot"</span><span class="p">,</span> <span class="s">"PostgreSQL"</span><span class="p">,</span>
+            <span class="s">"React"</span><span class="p">,</span> <span class="s">"React Native"</span><span class="p">],</span>
   <span class="k">"experience"</span><span class="p">:</span> <span class="s">"3 años"</span><span class="p">,</span>
   <span class="k">"location"</span><span class="p">:</span> <span class="s">"Montería, Colombia"</span><span class="p">,</span>
   <span class="k">"remote"</span><span class="p">:</span> <span class="b">true</span><span class="p">,</span>
@@ -609,10 +629,9 @@ ul { margin: 0; padding: 0; }
 <span class="p">}</span></code></pre>
 <pre lang="en"><code><span class="p">{</span>
   <span class="k">"name"</span><span class="p">:</span> <span class="s">"Juan Diego Díaz Avendaño"</span><span class="p">,</span>
-  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Backend Developer"</span><span class="p">,</span>
-  <span class="k">"secondary"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Frontend"</span><span class="p">,</span> <span class="s">"Mobile"</span><span class="p">],</span>
-  <span class="k">"stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Java"</span><span class="p">,</span> <span class="s">"Spring Boot"</span><span class="p">,</span> <span class="s">"Node.js"</span><span class="p">,</span>
-            <span class="s">"PostgreSQL"</span><span class="p">,</span> <span class="s">"Docker"</span><span class="p">],</span>
+  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Full-Stack Developer"</span><span class="p">,</span>
+  <span class="k">"stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Java"</span><span class="p">,</span> <span class="s">"Spring Boot"</span><span class="p">,</span> <span class="s">"PostgreSQL"</span><span class="p">,</span>
+            <span class="s">"React"</span><span class="p">,</span> <span class="s">"React Native"</span><span class="p">],</span>
   <span class="k">"experience"</span><span class="p">:</span> <span class="s">"3 years"</span><span class="p">,</span>
   <span class="k">"location"</span><span class="p">:</span> <span class="s">"Montería, Colombia"</span><span class="p">,</span>
   <span class="k">"remote"</span><span class="p">:</span> <span class="b">true</span><span class="p">,</span>
@@ -631,24 +650,27 @@ ul { margin: 0; padding: 0; }
         <h2><span lang="es">Sobre mí</span><span lang="en">About me</span></h2>
       </div>
       <div class="about">
-        <div class="about-text">
-          <p lang="es">Soy desarrollador backend con 3 años de experiencia. He entregado backends en producción para una universidad, una empresa de demoliciones y un consultorio odontológico con Java, Spring Boot, PostgreSQL, Docker y Node.js, además de backends serverless en Firebase Cloud Functions. Me hago cargo de una funcionalidad desde los requisitos hasta el despliegue.</p>
-          <p lang="en">I'm a backend developer with 3 years of experience. I've delivered production backends for a university, a demolition company and a dental practice with Java, Spring Boot, PostgreSQL, Docker and Node.js, plus serverless backends on Firebase Cloud Functions. I own a feature from requirements to deployment.</p>
-          <p lang="es">En proyectos pequeños también he construido el frontend en React o la app en React Native, como la app de fitness Biomech, publicada en App Store. Eso me ayuda a diseñar APIs pensando en quien las consume. Estudio Ingeniería de Sistemas en la Universidad de Córdoba.</p>
-          <p lang="en">On smaller projects I've also built the React frontend or the React Native app, like the Biomech fitness app, published on the App Store. That helps me design APIs with their consumers in mind. I study Systems Engineering at Universidad de Córdoba.</p>
+        <div class="about-main">
+          <div class="about-text">
+            <p lang="es">Soy desarrollador full-stack con 3 años de experiencia. He entregado productos en producción para distintos tipos de organizaciones, como una universidad, una empresa de demoliciones y un consultorio odontológico. En el backend trabajo con Java, Spring Boot, PostgreSQL, Docker y Node.js, además de Firebase Cloud Functions; en el frontend y mobile, con React, React Native, Expo y TypeScript. Me hago cargo de una funcionalidad desde los requisitos hasta el despliegue.</p>
+            <p lang="en">I'm a full-stack developer with 3 years of experience. I've delivered production products for different kinds of organizations, such as a university, a demolition company and a dental practice. On the backend I work with Java, Spring Boot, PostgreSQL, Docker and Node.js, plus Firebase Cloud Functions; on frontend and mobile, with React, React Native, Expo and TypeScript. I own a feature from requirements to deployment.</p>
+            <p lang="es">Por ejemplo, construí de punta a punta la app de fitness Biomech, publicada en App Store, y el backend en Spring Boot de un sistema para consultorios odontológicos. Conocer los dos lados me ayuda a diseñar APIs pensando en quien las consume. Estudio Ingeniería de Sistemas en la Universidad de Córdoba.</p>
+            <p lang="en">For example, I built the Biomech fitness app end to end, published on the App Store, and the Spring Boot backend of a system for dental practices. Knowing both sides helps me design APIs with their consumers in mind. I study Systems Engineering at Universidad de Córdoba.</p>
+          </div>
+          <dl class="facts">
+            <div><dt><span lang="es">Educación</span><span lang="en">Education</span></dt>
+              <dd><span lang="es">Ingeniería de Sistemas, Universidad de Córdoba</span><span lang="en">B.S. in Systems Engineering, Universidad de Córdoba</span>
+                <small lang="es">En curso (7.º semestre) · graduación estimada 2027</small><small lang="en">In progress (7th semester) · expected 2027</small></dd></div>
+            <div><dt><span lang="es">Idiomas</span><span lang="en">Languages</span></dt>
+              <dd><span lang="es">Español nativo · Inglés C1</span><span lang="en">Spanish (native) · English C1</span></dd></div>
+            <div><dt><span lang="es">Ubicación</span><span lang="en">Location</span></dt>
+              <dd>Montería, Córdoba, Colombia <small>UTC−5</small></dd></div>
+            <div><dt><span lang="es">Modalidad</span><span lang="en">Work mode</span></dt>
+              <dd><span lang="es">100 % remoto · tiempo completo</span><span lang="en">100% remote · full-time</span>
+                <small lang="es">Disponibilidad inmediata</small><small lang="en">Available immediately</small></dd></div>
+          </dl>
         </div>
-        <dl class="facts">
-          <div><dt><span lang="es">Educación</span><span lang="en">Education</span></dt>
-            <dd><span lang="es">Ingeniería de Sistemas, Universidad de Córdoba</span><span lang="en">B.S. in Systems Engineering, Universidad de Córdoba</span>
-              <small lang="es">En curso (7.º semestre) · graduación estimada 2027</small><small lang="en">In progress (7th semester) · expected 2027</small></dd></div>
-          <div><dt><span lang="es">Idiomas</span><span lang="en">Languages</span></dt>
-            <dd><span lang="es">Español nativo · Inglés C1</span><span lang="en">Spanish (native) · English C1</span></dd></div>
-          <div><dt><span lang="es">Ubicación</span><span lang="en">Location</span></dt>
-            <dd>Montería, Córdoba, Colombia <small>UTC−5</small></dd></div>
-          <div><dt><span lang="es">Modalidad</span><span lang="en">Work mode</span></dt>
-            <dd><span lang="es">100 % remoto · tiempo completo</span><span lang="en">100% remote · full-time</span>
-              <small lang="es">Disponibilidad inmediata</small><small lang="en">Available immediately</small></dd></div>
-        </dl>
+        <img class="portrait" src="img/juan-retrato.webp" alt="Retrato de Juan Diego Díaz Avendaño" width="640" height="800" loading="lazy">
       </div>
     </div>
   </section>
@@ -667,44 +689,50 @@ ul { margin: 0; padding: 0; }
         </div>
 
       <article class="job">
-        <header class="job-head">
-          <div class="eyebrow">
-            <span class="period"><span lang="es">ago 2025 – jun 2026</span><span lang="en">Aug 2025 – Jun 2026</span></span>
-            <span class="dim"><span lang="es">Montería, Colombia · remoto</span><span lang="en">Montería, Colombia · remote</span></span>
-          </div>
-          <h4>Universidad de Córdoba</h4>
-          <p class="job-role"><span lang="es">Desarrollador Full-Stack (enfoque Backend)</span><span lang="en">Full-Stack Developer (Backend focus)</span></p>
-          <p class="job-lede" lang="es">Trabajé en el equipo de desarrollo de la universidad a cargo de tres frentes, desde los requisitos hasta el despliegue.</p>
-          <p class="job-lede" lang="en">I worked on the university's development team across three areas, from requirements to deployment.</p>
-        </header>
-
+        <div class="job-box">
+          <header class="job-head">
+            <div class="eyebrow">
+              <span class="period"><span lang="es">ago 2025 – jun 2026</span><span lang="en">Aug 2025 – Jun 2026</span></span>
+              <span class="dim"><span lang="es">Montería, Colombia · remoto</span><span lang="en">Montería, Colombia · remote</span></span>
+            </div>
+            <h4>Universidad de Córdoba</h4>
+            <p class="job-role"><span lang="es">Desarrollador Full-Stack</span><span lang="en">Full-Stack Developer</span></p>
+            <p class="job-lede" lang="es">Trabajé en el equipo de desarrollo de la universidad a cargo de tres frentes, desde los requisitos hasta el despliegue.</p>
+            <p class="job-lede" lang="en">I worked on the university's development team across three areas, from requirements to deployment.</p>
+          </header>
         <ol class="resp-grid">
           <li class="resp">
             <div class="resp-label"><span class="n">1</span>SIGCORP</div>
-            <p lang="es">Construí de punta a punta el backend de la plataforma de gestión de solicitudes de la Oficina de Comunicaciones: APIs REST, asignación, seguimiento de estados, acceso por roles y métricas. Seguridad con <strong>Spring Security y JWT</strong>, persistencia con JPA, Flyway y PostgreSQL, y <strong>bloqueo optimista</strong> para ediciones concurrentes.</p>
-            <p lang="en">I built the backend of the Communications Office's request-management platform end to end: REST APIs, assignment, status tracking, role-based access and metrics. Security with <strong>Spring Security and JWT</strong>, persistence with JPA, Flyway and PostgreSQL, and <strong>optimistic locking</strong> for concurrent edits.</p>
+            <p lang="es">Construí de punta a punta la app web de gestión de solicitudes de la Oficina de Comunicaciones, backend y frontend: APIs REST, asignación, seguimiento de estados, acceso por roles y métricas, con la interfaz en <strong>React y TypeScript</strong>. Seguridad con <strong>Spring Security y JWT</strong>, persistencia con JPA, Flyway y PostgreSQL, y <strong>bloqueo optimista</strong> para ediciones concurrentes.</p>
+            <p lang="en">I built the Communications Office's request-management web app end to end, backend and frontend: REST APIs, assignment, status tracking, role-based access and metrics, with the interface in <strong>React and TypeScript</strong>. Security with <strong>Spring Security and JWT</strong>, persistence with JPA, Flyway and PostgreSQL, and <strong>optimistic locking</strong> for concurrent edits.</p>
+            <p class="also"><span class="lbl"><span lang="es">Prueba de carga</span><span lang="en">Load test</span></span><span lang="es"><strong>200 usuarios simultáneos</strong> y <strong>~5 millones de solicitudes</strong> por jornada.</span><span lang="en"><strong>200 concurrent users</strong> and <strong>~5 million requests</strong> per workday.</span></p>
             <div class="resp-foot">
-              <ul class="chips" aria-label="Stack"><li>Spring Boot</li><li>JWT</li><li>PostgreSQL</li><li>Docker</li><li>Nginx</li></ul>
+              <ul class="chips" aria-label="Stack"><li>Spring Boot</li><li>JWT</li><li>PostgreSQL</li><li>React</li><li>TypeScript</li><li>Docker</li><li>Nginx</li></ul>
               <button type="button" class="link-btn" data-shots="shots-sigcorp"><svg aria-hidden="true"><use href="#i-zoom"/></svg><span lang="es">Ver capturas (5)</span><span lang="en">View screenshots (5)</span></button>
             </div>
           </li>
           <li class="resp">
             <div class="resp-label"><span class="n">2</span><span lang="es">E-commerce institucional</span><span lang="en">Institutional e-commerce</span></div>
-            <p lang="es">Desarrollé módulos backend para la tienda en línea de la universidad: pasarela de pagos <strong>Wompi</strong> con confirmación asíncrona por webhooks y un <strong>microservicio de notificaciones en Node.js</strong> con comunicación REST entre servicios.</p>
-            <p lang="en">I built backend modules for the university's online store: <strong>Wompi</strong> payment gateway with asynchronous webhook confirmation and a <strong>Node.js notification microservice</strong> using REST service-to-service communication.</p>
+            <p lang="es">Desarrollé módulos backend para la tienda en línea de la universidad. Integré la pasarela de pagos <strong>Wompi</strong> con confirmación asíncrona por webhooks: validé la <strong>firma de cada evento</strong>, evité <strong>pagos duplicados</strong> con un procesamiento idempotente y manejé los estados de la orden (pendiente, aprobada, rechazada o anulada).</p>
+            <p lang="en">I built backend modules for the university's online store. I integrated the <strong>Wompi</strong> payment gateway with asynchronous webhook confirmation: I verified the <strong>signature of every event</strong>, prevented <strong>duplicate payments</strong> with idempotent processing and handled the order states (pending, approved, declined or voided).</p>
+            <p lang="es">Un <strong>microservicio de notificaciones en Node.js</strong>, conectado por REST con el backend, le envía al comprador la confirmación y cada cambio de estado por correo.</p>
+            <p lang="en">A <strong>Node.js notification microservice</strong>, connected to the backend over REST, emails the buyer the confirmation and every status change.</p>
             <div class="resp-foot">
-              <ul class="chips" aria-label="Stack"><li>Wompi</li><li>Webhooks</li><li>Node.js</li><li><span lang="es">Microservicios</span><span lang="en">Microservices</span></li></ul>
+              <ul class="chips" aria-label="Stack"><li>Wompi</li><li>Webhooks</li><li><span lang="es">Idempotencia</span><span lang="en">Idempotency</span></li><li>Node.js</li><li><span lang="es">Microservicios</span><span lang="en">Microservices</span></li></ul>
             </div>
           </li>
           <li class="resp">
             <div class="resp-label"><span class="n">3</span><span lang="es">Migración del sitio web</span><span lang="en">Website migration</span></div>
-            <p lang="es">Participé en la migración de unas <strong>200 páginas</strong> del sitio web institucional de la universidad, trabajando con Git, GitHub, pull requests, revisión de código y Scrum.</p>
-            <p lang="en">I contributed to migrating about <strong>200 pages</strong> of the university's institutional website, working with Git, GitHub, pull requests, code review and Scrum.</p>
+            <p lang="es">Migré unas <strong>200 páginas</strong> del sitio web institucional a <strong>WordPress</strong>. Rediseñé las páginas y validé que textos, enlaces, imágenes y documentos llegaran completos y correctos.</p>
+            <p lang="en">I migrated about <strong>200 pages</strong> of the university's institutional website to <strong>WordPress</strong>. I redesigned the pages and checked that text, links, images and documents arrived complete and correct.</p>
+            <p lang="es"><strong>Optimicé</strong> imágenes y tiempos de carga, y cuidé el <strong>diseño adaptable</strong> y el <strong>SEO</strong>, con redirecciones de las URLs antiguas para no perder posicionamiento.</p>
+            <p lang="en">I <strong>optimized</strong> images and load times, and took care of <strong>responsive design</strong> and <strong>SEO</strong>, redirecting the old URLs to keep search rankings.</p>
             <div class="resp-foot">
-              <ul class="chips" aria-label="Stack"><li>Git</li><li>GitHub</li><li>Pull requests</li><li>Scrum</li></ul>
+              <ul class="chips" aria-label="Stack"><li>WordPress</li><li>SEO</li><li><span lang="es">Diseño adaptable</span><span lang="en">Responsive design</span></li><li><span lang="es">Rendimiento</span><span lang="en">Performance</span></li></ul>
             </div>
           </li>
         </ol>
+        </div>
 
         <template id="shots-sigcorp">
           <button type="button" data-src="img/sigcorp-1-portada.webp" data-es="SIGCORP: tablero de solicitudes" data-en="SIGCORP: request board"></button>
@@ -720,17 +748,28 @@ ul { margin: 0; padding: 0; }
       <div class="sub" id="proyectos">
         <div class="sub-head">
           <h3>Freelance</h3>
-          <p lang="es">Productos en producción para clientes. En cada uno me encargué del backend y, cuando el proyecto lo pedía, también de la app o el frontend.</p>
-          <p lang="en">Production products for clients. I owned the backend of each one and, when the project needed it, the app or frontend too.</p>
         </div>
 
       <div class="carousel" data-carousel>
+        <div class="car-bar">
+          <div class="car-tabs" role="tablist" aria-label="Proyectos freelance">
+            <button type="button" role="tab" id="tab-sonrisa" style="--pc: var(--sonrisa)">Sonrisa</button>
+            <button type="button" role="tab" id="tab-sgo" style="--pc: var(--sgo)">SGO</button>
+            <button type="button" role="tab" id="tab-biomech" style="--pc: var(--biomech)">Biomech</button>
+            <button type="button" role="tab" id="tab-dino" style="--pc: var(--dino)">Purple Dino</button>
+          </div>
+          <div class="car-nav">
+            <span class="car-count mono" aria-live="polite"><b>01</b> / 04</span>
+            <button type="button" class="icon-btn" data-car="-1" aria-label="Proyecto anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+            <button type="button" class="icon-btn" data-car="1" aria-label="Proyecto siguiente"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+
         <div class="car-track">
           <!-- Sonrisa -->
           <article class="proj slide" role="tabpanel" aria-labelledby="tab-sonrisa" style="--pc: var(--sonrisa)">
             <header class="proj-head">
               <div class="eyebrow">
-                <span class="tag"><span lang="es">Gestión odontológica</span><span lang="en">Dental practice management</span></span>
                 <span class="period"><span lang="es">ago 2026 – oct 2026</span><span lang="en">Aug 2026 – Oct 2026</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
@@ -769,6 +808,7 @@ ul { margin: 0; padding: 0; }
                 </ul>
                 <p class="also"><span class="lbl"><span lang="es">Normativa</span><span lang="en">Compliance</span></span>Ley 1581 · RIPS · CIE-10 · CUPS</p>
                 <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">integré el frontend en React + TypeScript.</span><span lang="en">integrated the React + TypeScript frontend.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">desarrollo guiado por specs: cada sprint arranca con un diseño y un plan por tareas con pasos TDD que ejecutan agentes de IA.</span><span lang="en">spec-driven development: each sprint starts with a design and a task plan with TDD steps executed by AI agents.</span></p>
                 <ul class="chips" aria-label="Stack">
                   <li>Java 21</li><li>Spring Boot</li><li>Spring Security</li><li>PostgreSQL</li><li>Flyway</li><li>Docker</li><li>Railway</li>
                 </ul>
@@ -782,7 +822,6 @@ ul { margin: 0; padding: 0; }
           <article class="proj slide" role="tabpanel" aria-labelledby="tab-sgo" style="--pc: var(--sgo)">
             <header class="proj-head">
               <div class="eyebrow">
-                <span class="tag"><span lang="es">Gestión operativa</span><span lang="en">Operations management</span></span>
                 <span class="period"><span lang="es">may 2026 – jun 2026</span><span lang="en">May 2026 – Jun 2026</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
@@ -823,6 +862,7 @@ ul { margin: 0; padding: 0; }
                   <li><strong>Firestore Security Rules</strong> with role- and project-level isolation, write validation and emulator-based security tests.</li>
                 </ul>
                 <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app web en React y TypeScript, con dashboards de KPIs, filtros y búsqueda.</span><span lang="en">built the React and TypeScript web app, with KPI dashboards, filters and search.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">diseñé un equipo de 13 agentes especializados (Claude Code y Codex) con un orquestador que delega arquitectura, seguridad, pruebas y revisión.</span><span lang="en">I designed a team of 13 specialized agents (Claude Code and Codex) with an orchestrator that delegates architecture, security, testing and review.</span></p>
                 <ul class="chips" aria-label="Stack">
                   <li>Firebase</li><li>Firestore</li><li>Security Rules</li><li>Spring Boot</li><li>PostgreSQL</li><li>React</li><li>TypeScript</li>
                 </ul>
@@ -832,64 +872,10 @@ ul { margin: 0; padding: 0; }
             </div>
           </article>
 
-          <!-- CETI -->
-          <article class="proj slide" role="tabpanel" aria-labelledby="tab-ceti" style="--pc: var(--ceti)">
-            <header class="proj-head">
-              <div class="eyebrow">
-                <span class="tag"><span lang="es">Educación financiera con IA</span><span lang="en">AI financial education</span></span>
-                <span class="period"><span lang="es">abr 2025 – sep 2025</span><span lang="en">Apr 2025 – Sep 2025</span></span>
-                <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
-              </div>
-              <h4>CETI</h4>
-              <p class="proj-role"><span lang="es">Desarrollador Full-Stack Mobile</span><span lang="en">Full-Stack Mobile Developer</span></p>
-            </header>
-            <div class="proj-body">
-              <div class="gallery" data-gallery>
-                <button type="button" class="g-main" aria-label="Ampliar imagen">
-                  <img src="img/ceti-1-portada.webp" alt="CETI: aprende finanzas como un juego" width="1600" height="900" loading="lazy">
-                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
-                </button>
-                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
-                <div class="g-thumbs">
-                  <button type="button" data-src="img/ceti-1-portada.webp" data-es="CETI: aprende finanzas como un juego" data-en="CETI: learn finance like a game"><img src="img/ceti-1-portada.webp" alt="" loading="lazy"></button>
-                  <button type="button" data-src="img/ceti-2-aprender.webp" data-es="Galaxia, mapa y lección" data-en="Galaxy, map and lesson"><img src="img/ceti-2-aprender.webp" alt="" loading="lazy"></button>
-                  <button type="button" data-src="img/ceti-3-finanzas.webp" data-es="Bóveda, metas y gráficas" data-en="Vault, goals and charts"><img src="img/ceti-3-finanzas.webp" alt="" loading="lazy"></button>
-                  <button type="button" data-src="img/ceti-4-actividad.webp" data-es="Actividad, perfil y vista del profesor" data-en="Activity, profile and teacher view"><img src="img/ceti-4-actividad.webp" alt="" loading="lazy"></button>
-                </div>
-              </div>
-              <div class="proj-text">
-                <div class="proj-more">
-                <p class="lede" lang="es">Plataforma de educación financiera para jóvenes y colegios: lecciones gamificadas, rachas, metas de ahorro, gastos, presupuestos y gráficas.</p>
-                <p class="lede" lang="en">Financial education platform for young people and schools: gamified lessons, streaks, savings goals, expenses, budgets and charts.</p>
-                <ul class="bullets" lang="es">
-                  <li>Flujo de <strong>IA del lado del servidor</strong> en Cloud Functions que convierte texto y voz en acciones estructuradas, con validación, confirmación del usuario, cuotas de uso y respaldo local.</li>
-                  <li>Firebase Auth, Custom Claims y Security Rules que aíslan los datos por colegio, curso y usuario.</li>
-                  <li>Pruebas con Jest, el emulador de Firestore y flujos E2E con Maestro.</li>
-                </ul>
-                <ul class="bullets" lang="en">
-                  <li><strong>Server-side AI workflow</strong> on Cloud Functions that turns text and voice requests into structured actions, with validation, user confirmation, usage quotas and local fallbacks.</li>
-                  <li>Firebase Auth, Custom Claims and Security Rules isolating data by school, course and user.</li>
-                  <li>Tests with Jest, the Firestore emulator and Maestro E2E flows.</li>
-                </ul>
-                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app móvil y web en React Native y Expo.</span><span lang="en">built the mobile and web app with React Native and Expo.</span></p>
-                <ul class="chips" aria-label="Stack">
-                  <li>Cloud Functions</li><li>Firestore</li><li>Firebase Auth</li><li>LLM APIs</li><li>Jest</li><li>React Native</li><li>Expo</li>
-                </ul>
-                </div>
-                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
-                <div class="proj-links">
-                  <a class="btn" href="https://ceti-d3769.web.app" target="_blank" rel="noopener"><span lang="es">Abrir CETI</span><span lang="en">Open CETI</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-                  <a class="btn ghost" href="https://unicordoba.edu.co/blog/estudiantes-de-unicordoba-crean-plataforma-para-ensenar-educacion-financiera-a-los-jovenes/" target="_blank" rel="noopener"><span lang="es">Nota de Unicórdoba</span><span lang="en">Unicórdoba article</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-                </div>
-              </div>
-            </div>
-          </article>
-
           <!-- Biomech -->
           <article class="proj slide" role="tabpanel" aria-labelledby="tab-biomech" style="--pc: var(--biomech)">
             <header class="proj-head">
               <div class="eyebrow">
-                <span class="tag"><span lang="es">Fitness B2B</span><span lang="en">B2B fitness</span></span>
                 <span class="period"><span lang="es">may 2023 – jun 2025</span><span lang="en">May 2023 – Jun 2025</span></span>
                 <span class="dim"><span lang="es">Remoto</span><span lang="en">Remote</span></span>
               </div>
@@ -928,6 +914,7 @@ ul { margin: 0; padding: 0; }
                   <li><strong>Wompi</strong> payments and <strong>RevenueCat</strong> subscriptions for App Store and Android billing.</li>
                 </ul>
                 <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app móvil en React Native, Expo y TypeScript.</span><span lang="en">built the mobile app with React Native, Expo and TypeScript.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">pipeline multiagente propio con loops de auditoría, implementación y verificación adversarial; blindé 48 módulos críticos con tests de caracterización antes de refactorizar.</span><span lang="en">my own multi-agent pipeline with audit, implementation and adversarial-verification loops; I locked down 48 critical modules with characterization tests before refactoring.</span></p>
                 <ul class="chips" aria-label="Stack">
                   <li>Cloud Functions</li><li>Firestore</li><li>Zod</li><li>App Check</li><li>Wompi</li><li>RevenueCat</li><li>React Native</li>
                 </ul>
@@ -944,7 +931,6 @@ ul { margin: 0; padding: 0; }
           <article class="proj slide" role="tabpanel" aria-labelledby="tab-dino" style="--pc: var(--dino)">
             <header class="proj-head">
               <div class="eyebrow">
-                <span class="tag"><span lang="es">Juego multijugador en tiempo real</span><span lang="en">Real-time multiplayer game</span></span>
                 <span class="period">2026</span>
               </div>
               <h4>Purple Dino</h4>
@@ -979,6 +965,7 @@ ul { margin: 0; padding: 0; }
                   <li>Guarded deploys: the script checks the production config and ships rules and app together.</li>
                 </ul>
                 <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la vista del proyector y la del celular en React.</span><span lang="en">built the projector and phone views in React.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">lo llevé a producción con una skill propia de auditoría: 12 lotes de correcciones aprobados por mí y dos rondas de revisión adversarial.</span><span lang="en">I took it to production with my own audit skill: 12 batches of fixes I approved and two rounds of adversarial review.</span></p>
                 <ul class="chips" aria-label="Stack">
                   <li>Realtime Database</li><li>Firebase Auth</li><li>TypeScript</li><li>Vitest</li><li>React</li>
                 </ul>
@@ -991,22 +978,233 @@ ul { margin: 0; padding: 0; }
             </div>
           </article>
         </div>
+      </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ======================= PROYECTOS PERSONALES ======================= -->
+  <section class="section" id="proyectos-personales">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="path"><span lang="es">/proyectos</span><span lang="en">/projects</span></span>
+        <h2><span lang="es">Proyectos personales</span><span lang="en">Personal projects</span></h2>
+      </div>
+
+      <div class="carousel" data-carousel>
         <div class="car-bar">
-          <div class="car-tabs" role="tablist" aria-label="Proyectos freelance">
-            <button type="button" role="tab" id="tab-sonrisa" style="--pc: var(--sonrisa)">Sonrisa</button>
-            <button type="button" role="tab" id="tab-sgo" style="--pc: var(--sgo)">SGO</button>
-            <button type="button" role="tab" id="tab-ceti" style="--pc: var(--ceti)">CETI</button>
-            <button type="button" role="tab" id="tab-biomech" style="--pc: var(--biomech)">Biomech</button>
-            <button type="button" role="tab" id="tab-dino" style="--pc: var(--dino)">Purple Dino</button>
+          <div class="car-tabs" role="tablist" aria-label="Proyectos personales">
+            <button type="button" role="tab" id="tab-p-ceti" style="--pc: var(--ceti)">CETI</button>
+            <button type="button" role="tab" id="tab-p-cola" style="--pc: var(--cola)"><span lang="es">La cola</span><span lang="en">The queue</span></button>
+            <button type="button" role="tab" id="tab-p-unimarket" style="--pc: var(--unimarket)">Unimarket</button>
+            <button type="button" role="tab" id="tab-p-tripcalc" style="--pc: var(--tripcalc)">TripCalc</button>
           </div>
           <div class="car-nav">
-            <span class="car-count mono" aria-live="polite"><b>01</b> / 05</span>
+            <span class="car-count mono" aria-live="polite"><b>01</b> / 04</span>
             <button type="button" class="icon-btn" data-car="-1" aria-label="Proyecto anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
             <button type="button" class="icon-btn" data-car="1" aria-label="Proyecto siguiente"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
           </div>
         </div>
-      </div>
+
+        <div class="car-track">
+          <!-- ceti -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-p-ceti" style="--pc: var(--ceti)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="period"><span lang="es">abr 2025 – sep 2025</span><span lang="en">Apr 2025 – Sep 2025</span></span>
+              </div>
+              <h3>CETI</h3>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack Mobile</span><span lang="en">Full-Stack Mobile Developer</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/ceti-1-portada.webp" alt="CETI: aprende finanzas como un juego" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/ceti-1-portada.webp" data-es="CETI: aprende finanzas como un juego" data-en="CETI: learn finance like a game"><img src="img/ceti-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/ceti-2-aprender.webp" data-es="Galaxia, mapa y lección" data-en="Galaxy, map and lesson"><img src="img/ceti-2-aprender.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/ceti-3-finanzas.webp" data-es="Bóveda, metas y gráficas" data-en="Vault, goals and charts"><img src="img/ceti-3-finanzas.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/ceti-4-actividad.webp" data-es="Actividad, perfil y vista del profesor" data-en="Activity, profile and teacher view"><img src="img/ceti-4-actividad.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <div class="proj-more">
+                <p class="lede" lang="es">Plataforma de educación financiera para jóvenes y colegios: lecciones gamificadas, rachas, metas de ahorro, gastos, presupuestos y gráficas.</p>
+                <p class="lede" lang="en">Financial education platform for young people and schools: gamified lessons, streaks, savings goals, expenses, budgets and charts.</p>
+                <ul class="bullets" lang="es">
+                  <li>Flujo de <strong>IA del lado del servidor</strong> en Cloud Functions que convierte texto y voz en acciones estructuradas, con validación, confirmación del usuario, cuotas de uso y respaldo local.</li>
+                  <li>Firebase Auth, Custom Claims y Security Rules que aíslan los datos por colegio, curso y usuario.</li>
+                  <li>Pruebas con Jest, el emulador de Firestore y flujos E2E con Maestro.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li><strong>Server-side AI workflow</strong> on Cloud Functions that turns text and voice requests into structured actions, with validation, user confirmation, usage quotas and local fallbacks.</li>
+                  <li>Firebase Auth, Custom Claims and Security Rules isolating data by school, course and user.</li>
+                  <li>Tests with Jest, the Firestore emulator and Maestro E2E flows.</li>
+                </ul>
+                <p class="also"><span class="lbl"><span lang="es">También</span><span lang="en">Also</span></span><span lang="es">construí la app móvil y web en React Native y Expo.</span><span lang="en">built the mobile and web app with React Native and Expo.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">arnés multiagente con 12 agentes, 9 skills propias y un hook que corre el linter tras cada edición del agente.</span><span lang="en">a multi-agent harness with 12 agents, 9 custom skills and a hook that runs the linter after every agent edit.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Cloud Functions</li><li>Firestore</li><li>Firebase Auth</li><li>LLM APIs</li><li>Jest</li><li>React Native</li><li>Expo</li>
+                </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
+                <div class="proj-links">
+                  <a class="btn" href="https://ceti-d3769.web.app" target="_blank" rel="noopener"><span lang="es">Abrir CETI</span><span lang="en">Open CETI</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="btn ghost" href="https://unicordoba.edu.co/blog/estudiantes-de-unicordoba-crean-plataforma-para-ensenar-educacion-financiera-a-los-jovenes/" target="_blank" rel="noopener"><span lang="es">Ver noticia</span><span lang="en">Read the news</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- cola -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-p-cola" style="--pc: var(--cola)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="period"><span lang="es">oct 2026</span><span lang="en">Oct 2026</span></span>
+              </div>
+              <h3><span lang="es">La cola</span><span lang="en">The queue</span></h3>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack · de punta a punta</span><span lang="en">Full-Stack Developer · end to end</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/cola-1-portada.webp" alt="La cola: la misma cola vista por cada integrante en su color" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/cola-1-portada.webp" data-es="La misma cola, cada quien en su color" data-en="The same queue, each person in their color"><img src="img/cola-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/cola-2-ajustes.webp" data-es="Entrada con Google y ajustes del espacio" data-en="Google sign-in and space settings"><img src="img/cola-2-ajustes.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <div class="proj-more">
+                <p class="lede" lang="es">Cola de actividades compartida para dos personas: la primera que se agrega es la que toca hacer, y no se pasa a la siguiente hasta marcarla como hecha. Es una PWA pensada para el celular.</p>
+                <p class="lede" lang="en">A shared activity queue for two people: the first item added is the one to do next, and you can't move on until it's marked done. It's a PWA built for phones.</p>
+                <ul class="bullets" lang="es">
+                  <li>Cola en <strong>tiempo real con Firestore</strong>. El código de invitación es el id del espacio, y las reglas de seguridad solo admiten <strong>exactamente dos integrantes</strong>.</li>
+                  <li><strong>Cloud Functions</strong> que envían avisos push al agregar o completar una actividad, y recordatorios a las horas que cada pareja configura.</li>
+                  <li>Inicio de sesión con Google y pruebas con los emuladores de Firebase.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li><strong>Real-time queue on Firestore</strong>. The invite code is the space id, and the security rules allow <strong>exactly two members</strong>.</li>
+                  <li><strong>Cloud Functions</strong> that send push notifications when an activity is added or completed, plus reminders at the hours each couple sets.</li>
+                  <li>Google sign-in and testing against the Firebase emulators.</li>
+                </ul>
+                <p class="also"><span class="lbl">Frontend</span><span lang="es">Angular 22 con signals y componentes standalone, sin librerías de UI, con modo claro y oscuro.</span><span lang="en">Angular 22 with signals and standalone components, no UI library, light and dark mode.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">la construí con un agente que probó cada flujo en el navegador contra los emuladores antes de desplegar.</span><span lang="en">built with an agent that tested every flow in the browser against the emulators before deploying.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>Angular</li><li>TypeScript</li><li>Firestore</li><li>Cloud Functions</li><li>Firebase Messaging</li><li>PWA</li>
+                </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
+                <div class="proj-links">
+                  <a class="btn" href="https://github.com/juandda0/cola" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-gh"/></svg><span lang="es">Ver en GitHub</span><span lang="en">View on GitHub</span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- unimarket -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-p-unimarket" style="--pc: var(--unimarket)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="period">2025</span>
+              </div>
+              <h3>Unimarket</h3>
+              <p class="proj-role"><span lang="es">CTO del equipo · ganador de TechU Montería 2025</span><span lang="en">Team CTO · TechU Montería 2025 winner</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/unimarket-1-portada.webp" alt="Unimarket: subasta, inicio y billetera UNICOIN" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/unimarket-1-portada.webp" data-es="Subasta en vivo, inicio y billetera UNICOIN" data-en="Live auction, home and UNICOIN wallet"><img src="img/unimarket-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/unimarket-2-tienda.webp" data-es="Catálogo, rifa y detalle de producto" data-en="Catalog, raffle and product detail"><img src="img/unimarket-2-tienda.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <div class="proj-more">
+                <p class="lede" lang="es">Marketplace universitario donde los estudiantes de la Universidad de Córdoba compran y venden entre clases: tiendas de estudiantes, subastas, rifas y una moneda digital propia, UNICOIN.</p>
+                <p class="lede" lang="en">A university marketplace where Universidad de Córdoba students buy and sell between classes: student stores, auctions, raffles and their own digital currency, UNICOIN.</p>
+                <ul class="bullets" lang="es">
+                  <li><strong>Subastas</strong> con cuenta regresiva e historial de pujas, <strong>rifas</strong> con grilla de boletos y una <strong>billetera UNICOIN</strong> con recargas y movimientos.</li>
+                  <li>Pensada para el celular: carrito agrupado por tienda, checkout con entrega en el campus y seguimiento del pedido.</li>
+                  <li>Ganó TechU Montería 2025 (uno de 5 proyectos entre 72) y la Feria de Innovación de Unicórdoba.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li><strong>Auctions</strong> with a countdown and bid history, <strong>raffles</strong> with a ticket grid and a <strong>UNICOIN wallet</strong> with top-ups and transactions.</li>
+                  <li>Built for phones: cart grouped by store, checkout with on-campus delivery and order tracking.</li>
+                  <li>Won TechU Montería 2025 (one of 5 projects out of 72) and the Unicórdoba Innovation Fair.</li>
+                </ul>
+                <p class="also"><span class="lbl">Frontend</span><span lang="es">React 19, TypeScript y Tailwind CSS, con colores sólidos, íconos a color y datos de demostración locales.</span><span lang="en">React 19, TypeScript and Tailwind CSS, with solid colors, full-color icons and local demo data.</span></p>
+                <p class="also"><span class="lbl"><span lang="es">IA</span><span lang="en">AI</span></span><span lang="es">retomé el proyecto y terminé la web con un agente de IA, con el build y el linter como compuerta de calidad.</span><span lang="en">I picked the project back up and finished the web app with an AI agent, using the build and linter as a quality gate.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>React</li><li>TypeScript</li><li>Tailwind CSS</li><li>React Router</li><li>Vite</li>
+                </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
+                <div class="proj-links">
+                  <a class="btn" href="https://github.com/juandda0/marketplace-frontend" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-gh"/></svg><span lang="es">Ver en GitHub</span><span lang="en">View on GitHub</span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- tripcalc -->
+          <article class="proj slide" role="tabpanel" aria-labelledby="tab-p-tripcalc" style="--pc: var(--tripcalc)">
+            <header class="proj-head">
+              <div class="eyebrow">
+                <span class="period"><span lang="es">jul 2026</span><span lang="en">Jul 2026</span></span>
+              </div>
+              <h3>TripCalc</h3>
+              <p class="proj-role"><span lang="es">Desarrollador Full-Stack · de punta a punta</span><span lang="en">Full-Stack Developer · end to end</span></p>
+            </header>
+            <div class="proj-body">
+              <div class="gallery" data-gallery>
+                <button type="button" class="g-main" aria-label="Ampliar imagen">
+                  <img src="img/tripcalc-1-portada.webp" alt="TripCalc: ruta en el mapa y gasto de gasolina del trayecto" width="1600" height="900" loading="lazy">
+                  <span class="g-zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span>
+                </button>
+                <div class="g-cap"><span class="t"></span><span class="n"></span></div>
+                <div class="g-thumbs">
+                  <button type="button" data-src="img/tripcalc-1-portada.webp" data-es="Ruta real, gasto en moto y búsqueda de vehículo" data-en="Real route, motorcycle cost and vehicle search"><img src="img/tripcalc-1-portada.webp" alt="" loading="lazy"></button>
+                  <button type="button" data-src="img/tripcalc-2-carro.webp" data-es="Ciudad, gasto en carro y precio del litro" data-en="City, car cost and price per liter"><img src="img/tripcalc-2-carro.webp" alt="" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="proj-text">
+                <div class="proj-more">
+                <p class="lede" lang="es">Calculadora del gasto de gasolina por trayecto: marcas origen y destino en el mapa, eliges tu moto o carro y te dice cuántos litros y cuánta plata cuesta el recorrido.</p>
+                <p class="lede" lang="en">A fuel-cost calculator for trips: set origin and destination on the map, pick your motorcycle or car, and it tells you how many liters and how much money the trip costs.</p>
+                <ul class="bullets" lang="es">
+                  <li>Ruta real por calles con <strong>OSRM</strong> y búsqueda de direcciones con <strong>Nominatim</strong> (OpenStreetMap), priorizando la ciudad elegida.</li>
+                  <li>Especificaciones de motos y carros consultadas a un <strong>LLM (Llama 3 en Groq)</strong>, que también corrige la ortografía de los lugares buscados.</li>
+                  <li>Pines arrastrables para ajustar el punto exacto, y precio del litro configurable.</li>
+                </ul>
+                <ul class="bullets" lang="en">
+                  <li>Real street routing with <strong>OSRM</strong> and address search with <strong>Nominatim</strong> (OpenStreetMap), prioritizing the selected city.</li>
+                  <li>Motorcycle and car specs looked up with an <strong>LLM (Llama 3 on Groq)</strong>, which also fixes typos in searched places.</li>
+                  <li>Draggable pins to fine-tune the exact point, and a configurable price per liter.</li>
+                </ul>
+                <p class="also"><span class="lbl">Frontend</span><span lang="es">React, TypeScript y Leaflet, pensado para el celular con un panel inferior deslizable.</span><span lang="en">React, TypeScript and Leaflet, built for phones with a draggable bottom sheet.</span></p>
+                <ul class="chips" aria-label="Stack">
+                  <li>React</li><li>TypeScript</li><li>Leaflet</li><li>OSRM</li><li>Groq API</li><li>Vite</li>
+                </ul>
+                </div>
+                <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
+                <div class="proj-links">
+                  <a class="btn" href="https://github.com/juandda0/TripCalc" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-gh"/></svg><span lang="es">Ver en GitHub</span><span lang="en">View on GitHub</span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -1017,8 +1215,8 @@ ul { margin: 0; padding: 0; }
       <div class="sec-head">
         <span class="path"><span lang="es">/premios</span><span lang="en">/awards</span></span>
         <h2><span lang="es">Premios</span><span lang="en">Awards</span></h2>
-        <p lang="es">Tres reconocimientos en mayo de 2025, con enlaces a las publicaciones originales.</p>
-        <p lang="en">Three awards in May 2025, with links to the original announcements.</p>
+        <p lang="es">Reconocimientos por proyectos de tecnología e innovación.</p>
+        <p lang="en">Recognition for technology and innovation projects.</p>
       </div>
       <div class="awards">
         <article class="award">
@@ -1030,8 +1228,8 @@ ul { margin: 0; padding: 0; }
             <p style="margin-top:12px" lang="en">One of 5 winning projects out of 72 proposals. Unimarket is a university marketplace with catalogs, auctions, raffles and its own digital currency (UNICOIN).</p>
           </div>
           <div class="src">
-            <a href="https://www.instagram.com/unicordoba_colombia/p/DKSEd_vt3i4/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Publicación de Unicórdoba (Instagram)</span><span lang="en">Unicórdoba post (Instagram)</span></a>
-            <a href="https://www.chicanoticias.com/2025/05/30/estudiantes-de-unicordoba-ganan-en-techu-2025-con-proyectos-que-impactan/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Nota en Chica Noticias</span><span lang="en">Chica Noticias article</span></a>
+            <a href="https://www.instagram.com/unicordoba_colombia/p/DKSEd_vt3i4/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Ver publicación</span><span lang="en">View post</span></a>
+            <a href="https://www.chicanoticias.com/2025/05/30/estudiantes-de-unicordoba-ganan-en-techu-2025-con-proyectos-que-impactan/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Ver noticia</span><span lang="en">Read the news</span></a>
           </div>
         </article>
         <article class="award">
@@ -1043,8 +1241,8 @@ ul { margin: 0; padding: 0; }
             <p style="margin-top:12px" lang="en">Attendance-tracking system for schools, built with Rafael Corredor Gambín and Jesús Carrascal Hoyos: Express.js and TypeScript backend, Tailwind CSS SPA, Flutter app, and SQL and NoSQL databases.</p>
           </div>
           <div class="src">
-            <a href="https://www.instagram.com/p/DKDFZtpS4Vh/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Publicación en Instagram</span><span lang="en">Instagram post</span></a>
-            <a href="https://www.chicanoticias.com/2025/05/24/brillan-tecnologico-estudiantes/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Nota en Chica Noticias</span><span lang="en">Chica Noticias article</span></a>
+            <a href="https://www.instagram.com/p/DKDFZtpS4Vh/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Ver publicación</span><span lang="en">View post</span></a>
+            <a href="https://www.chicanoticias.com/2025/05/24/brillan-tecnologico-estudiantes/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Ver noticia</span><span lang="en">Read the news</span></a>
           </div>
         </article>
         <article class="award">
@@ -1056,7 +1254,7 @@ ul { margin: 0; padding: 0; }
             <p style="margin-top:12px" lang="en">CTO of the four-student team from the Innovarium research group behind Unimarket.</p>
           </div>
           <div class="src">
-            <a href="https://www.instagram.com/unicordoba_colombia/p/DKDdG7IyBaH/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Publicación de Unicórdoba (Instagram)</span><span lang="en">Unicórdoba post (Instagram)</span></a>
+            <a href="https://www.instagram.com/unicordoba_colombia/p/DKDdG7IyBaH/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span lang="es">Ver publicación</span><span lang="en">View post</span></a>
           </div>
         </article>
       </div>
@@ -1118,7 +1316,8 @@ ul { margin: 0; padding: 0; }
         <div class="skill"><h3>Cloud &amp; DevOps</h3><ul class="chips"><li>Docker</li><li>Docker Compose</li><li>Nginx</li><li>Firebase</li><li>Cloud Functions</li><li>App Check</li><li>Railway</li><li>Vercel</li><li>Git / GitHub</li><li>CI/CD</li></ul></div>
         <div class="skill"><h3><span lang="es">Pruebas</span><span lang="en">Testing</span></h3><ul class="chips"><li>JUnit</li><li>Jest</li><li>Testing Library</li><li>Firebase Emulator</li><li>Maestro E2E</li></ul></div>
         <div class="skill"><h3><span lang="es">Integraciones</span><span lang="en">Integrations</span></h3><ul class="chips"><li><span lang="es">Pagos con Wompi</span><span lang="en">Wompi payments</span></li><li>RevenueCat</li><li><span lang="es">APIs de IA / LLM</span><span lang="en">AI / LLM APIs</span></li><li><span lang="es">Almacenamiento S3</span><span lang="en">S3-compatible storage</span></li><li>Leaflet</li></ul></div>
-        <div class="skill secondary"><h3><span lang="es">Frontend y Mobile · secundario</span><span lang="en">Frontend &amp; Mobile · secondary</span></h3><ul class="chips"><li>React Native</li><li>Expo</li><li>EAS Build</li><li>React</li><li>TypeScript</li><li>JavaScript</li><li>Tailwind CSS</li><li>Vite</li><li>React Router</li><li>TanStack Query</li></ul></div>
+        <div class="skill"><h3><span lang="es">IA en el desarrollo</span><span lang="en">AI-assisted engineering</span></h3><ul class="chips"><li>Claude Code</li><li>Codex</li><li><span lang="es">Arneses de agentes</span><span lang="en">Agent harnesses</span></li><li><span lang="es">Subagentes y skills propias</span><span lang="en">Subagents &amp; custom skills</span></li><li><span lang="es">Loops autónomos</span><span lang="en">Autonomous loops</span></li><li><span lang="es">Revisión adversarial</span><span lang="en">Adversarial review</span></li></ul></div>
+        <div class="skill"><h3><span lang="es">Frontend y Mobile</span><span lang="en">Frontend &amp; Mobile</span></h3><ul class="chips"><li>React Native</li><li>Expo</li><li>EAS Build</li><li>React</li><li>TypeScript</li><li>JavaScript</li><li>Tailwind CSS</li><li>Vite</li><li>React Router</li><li>TanStack Query</li></ul></div>
       </div>
     </div>
   </section>
@@ -1147,11 +1346,6 @@ ul { margin: 0; padding: 0; }
           <span class="k">GitHub</span>
           <a class="v" href="https://github.com/juandda0" target="_blank" rel="noopener">github.com/juandda0</a>
           <a class="act" href="https://github.com/juandda0" target="_blank" rel="noopener"><span lang="es">Abrir</span><span lang="en">Open</span> ↗</a>
-        </div>
-        <div class="link-row">
-          <span class="k">Workana</span>
-          <a class="v" href="https://www.workana.com/freelancer/eb21e5606c1d407f735a237f8d78d0f2" target="_blank" rel="noopener"><span lang="es">Perfil de freelancer</span><span lang="en">Freelancer profile</span></a>
-          <a class="act" href="https://www.workana.com/freelancer/eb21e5606c1d407f735a237f8d78d0f2" target="_blank" rel="noopener"><span lang="es">Abrir</span><span lang="en">Open</span> ↗</a>
         </div>
         <div class="link-row">
           <span class="k">CV</span>
@@ -1365,7 +1559,7 @@ ul { margin: 0; padding: 0; }
     var tabs = Array.prototype.slice.call(car.querySelectorAll('[role="tab"]'));
     var count = car.querySelector('.car-count b');
     var idx = 0, ticking = false;
-    var section = car.closest('.sub'), head = section.querySelector('.sub-head'), bar = car.querySelector('.car-bar');
+    var section = car.closest('.sub') || car.closest('.section'), head = section.querySelector('.sub-head, .sec-head'), bar = car.querySelector('.car-bar');
     var mores = slides.map(function (sl) { return { box: sl.querySelector('.proj-more'), btn: sl.querySelector('.more-btn') }; });
     var fixed = 0, open = -1, MIN_TEXT = 140;
     function num(el, prop) { return parseFloat(getComputedStyle(el)[prop]) || 0; }

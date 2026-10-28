@@ -13,14 +13,14 @@ interface Props {
 const { lang } = Astro.props;
 const meta = {
   es: {
-    title: 'Juan Diego Díaz Avendaño · Desarrollador Backend',
+    title: 'Juan Diego Díaz Avendaño · Desarrollador Full-Stack',
     description:
-      'Desarrollador backend con Java, Spring Boot, Node.js y PostgreSQL en Montería, Colombia. Experiencia, proyectos, premios, ponencias y contacto.',
+      'Juan Diego Díaz Avendaño, desarrollador full-stack (Java, Spring Boot, React, React Native). Montería, Colombia. Remoto.',
   },
   en: {
-    title: 'Juan Diego Díaz Avendaño · Backend Developer',
+    title: 'Juan Diego Díaz Avendaño · Full-Stack Developer',
     description:
-      'Backend developer working with Java, Spring Boot, Node.js and PostgreSQL, based in Colombia. Experience, projects, awards, talks and contact.',
+      'Juan Diego Díaz Avendaño, full-stack developer (Java, Spring Boot, React, React Native). Montería, Colombia. Remote.',
   },
 }[lang];
 
@@ -32,7 +32,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: profile.name,
-  jobTitle: lang === 'es' ? 'Desarrollador Backend' : 'Backend Developer',
+  jobTitle: lang === 'es' ? 'Desarrollador Full-Stack' : 'Full-Stack Developer',
   email: `mailto:${profile.email}`,
   address: { '@type': 'PostalAddress', addressLocality: 'Montería', addressCountry: 'CO' },
   alumniOf: 'Universidad de Córdoba',
