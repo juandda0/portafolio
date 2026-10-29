@@ -221,13 +221,36 @@ ul { margin: 0; padding: 0; }
 }
 /* En escritorio la foto toma la altura del texto con los datos, así las dos columnas terminan a la par */
 @media (min-width: 881px) { .portrait { height: 100%; min-height: 360px; aspect-ratio: auto; object-position: 50% 20%; } }
-@media (max-width: 880px) { .portrait { order: -1; max-width: 200px; } }
+/* En móvil el texto se corta un poco antes de terminar el primer párrafo, detrás de "Leer más" */
+.about-text.clamped {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), transparent); mask-image: linear-gradient(#000 calc(100% - 64px), transparent);
+}
+.about-main .more-btn { margin-top: -20px; }
 .facts { display: grid; gap: 0; margin: 0; max-width: 64ch; border-top: 1px solid var(--line); }
 .facts div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .facts dt { font: 500 var(--s-label)/1.6 var(--f-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--faint); padding-top: 2px; }
 .facts dd { margin: 0; font-size: var(--s-small); }
 .facts dd small { display: block; color: var(--muted); font-size: 0.875rem; }
 @media (max-width: 420px) { .facts div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+/* En móvil: la foto junto a educación, idiomas y ubicación (toma la altura de esos tres datos),
+   la modalidad en una fila a todo el ancho debajo, y luego el texto. */
+@media (max-width: 880px) {
+  .about { grid-template-columns: minmax(0, clamp(128px, 38vw, 220px)) minmax(0, 1fr); gap: 0 16px; }
+  .about-main, .facts { display: contents; }
+  .portrait { grid-column: 1; grid-row: 1 / 4; height: 100%; aspect-ratio: auto; object-position: 50% 18%; }
+  .facts div { grid-column: 2; grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .facts div:first-child { border-top: 1px solid var(--line); }
+  .facts dd { font-size: 0.875rem; line-height: 1.45; }
+  .facts dd small { font-size: 0.8125rem; margin-top: 2px; }
+  .facts div:nth-child(3) { border-bottom: 0; }
+  .facts .fact-mode {
+    grid-column: 1 / -1; grid-row: 4; grid-template-columns: minmax(0, clamp(128px, 38vw, 220px)) minmax(0, 1fr); gap: 16px;
+    margin-top: 14px; border-top: 1px solid var(--line);
+  }
+  .about-text { grid-column: 1 / -1; grid-row: 5; margin-top: 28px; }
+  .about-main .more-btn { grid-column: 1 / -1; grid-row: 6; margin-top: 8px; }
+}
 
 /* Proyectos y experiencia */
 .stack { display: grid; gap: clamp(72px, 9vw, 120px); }
@@ -420,7 +443,18 @@ ul { margin: 0; padding: 0; }
   font: 500 0.75rem/1 var(--f-mono); color: var(--muted); border: 1px solid var(--line-strong);
 }
 .resp-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-@media (max-width: 960px) { .resp-grid { grid-template-columns: minmax(0, 1fr); } }
+.resp-nav { display: none; }
+/* En móvil y tablet los tres frentes se deslizan de lado (asoma el siguiente) en lugar de apilarse */
+@media (max-width: 960px) {
+  .resp-grid {
+    min-width: 0; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(calc(100% - 24px), 420px); gap: 12px;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+  }
+  .resp-grid::-webkit-scrollbar { display: none; }
+  .resp { scroll-snap-align: start; padding: 20px; }
+  .resp-nav { display: flex; align-items: center; gap: 8px; margin-bottom: -6px; }
+  .resp-nav .car-count { margin-right: auto; }
+}
 .resp { display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--surface); min-width: 0; }
 .resp p { color: var(--muted); font-size: var(--s-small); }
 .resp p strong { color: var(--fg); font-weight: 500; }
@@ -494,6 +528,21 @@ ul { margin: 0; padding: 0; }
 .stats div { display: grid; gap: 2px; }
 .stats dt { order: 2; font-size: 0.8125rem; color: var(--muted); }
 .stats dd { order: 1; margin: 0; font: 500 1.75rem/1.1 var(--f-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+/* En el celular: el CV arriba como acción principal, GitHub y LinkedIn a la par debajo,
+   y las cifras en una sola franja de tres celdas, como las cifras de los proyectos */
+@media (max-width: 560px) {
+  .cta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .cta .btn { justify-content: center; height: 46px; padding: 0 12px; }
+  .cta .btn[lang] { order: -1; grid-column: 1 / -1; height: 50px; font-size: 0.95rem; background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .cta .btn[lang]:hover { opacity: .88; }
+  .stats {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 28px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  }
+  .stats div { background: var(--bg); padding: 14px 12px 13px; gap: 6px; align-content: start; }
+  .stats dt { font: 500 0.6875rem/1.35 var(--f-mono); letter-spacing: 0.02em; text-transform: uppercase; color: var(--faint); }
+  .stats dd { font-size: 2rem; line-height: 1; }
+}
 .foot a { text-decoration: none; }
 .foot a:hover { color: var(--fg); }
 
@@ -657,6 +706,7 @@ ul { margin: 0; padding: 0; }
             <p lang="es">Por ejemplo, construí de punta a punta la app de fitness Biomech, publicada en App Store, y el backend en Spring Boot de un sistema para consultorios odontológicos. Conocer los dos lados me ayuda a diseñar APIs pensando en quien las consume. Estudio Ingeniería de Sistemas en la Universidad de Córdoba.</p>
             <p lang="en">For example, I built the Biomech fitness app end to end, published on the App Store, and the Spring Boot backend of a system for dental practices. Knowing both sides helps me design APIs with their consumers in mind. I study Systems Engineering at Universidad de Córdoba.</p>
           </div>
+          <button type="button" class="more-btn" aria-expanded="false" hidden><span class="m-closed"><span lang="es">Leer más</span><span lang="en">Read more</span></span><span class="m-open"><span lang="es">Ver menos</span><span lang="en">Show less</span></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
           <dl class="facts">
             <div><dt><span lang="es">Educación</span><span lang="en">Education</span></dt>
               <dd><span lang="es">Ingeniería de Sistemas, Universidad de Córdoba</span><span lang="en">B.S. in Systems Engineering, Universidad de Córdoba</span>
@@ -665,7 +715,7 @@ ul { margin: 0; padding: 0; }
               <dd><span lang="es">Español nativo · Inglés C1</span><span lang="en">Spanish (native) · English C1</span></dd></div>
             <div><dt><span lang="es">Ubicación</span><span lang="en">Location</span></dt>
               <dd>Montería, Córdoba, Colombia <small>UTC−5</small></dd></div>
-            <div><dt><span lang="es">Modalidad</span><span lang="en">Work mode</span></dt>
+            <div class="fact-mode"><dt><span lang="es">Modalidad</span><span lang="en">Work mode</span></dt>
               <dd><span lang="es">100 % remoto · tiempo completo</span><span lang="en">100% remote · full-time</span>
                 <small lang="es">Disponibilidad inmediata</small><small lang="en">Available immediately</small></dd></div>
           </dl>
@@ -700,6 +750,11 @@ ul { margin: 0; padding: 0; }
             <p class="job-lede" lang="es">Trabajé en el equipo de desarrollo de la universidad a cargo de tres frentes, desde los requisitos hasta el despliegue.</p>
             <p class="job-lede" lang="en">I worked on the university's development team across three areas, from requirements to deployment.</p>
           </header>
+        <div class="resp-nav">
+          <span class="car-count mono" aria-live="polite"><b>01</b> / 03</span>
+          <button type="button" class="icon-btn" data-resp="-1"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+          <button type="button" class="icon-btn" data-resp="1"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+        </div>
         <ol class="resp-grid">
           <li class="resp">
             <div class="resp-label"><span class="n">1</span>SIGCORP</div>
@@ -1702,6 +1757,85 @@ ul { margin: 0; padding: 0; }
     window.addEventListener('load', layout);
     layout();
     mark(0);
+  });
+
+  /* Sobre mí: en móvil el texto se corta una línea antes de terminar el primer párrafo */
+  (function () {
+    var box = document.querySelector('.about-text'), btn = document.querySelector('.about-main .more-btn');
+    var mq = window.matchMedia('(max-width: 880px)');
+    function layout() {
+      box.classList.remove('clamped'); box.style.maxHeight = '';
+      btn.hidden = true; btn.setAttribute('aria-expanded', 'false');
+      if (!mq.matches) return;
+      var p = box.querySelector('p[lang="' + lang + '"]');
+      var line = parseFloat(getComputedStyle(p).lineHeight) || 27;
+      var cut = Math.round(Math.max(line * 4, p.offsetHeight - line));
+      if (box.scrollHeight <= cut + line) return;
+      box.style.maxHeight = cut + 'px';
+      box.classList.add('clamped');
+      btn.hidden = false;
+    }
+    btn.addEventListener('click', function () {
+      if (btn.getAttribute('aria-expanded') === 'true') {
+        layout();
+        if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ block: 'start' });
+        return;
+      }
+      box.classList.remove('clamped'); box.style.maxHeight = '';
+      btn.setAttribute('aria-expanded', 'true');
+    });
+    var lastW = window.innerWidth;
+    window.addEventListener('resize', function () {
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      layout();
+    });
+    relayout.push(layout);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  })();
+
+  /* Experiencia en empresas: en móvil los tres frentes se recorren de lado */
+  document.querySelectorAll('.job-box').forEach(function (box) {
+    var list = box.querySelector('.resp-grid'), nav = box.querySelector('.resp-nav');
+    if (!nav) return;
+    var items = Array.prototype.slice.call(list.children), count = nav.querySelector('.car-count b'), idx = 0, ticking = false, target = null, timer = 0;
+    function leftOf(i) { return Math.min(items[i].offsetLeft - items[0].offsetLeft, list.scrollWidth - list.clientWidth); }
+    function mark(i) { idx = i; count.textContent = String(i + 1).padStart(2, '0'); }
+    nav.querySelectorAll('[data-resp]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var i = (idx + Number(b.getAttribute('data-resp')) + items.length) % items.length;
+        target = i;
+        mark(i);
+        list.scrollTo({ left: leftOf(i), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        // Igual que en el carrusel de proyectos: si el visor no animó el desplazamiento, salta directo
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          if (Math.abs(list.scrollLeft - leftOf(i)) > 2) list.scrollTo({ left: leftOf(i), behavior: 'auto' });
+          target = null;
+        }, 700);
+      });
+    });
+    list.addEventListener('scroll', function () {
+      if (target !== null) {
+        if (Math.abs(list.scrollLeft - leftOf(target)) < 2) target = null;
+        return;
+      }
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var x = list.scrollLeft, best = 0;
+        // Al final del recorrido cuenta como el último, aunque no quepa alineado al inicio
+        if (x >= list.scrollWidth - list.clientWidth - 2) best = items.length - 1;
+        else items.forEach(function (it, k) { if (Math.abs(leftOf(k) - x) < Math.abs(leftOf(best) - x)) best = k; });
+        mark(best);
+      });
+    });
+    relayout.push(function () {
+      nav.querySelectorAll('[data-resp]').forEach(function (b) {
+        var next = b.getAttribute('data-resp') === '1';
+        b.setAttribute('aria-label', lang === 'es' ? (next ? 'Frente siguiente' : 'Frente anterior') : (next ? 'Next area' : 'Previous area'));
+      });
+    });
   });
 
   /* Idioma */
